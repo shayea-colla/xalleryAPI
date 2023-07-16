@@ -1,0 +1,41 @@
+{% extends 'registration/auth_layout.html' %}
+{% load static %}
+
+
+{% block head %}
+	<style>
+		.h-100vh {
+			height: 100vh;
+		}
+	</style>
+
+{% endblock %}
+
+{% block title %}
+	Login
+{% endblock %}
+
+
+{% block content %}
+	<div class="h-100vh text-info d-flex flex-column justify-content-center align-items-center border">
+		{{ form.errors }}
+		<form method="post" class="">
+			{% csrf_token %}
+
+			<div class="pb-3">
+				<div>
+					
+				{{ form.username.label }}
+				{{ form.username }}
+			</div>
+
+			<div class="pb-3">
+				{{ form.password.label }}
+				{{ form.password }}
+			</div>
+			<div>
+				<input class="btn btn-outline-info" type="submit" value="login">
+			</div>
+		</form>
+	</div>
+{% endblock %}

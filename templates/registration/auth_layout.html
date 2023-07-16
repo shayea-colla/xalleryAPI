@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<!-- Meta tags -->
+		<meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+		<meta charset="utf-8">
+		<meta name="description" content="Xallery is the most beautiful gallery in the world">
+
+
+		<!-- Links -->
+		<link rel="stylesheet" href="{% static 'CSS/bootstrap.min.css' %}"/>
+		<link rel="stylesheet" href="{% static 'CSS/style.css' %}"/>
+		<link rel="icon" href="{% static 'ICONS/xallery-32x32.png' %}"/>
+
+		<!-- JavaScript files -->
+		<script src="{% static 'JS/bootstrap.min.js' %}" defer/></script>
+		<script src="{% static 'JS/jquery-3.6.4.min.js' %}"defer ></script>
+		<script src="{% static 'JS/script.js' %}" defer></script>
+
+		{% block head %} {% endblock %}
+		<title>{% block title %} {% endblock %}</title>
+	</head>
+
+	<body class="bg-dark">
+		{% block content %} {% endblock %}
+	</body>
+
+</html>

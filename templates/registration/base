@@ -1,0 +1,11 @@
+{% extends 'auth_layout.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+
+{% block content %}
+{% endblock %}
