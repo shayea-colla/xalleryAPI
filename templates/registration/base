@@ -1,4 +1,4 @@
-{% extends 'auth_layout.html' %}
+{% extends 'registration/auth_layout.html' %}
 
 {% block head %}
 {% endblock %}

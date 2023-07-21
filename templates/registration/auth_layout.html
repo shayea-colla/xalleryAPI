@@ -21,10 +21,19 @@
 
 		{% block head %} {% endblock %}
 		<title>{% block title %} {% endblock %}</title>
+		
+		<style>
+			.h-100vh {
+				height: 100vh;
+			}
+		</style>
 	</head>
 
-	<body class="bg-dark">
+	<body class="bg-dark text-info">
+		
+	<div class="h-100vh text-info d-flex flex-column justify-content-center align-items-center border">
 		{% block content %} {% endblock %}
+	</div>
 	</body>
 
 </html>

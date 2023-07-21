@@ -1,0 +1,19 @@
+{% extends 'registration/auth_layout.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+
+{% block content %}
+
+<p>	{{ form.cleaned_data.password }}</p>
+<p>	{{ form.cleaned_data.first_name }}</p>
+<p>	{{ form.cleaned_data.last_name }}</p>
+<p>	{{ form.cleaned_data.email }}</p>
+<p>	{{ form.cleaned_data.discription }}</p>
+<p>	{{ form.cleaned_data.username }}</p>
+
+{% endblock %}
