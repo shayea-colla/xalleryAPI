@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name='viewport' content='width=device-width, initial-scale=1'>
+		<link rel="stylesheet" href="{% static 'CSS/bootstrap.min.css' %}">
+		<title>index</title>
+	</head>
+	<body class="bg-dark text-danger">
+		<main class="container-fluid text-center">
+			<div class="text-danger-emphasis mb-5">
+				<h1>INDEX</h1>
+			</div>
+			<hr>
+
+			{% for room in room_list %}
+			
+				<h1>{{ room.get_absolute_url }}</h1>
+
+				<h1>{{ room.owner.username }}</h1>
+				<hr>
+			{% endfor %}
+		</main>
+	</body>
+
+</html>

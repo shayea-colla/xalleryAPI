@@ -11,6 +11,7 @@ from django.db.models import (
         CASCADE,
         )
 
+from django.urls import reverse
 # Create your models here.
 class Picture(Model):
     id = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -60,7 +61,8 @@ class Room(Model):
 
     background = ImageField(
             upload_to='rooms_background/',
-            null=True
+            null=True,
+            blank=True,
             )
 
     discription = TextField(blank=True)
@@ -69,7 +71,7 @@ class Room(Model):
 
 
     def get_absolute_url(self):
-        return reverse("room", args=[self.id])
+        return reverse("detail-room", args=[self.id])
 
     def __str__(self):
-        return f"name: {self.name}, owner: {self.owner.username}"
+        return self.name

@@ -32,6 +32,8 @@ AUTH_USER_MODEL = 'accounts.User'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Application definition
 
+LOGIN_REDIREC_URL = 'gallery/'
+
 INSTALLED_APPS = [
     # My apps
     "gallery.apps.GalleryConfig",

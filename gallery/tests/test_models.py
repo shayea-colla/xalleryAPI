@@ -264,7 +264,7 @@ class TestRoomModel(TestCase):
         for room in Room.objects.all():
             room.background.delete()
 
-    def test_delete_all_pictures_from_filesystem(self)
+    def test_delete_all_pictures_from_filesystem(self):
 
         # Remove all Pictures from filesystem
         for picture in Picture.objects.all():
