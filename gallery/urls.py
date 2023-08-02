@@ -1,7 +1,8 @@
 from django.urls import path, include
 
-from gallery.views import get_views as get
+from gallery.views import display_views as get
 from gallery.views import edit_views as edit
+
 from gallery.views import tmp_views as tmp
 
 urlpatterns = [
