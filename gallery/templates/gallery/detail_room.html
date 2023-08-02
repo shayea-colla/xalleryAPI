@@ -1,0 +1,45 @@
+{% extends 'gallery/layouts/display.html' %}
+
+{% block title %}
+	{{ room.name }}
+{% endblock %}
+
+{% block content %}
+    <header class="text-center">
+        <h1><strong>Name: </strong>{{ room.name }} </h1>
+        <h2><strong>Owner: </strong> {{ room.owner }} </h2>
+        <hr>
+    </header>
+
+	<section class="d-flex justify-content-center">
+		{% for picture in room.pictures.all %}
+			<div class="m-3">
+				<img class="img-fluid" src="{{ picture.image.url }}">
+                <form action="{% url 'delete-picture' picture.pk %}" method="POST">
+                    {% csrf_token %}
+                   <input type="submit" value="delete" class="btn btn-danger">
+                </form>
+			</div>
+		{% endfor %}
+	</section>
+    <section class="text-warning">
+        <hr>
+        <div><strong>actions:</strong></div>
+        {% if request.user.is_authenticated %}
+            <div>you can like this room </div>
+        {% endif %}
+        {% if request.user == room.owner %}
+            <div>you can edit this room </div>
+            <div><a href="{% url 'add-picture' room.id %}">add new picture </a></div>
+            <p> you can delete this room</p>
+            <form action="{% url 'delete-room' room.pk %}" method="POST">
+                {% csrf_token %}
+               <input type="submit" value="delete" class="btn btn-danger">
+            </form>
+            
+        {% endif %}
+
+    </section>
+{% endblock %}
+
+

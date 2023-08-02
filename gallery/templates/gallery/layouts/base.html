@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang='en'>
+
+	<head>
+		<!-- Meta tags -->
+		<meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+		<meta charset="utf-8">
+		<meta name="description" content="Xallery is the most beautiful gallery in the world">
+
+
+		<!-- Links -->
+		<link rel="stylesheet" href="{% static 'CSS/bootstrap.min.css' %}"/>
+		<link rel="stylesheet" href="{% static 'CSS/style.css' %}"/>
+		<link rel="icon" href="{% static 'ICONS/xallery-32x32.png' %}"/>
+
+		<!-- JavaScript files -->
+		<script src="{% static 'JS/bootstrap.min.js' %}" defer/></script>
+		<script src="{% static 'JS/jquery-3.6.4.min.js' %}"></script>
+		<script src="{% static 'JS/script.js' %}" defer></script>
+
+		{% block head %} {% endblock %}
+		<title>{% block title %} {% endblock %}</title>
+		
+		<style>
+			.h-100vh {
+				height: 100vh;
+			}
+		</style>
+        <script>
+            $(document).ready(()=> {
+                $('.remove-message-btn').click(()=> {
+                    $('.alert-message').remove();
+                })
+            })
+
+        </script>
+	</head>
+    <body class='bg-dark text-danger' data-bs-theme='dark'>
+            <nav>
+                <ul class="nav justify-content-center">
+                    <li class="nav-item">
+                        <a href="{% url 'profile' 'solomon' %}" class="nav-link link-light">profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'login' %}" class="nav-link link-light">login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'logout' %}" class="nav-link link-light">logout</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'list-all-rooms' %}" class="nav-link link-light">all rooms</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'create-room' %}" class="nav-link link-light">create room</a>
+                    </li>
+                </ul>
+            </nav>
+            <hr>
+            <hr>
+            <hr>
+            {% if messages %}
+                {% for message in messages %}
+                <div class="d-flex alert-message alert alert-primary">
+                    <li>{{ message }}</li>
+                    <button class='remove-message-btn btn btn-sm btn-outline-danger ms-auto me-3'>
+                        remove
+                    </button>
+
+                </div>
+                {% endfor %}
+            {% endif %}
+
+            <section class="container">
+                {% block body %} {% endblock %}
+            </section>
+    </body>
+    
+</html>
+

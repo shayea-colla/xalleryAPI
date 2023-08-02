@@ -33,6 +33,10 @@ class TestUserModel(TestCase):
             - max_length = 1000
             - help_text = 'Write a short bio about yourself ( optional )
     """
+    def test_get_absolute_url_function(self):
+        user = User.objects.get(username='test_user')
+        self.assertEqual(user.get_absolute_url(), f'/accounts/{user.username}/')
+
     def test_description_field_label(self):
         user = User.objects.get(username='test_user')
         field_label = user._meta.get_field('discription').verbose_name
@@ -69,4 +73,3 @@ class TestUserModel(TestCase):
         user = User.objects.get(username='test_user')
         null = user._meta.get_field('profile_picture').upload_to
         self.assertTrue(null)
-

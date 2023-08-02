@@ -4,6 +4,7 @@ from django.db.models import (
      )
 
 from django.contrib.auth.models import AbstractUser
+from django.urls import reverse
 
 # Create your models here.
 class User(AbstractUser):
@@ -12,3 +13,5 @@ class User(AbstractUser):
 
     profile_picture = ImageField(upload_to='profiles/', null=True, blank=True)
 
+    def get_absolute_url(self):
+        return reverse('profile', args=[self.username])

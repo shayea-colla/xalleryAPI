@@ -5,10 +5,25 @@
 {% endblock %}
 
 {% block title %}
+    {{ request.user.username }}
 {% endblock %}
 
 
-{% block content %}
-<p> PROFILE </p>
-<p><strong> {{ request.user }}</strong> </p>
+{% block body %}
+    <p> PROFILE </p>
+    <p><strong> {{ user.username }}</strong> </p>
+    <div>
+        <a href="{% url 'add-room' %}"><button class="btn btn-outline-info">add room</button></a>
+    </div>
+    <section class="text-danger">
+        <hr>
+        <h3>Rooms</h3>
+        <hr>
+        <hr>
+        
+
+        {% for room in user.rooms.all %}
+            <a class="link-danger" href="{{ room.get_absolute_url }}"><button class="btn btn-outline-secondary">{{ room.name }}</button></a>
+        {% endfor %}
+    </section>
 {% endblock %}

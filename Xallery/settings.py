@@ -32,7 +32,8 @@ AUTH_USER_MODEL = 'accounts.User'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Application definition
 
-LOGIN_REDIREC_URL = 'gallery/'
+
+LOGIN_REDIRECT_URL = '/'
 
 INSTALLED_APPS = [
     # My apps
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
    
+    # Third party
     "rest_framework",
 ]
 
