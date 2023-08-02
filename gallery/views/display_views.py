@@ -21,15 +21,15 @@ class ListAllRooms(ListView):
 
 @require_http_methods(["GET"])
 def detail_room(request, pk):
-    template_name = "gallery/detail_room.html"
-
     """
         function based view for displaying all 
         the information about a single room
 
-        url args: request, pk(uuid for the room)
+        url args: request, pk (uuid of the room)
 
     """
+    template_name = "gallery/detail_room.html"
+
     room = get_object_or_404(Room, pk=pk)
 
     context = {
