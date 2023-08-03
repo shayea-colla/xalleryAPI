@@ -20,11 +20,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path("", include('gallery.urls')),
+    path("", include("gallery.urls")),
     path("admin/", admin.site.urls),
-    path("accounts/", include('accounts.urls')),
-
+    path("accounts/", include("accounts.urls")),
 ]
 
-# Serving images during development 
-urlpatterns +=  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Serving images during development
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

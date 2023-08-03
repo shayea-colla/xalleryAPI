@@ -68,7 +68,7 @@ class Room(Model):
     created_at = DateField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ["-created_at"]
 
     def get_absolute_url(self):
         return reverse("detail-room", args=[self.id])

@@ -166,6 +166,7 @@ class TestRoomModel(TestCase):
                 ),
                 room=room_1 if i % 2 else room_2,
             )
+
     """ 
     Testing Room function: 
         _str:
@@ -174,6 +175,7 @@ class TestRoomModel(TestCase):
             return : /room/<room_pk>/
 
     """
+
     def test_str_function(self):
         room = Room.objects.get(name="room_1")
         # you need to put the room inside the str() build-in function to test the return value of __str__
@@ -181,9 +183,7 @@ class TestRoomModel(TestCase):
 
     def test_get_absolute_url(self):
         room = Room.objects.get(name="room_1")
-        self.assertEqual(room.get_absolute_url(), f'/room/{room.id}')
-
-        
+        self.assertEqual(room.get_absolute_url(), f"/room/{room.id}")
 
     """ 
     Testing name field 

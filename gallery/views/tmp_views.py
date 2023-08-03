@@ -1,7 +1,7 @@
 from django.views.generic.base import RedirectView
+from django.shortcuts import render
 
 
-class RedirectView(RedirectView):
-    parmanent = False
-    query_string = True
-    pattern_name = "list-all-rooms"
+def perms_view(request):
+    template_name = "gallery/tmp.html"
+    return render(request, template_name)

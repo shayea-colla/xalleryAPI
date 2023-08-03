@@ -59,4 +59,3 @@ def create_user(request):
             "form": form,
         }
         return render(request, template_name, context)
-

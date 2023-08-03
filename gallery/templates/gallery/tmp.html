@@ -1,0 +1,21 @@
+
+{% extends 'gallery/layouts/display.html' %}
+
+{% block title %}
+    Tmp
+{% endblock %}
+
+{% block content %}
+        <h1>
+            room permissions
+        </h1>
+        <h2>
+            <strong>User: </strong>{{ user.username }}
+        </h2>
+        <hr>
+        <h3>
+            {{ perms.room }}
+        </h3>
+{% endblock %}
+
+

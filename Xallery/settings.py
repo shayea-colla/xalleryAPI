@@ -1,4 +1,5 @@
 import os
+
 """
 Django settings for Xallery project.
 
@@ -28,26 +29,23 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = 'accounts.User'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+AUTH_USER_MODEL = "accounts.User"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # Application definition
 
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = "/"
 
 INSTALLED_APPS = [
     # My apps
     "gallery.apps.GalleryConfig",
     "accounts.apps.AccountsConfig",
-
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
-   
     # Third party
     "rest_framework",
 ]
@@ -68,9 +66,8 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            os.path.join(BASE_DIR, 'templates'),
-
-            ],
+            os.path.join(BASE_DIR, "templates"),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -133,13 +130,11 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [
-
-	BASE_DIR / "static/",
-
+    BASE_DIR / "static/",
 ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR ,'media')
-MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

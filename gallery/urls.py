@@ -17,5 +17,5 @@ urlpatterns = [
         "picture/<uuid:picture_pk>/delete/", edit.delete_picture, name="delete-picture"
     ),
     # Temporary views for testing porpuses
-    path("tmp/", tmp.RedirectView.as_view(), name="redirect"),
+    path("tmp/", tmp.perms_view, name="tmp"),
 ]
