@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib import messages
+from django.contrib.auth.models import Group
 
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.views.decorators.http import require_http_methods, require_POST
 from django.views.generic.edit import CreateView
 
@@ -13,10 +14,21 @@ from gallery.forms import CreateRoomForm, AddPictureForm
 
 
 @require_http_methods(["GET", "POST"])
+@permission_required("gallery.add_room", raise_exception=True)
 @login_required
-def create_room(request):
+def add_room(request):
     """
     view for creating a new room
+
+    http_methods:
+        accessible via GET and POST methods
+
+    login_required:
+        True
+
+    permissions:
+        only users with the add_room permission can access this function
+        usually designers and superusers
     """
 
     template_name = "gallery/room_create_form.html"
@@ -53,11 +65,69 @@ def create_room(request):
         return render(request, template_name, {"form": form})
 
 
+@require_http_methods(["POST"])
+@login_required
+@permission_required("gallery.delete_room", raise_exception=True)
+def delete_room(request, room_pk):
+    """
+    delete_room is a function based view for
+    deleting an entire room including all the pictures it contain
+
+    http_methods:
+        accessible only via POST request
+
+    login_required:
+        True
+
+    permissions:
+        only users with the delete_room permission can access this function
+        usually designers and superusers,
+
+    url params:
+        -room_pk:
+            The room primary key
+    """
+    # Get room or raise not found error
+    room = get_object_or_404(Room, pk=room_pk)
+
+    # Only the owner of the room can delete it
+    if room.owner == request.user:
+        # Delete all the picture first
+        for picture in room.pictures.all():
+            picture.image.delete()
+
+        # Get the room name
+        room_name = room.name
+
+        # Delete the room
+        room.delete()
+
+        # Redirect to user profile page
+        messages.add_message(
+            request, messages.SUCCESS, f'"{room_name}" deleted successfully'
+        )
+        return redirect(reverse("profile", args=[request.user.username]))
+
+    else:
+        return HttpResponse("premessionDenied", status=403)
+
+
 @require_http_methods(["GET", "POST"])
 @login_required
+@permission_required("gallery.add_picture", raise_exception=True)
 def add_picture_to_room(request, room_pk):
     """
     View for adding pictures into room
+
+    http_methods:
+        accessible via POST and GET requests
+
+    login_required:
+        True
+
+    permissions:
+        only users with the add_picture permission can access this function
+        usually designers and superusers,
 
     params:
       -room_pk: the room primary key passed via url
@@ -104,10 +174,21 @@ def add_picture_to_room(request, room_pk):
 
 @require_http_methods(["POST"])
 @login_required
+@permission_required("gallery.delete_picture", raise_exception=True)
 def delete_picture(request, picture_pk):
     """
     Function based view for deleting pictures
     from rooms
+
+    http_methods:
+        accessible via POST request
+
+    login_required:
+        True
+
+    permissions:
+        only users with the delete_picture permission can access this function
+        usually designers and superusers,
 
     URL params :
         -picture_pk:
@@ -135,39 +216,3 @@ def delete_picture(request, picture_pk):
     else:
         # Raise a premessionDenied error
         return HttpResponse("PremessionDenied", status=403)
-
-
-@require_http_methods(["POST"])
-@login_required
-def delete_room(request, room_pk):
-    """
-    delete_room is a function based view for
-    deleting an entire room including all the pictures it contain
-
-    url params:
-        -room_pk:
-            The room primary key
-    """
-    # Get room or raise not found error
-    room = get_object_or_404(Room, pk=room_pk)
-
-    # Only the owner of the room can delete it
-    if room.owner == request.user:
-        # Delete all the picture first
-        for picture in room.pictures.all():
-            picture.image.delete()
-
-        # Get the room name
-        room_name = room.name
-
-        # Delete the room
-        room.delete()
-
-        # Redirect to user profile page
-        messages.add_message(
-            request, messages.SUCCESS, f'"{room_name}" deleted successfully'
-        )
-        return redirect(reverse("profile", args=[request.user.username]))
-
-    else:
-        return HttpResponse("premessionDenied", status=403)

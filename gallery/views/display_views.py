@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
+
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
+
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView, DetailView
 
@@ -21,7 +23,6 @@ class ListAllRooms(ListView):
 
 
 @require_http_methods(["GET"])
-@permission_required("gallery.view_room", raise_exception=True)
 def detail_room(request, pk):
     """
     function based view for displaying all

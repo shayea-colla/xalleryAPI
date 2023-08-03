@@ -91,16 +91,16 @@ class TestDetailRoomView(TestCase):
 
     @classmethod
     def setUpTestData(self):
-        # Create one test users
+        # Create two test users
         test_user1 = User.objects.create_user(
             username="test_user1", password="no way home "
         )
-
 
         Room.objects.create(
             name=f"test_room",
             owner=test_user1,
         )
+
 
     def test_view_exist_at_desired_location(self):
         # Get room primary key

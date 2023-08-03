@@ -1,8 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
+
 from django.urls import reverse
+
 from django.http import HttpResponse
+
+from django.contrib.auth.models import Group
+
 from django.views.decorators.http import require_http_methods, require_GET
 from django.views.generic.edit import CreateView
+
 
 from accounts.forms import CreateUserForm
 from accounts.models import User
@@ -19,7 +25,7 @@ def profile(request, username):
 
 
 @require_http_methods(["GET", "POST"])
-def create_user(request):
+def add_user(request):
     """
     view for creating new users
     """
@@ -41,6 +47,13 @@ def create_user(request):
                 discription=form.cleaned_data["discription"],
                 password=form.cleaned_data["password"],
             )
+
+            # Assigne the user to the designers group
+            designersGroup = Group.objects.get(name="designers")
+            new_user.groups.add(designersGroup)
+
+            # Save the user instance
+            new_user.save()
 
             # redirect to the new user profile
             return redirect(reverse("profile", args=[new_user.username]))

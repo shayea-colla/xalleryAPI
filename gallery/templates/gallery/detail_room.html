@@ -15,10 +15,12 @@
 		{% for picture in room.pictures.all %}
 			<div class="m-3">
 				<img class="img-fluid" src="{{ picture.image.url }}">
+            {% if room.owner.id == request.user.id %}
                 <form action="{% url 'delete-picture' picture.pk %}" method="POST">
                     {% csrf_token %}
                    <input type="submit" value="delete" class="btn btn-danger">
                 </form>
+            {% endif %}
 			</div>
 		{% endfor %}
 	</section>
@@ -32,10 +34,12 @@
             <div>you can edit this room </div>
             <div><a href="{% url 'add-picture' room.id %}">add new picture </a></div>
             <p> you can delete this room</p>
-            <form action="{% url 'delete-room' room.pk %}" method="POST">
-                {% csrf_token %}
-               <input type="submit" value="delete" class="btn btn-danger">
-            </form>
+            {% if room.owner.id == request.user.id %}
+                <form action="{% url 'delete-room' room.pk %}" method="POST">
+                    {% csrf_token %}
+                   <input type="submit" value="delete" class="btn btn-danger">
+                </form>
+            {% endif %}
             
         {% endif %}
 

@@ -10,7 +10,7 @@ urlpatterns = [
     path("", get.ListAllRooms.as_view(), name="list-all-rooms"),
     path("room/<uuid:pk>", get.detail_room, name="detail-room"),
     # Edit views
-    path("room/add/", edit.create_room, name="add-room"),
+    path("room/add/", edit.add_room, name="add-room"),
     path("room/<uuid:room_pk>/delete/", edit.delete_room, name="delete-room"),
     path("picture/<uuid:room_pk>/add/", edit.add_picture_to_room, name="add-picture"),
     path(
