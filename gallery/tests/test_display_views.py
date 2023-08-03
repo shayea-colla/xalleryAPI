@@ -96,6 +96,7 @@ class TestDetailRoomView(TestCase):
             username="test_user1", password="no way home "
         )
 
+
         Room.objects.create(
             name=f"test_room",
             owner=test_user1,
