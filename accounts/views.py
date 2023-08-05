@@ -1,15 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
 from django.urls import reverse
-
 from django.http import HttpResponse
 
+from django.contrib.auth import login
 from django.contrib.auth.models import Group
 
 from django.views.decorators.http import require_http_methods, require_GET
 from django.views.generic.edit import CreateView
 
-
+# My own applications imports
 from accounts.forms import CreateUserForm
 from accounts.models import User
 
@@ -27,7 +27,7 @@ def profile(request, username):
 @require_http_methods(["GET", "POST"])
 def add_user(request):
     """
-    view for creating new users
+    view for adding new users
     """
 
     template_name = "registration/create_user_form.html"
@@ -54,6 +54,9 @@ def add_user(request):
 
             # Save the user instance
             new_user.save()
+
+            # login new_user
+            login(request, new_user)
 
             # redirect to the new user profile
             return redirect(reverse("profile", args=[new_user.username]))
