@@ -4,26 +4,49 @@
 	{{ room.name }}
 {% endblock %}
 
+{% block head %}
+<style>
+body {
+}
+.pictures-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+    grid-gap: 1rem;
+    
+}
+.picture-container, .picture-container img  {
+    border-radius: 10px;
+}
+
+@media (max-width: 45em) {
+    .pictures-container {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+</style>
+{% endblock %}
+
 {% block content %}
-    <header class="text-center">
-        <h1><strong>Name: </strong>{{ room.name }} </h1>
-        <h2><strong>Owner: </strong> {{ room.owner }} </h2>
-        <hr>
+
+    <header>
+        <h1 class="mb-0"><strong>{{ room.name }}</strong></h1> 
+        <p class="m-0">{{ room.discription }}</p>
+        <h4 class="mb-0 mt-4"><strong>Owner :</strong></h4>
+        <a class="ms-1 text-secondary text-decoration-none" href="{{ room.owner.get_absolute_url }}"<p>{{ room.owner.username }}</p></a>
     </header>
 
-	<section class="d-flex justify-content-center">
+    <section class="pictures-container">
 		{% for picture in room.pictures.all %}
-			<div class="m-3">
-				<img class="img-fluid" src="{{ picture.image.url }}">
-            {% if room.owner.id == request.user.id %}
-                <form action="{% url 'delete-picture' picture.pk %}" method="POST">
-                    {% csrf_token %}
-                   <input type="submit" value="delete" class="btn btn-danger">
-                </form>
-            {% endif %}
+			<div class="picture-container">
+                <img loading="lazy" class="img-fluid" src="{{ picture.image.url }}">
 			</div>
+            
 		{% endfor %}
 	</section>
+
     <section class="text-warning">
         <hr>
         <div><strong>actions:</strong></div>
@@ -32,7 +55,11 @@
         {% endif %}
         {% if request.user == room.owner %}
             <div>you can edit this room </div>
-            <div><a href="{% url 'add-picture' room.id %}">add new picture </a></div>
+            <form action="{% url 'add-picture' room.pk %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ add_picture_form.image }}
+                <input class="btn btn-secondary mt-3" type="submit" value="add">
+            </form>
             <p> you can delete this room</p>
             {% if room.owner.id == request.user.id %}
                 <form action="{% url 'delete-room' room.pk %}" method="POST">

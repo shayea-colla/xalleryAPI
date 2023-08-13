@@ -1,4 +1,5 @@
 import os
+from django.contrib.messages import constants as messages
 
 """
 Django settings for Xallery project.
@@ -33,7 +34,6 @@ AUTH_USER_MODEL = "accounts.User"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # Application definition
 
-
 LOGIN_REDIRECT_URL = "/"
 
 INSTALLED_APPS = [
@@ -46,8 +46,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     # Third party
     "rest_framework",
+    "fontawesomefree",
 ]
 
 MIDDLEWARE = [

@@ -111,10 +111,10 @@ class TestRoomModel(TestCase):
 
         _background:
             - upload_to file
-            - null = True
+            - null = False
 
         _discription:
-            - blanck = True
+            - blanck = False
 
         _created_at:
             - auto_now_add = True
@@ -229,7 +229,7 @@ class TestRoomModel(TestCase):
     Testing background field 
         _background:
             - upload_to file
-            - null = True
+            - null = False
     """
 
     def test_background_upload_to(self):
@@ -240,21 +240,21 @@ class TestRoomModel(TestCase):
     def test_background_null(self):
         room = Room.objects.get(name="room_1")
         null = room._meta.get_field("background").null
-        self.assertTrue(null)
+        self.assertFalse(null)
 
     """ 
     Testing discription field
         _discription:
-            - blanck = True
+            - blanck = False
         
         _created_at:
             - auto_now_add = True
     """
 
-    def test_discription_blank(self):
+    def test_discription_is_required(self):
         room = Room.objects.get(name="room_1")
         blank = room._meta.get_field("discription").blank
-        self.assertTrue(blank)
+        self.assertFalse(blank)
 
     """ 
     Testing create_at field

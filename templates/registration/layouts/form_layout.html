@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang='en'>
+
+	<head>
+
+		<!-- Meta tags -->
+		<meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+		<meta charset="utf-8">
+		<meta name="description" content="Xallery is the most beautiful gallery in the Galaxy">
+
+
+
+        <!--stylesheets-->
+		<link rel="stylesheet" href="{% static 'CSS/bootstrap.min.css' %}"/>
+		<link rel="stylesheet" href="{% static 'CSS/style.css' %}"/>
+		<link rel="stylesheet" href="{% static 'CSS/icon-bar.css' %}"/>
+		<link rel="icon" href="{% static 'ICONS/xallery-32x32.png' %}"/>
+
+		<!-- JavaScript files -->
+		<script src="{% static 'JS/bootstrap.min.js' %}" defer/></script>
+		<script src="{% static 'JS/jquery-3.6.4.min.js' %}"></script>
+		<script src="{% static 'JS/script.js' %}" defer></script>
+
+		{% block head %} {% endblock %}
+		<title>{% block title %} {% endblock %}</title>
+		
+		<style>
+            #submit-btn {
+                 border-color: var(--bs-border-color); 
+                 width: 50%;
+            }
+            #submit-btn:focus {
+                 border-color: #000;
+                 box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 255, 255, 255.6);
+                
+            }
+            .form-control:focus {
+                 border-color: #000;
+                 box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 255, 255, 255.6);
+            }
+            .form-container {
+                display: flex;
+                min-height: 100vh;
+                margin: 0;
+                justify-content: center;
+                align-items: center;
+            }
+            .inline-form-container {
+                background-color: var(--bs-dark-bg-subtle);
+                padding: 3rem;
+                border: 3px solid var(--bs-border-color); 
+                flex-grow: 0.2;
+            }
+
+            @media (max-width: 35em) {
+                .form-container {
+                    align-items: stretch;
+                }
+                .inline-form-container {
+                    border: none;
+                    flex-grow: 1;
+                }
+            }
+		</style>
+        <script>
+            $(document).ready(()=> {
+                $('.remove-message-btn').click(()=> {
+                    $('.alert-message').remove();
+                })
+                inputs = $('input[type="text"], input[type="password"], input[type="email"]').addClass('form-control text-dark');
+            })
+
+        </script>
+	</head>
+    <body data-bs-theme='dark'>
+        {% block body %} {% endblock %}
+    </body>
+    
+</html>

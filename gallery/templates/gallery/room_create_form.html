@@ -4,12 +4,53 @@
 	{{ room.name }}
 {% endblock %}
 
+{% block head %}
+    <style>
+    
+    .inline-form-container {
+        max-width: 30em; 
+    }
+    </style>
+{% endblock %}
+
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_ul }}
-        <input type="submit" value="Create">
-    </form>
+        <div class="inline-form-container ms-auto me-auto mt-5">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row mt-3">
+                    <div class="col">
+                        {{ form.name.label }}
+                        {{ form.name }}
+                        <div class="form-text">
+                            {{ form.name.help_text }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        {{ form.background.label }}
+                        {{ form.background }}
+                        <div class="form-text">
+                            {{ form.background.help_text }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        {{ form.discription.label }}
+                        {{ form.discription }}
+                        <div class="form-text">
+                            {{ form.discription.help_text }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2 text-center">
+                    <div class="col">
+                        <input class="btn btn-outline-secondary" type="submit" value="Create room">
+                    </div>
+                </div>
+            </form>
+        </div>
 {% endblock %}
 
 

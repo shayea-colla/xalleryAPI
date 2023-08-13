@@ -6,12 +6,23 @@ from gallery.models import Room, Picture
 
 
 class CreateRoomForm(ModelForm):
+    # Add a form-controle class to all form fields
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs["class"] = "form-control"
+
     class Meta:
         model = Room
-        fields = ["name", "discription"]
+        fields = ["name", "background", "discription"]
 
 
 class AddPictureForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs["class"] = "form-control"
+
     class Meta:
         model = Picture
         fields = ["image"]

@@ -1,5 +1,5 @@
 
-{% extends 'registration/auth_layout.html' %}
+{% extends 'registration/layouts/auth_layout.html' %}
 
 {% block head %}
 {% endblock %}
@@ -9,6 +9,10 @@
 
 
 {% block body %}
-<p>Logged out successfully</p>
-<p> login again <a href="{% url 'login' %}">here</a>
+<div class="h-100vh d-flex justify-content-center align-items-center">
+    <div>
+        <p>Logged out successfully</p>
+        <p> login again <a href="{% url 'login' %}">here</a>
+    </div>
+</div>
 {% endblock %}

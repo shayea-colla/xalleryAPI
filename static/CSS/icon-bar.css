@@ -1,0 +1,32 @@
+.icon-bar {
+    width: 60px;
+    position: fixed;
+    left: 0.5%;
+    top: 1%;
+    height: 98vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 9px;
+    background-color: #888;
+    padding: 10px;
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    transition: all 0.3s ease;
+    border-radius: 10%;
+    margin-bottom: 10px;
+
+}
+.icon a {
+    text-decoration: none;
+    color: white;
+}
+.icon:hover {
+    cursor: pointer;
+    background-color: #eee;
+}
+

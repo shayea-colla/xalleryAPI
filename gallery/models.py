@@ -16,7 +16,13 @@ from django.db.models import (
 # Create your models here.
 class Picture(Model):
     id = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    # High image reselution for wide screens.
     image = ImageField(upload_to="pictures/")
+
+    # The same image with low reselution for mobile screens.
+    #    low_image = ImageField(upload_to="pictures/")
+
     room = ForeignKey(
         "Room",
         related_name="pictures",
@@ -58,12 +64,19 @@ class Room(Model):
 
     background = ImageField(
         upload_to="rooms_background/",
-        help_text="Set a background ( Optional )",
-        null=True,
-        blank=True,
+        help_text="Set a background for the room",
+        blank=False,
+        null=False,
     )
 
-    discription = TextField(help_text="Describe your room ( Optional )", blank=True)
+    #    blur_background = ImageField( upload_to="rooms_background/", help_text="Set a background",)
+
+    discription = CharField(
+        max_length=60,
+        help_text="Describe your room ( maximum letters 60 )",
+        blank=False,
+        null=False,
+    )
 
     created_at = DateField(auto_now_add=True)
 

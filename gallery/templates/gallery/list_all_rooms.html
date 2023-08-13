@@ -2,47 +2,29 @@
 {% load static %}
 {% block title %}index {% endblock %}
 {% block content %}
-    <main class="container-fluid text-center">
-        <div class="text-danger-emphasis mb-5">
-            <h1>INDEX</h1>
+
+        <div class="mb-4 mt-2">
+            <h1 class="text-dark-emphasis" ><strong>All Rooms :</strong></h1>
+            <hr>
         </div>
 
-        {% for room in room_list %}
-            {% if forloop.first %}
-                <hr style="margin:0">
-                <hr style="margin:0">
-                <hr style="margin:0">
-                <hr style="margin:0">
-                <hr style="margin:0">
-                <hr style="margin:0">
-                <hr style="margin:0">
-                <hr style="margin:0">
-                <hr style="margin:0">
-                <hr style="margin:0">
-                <hr style="margin:0">
-            {% endif %}
-        
-            
-            <h1><a class="link-info" href="{{ room.get_absolute_url }}">{{ room.name }}</a></h1>
-            <h3>{{ room.discription }}</h3>
-            <h1>{{ room.owner.username }}</h1>
-            <hr>
-            {% if forloop.last %}
-                <hr style="margin:0">
-                <hr style="margin:0">
-                <hr style="margin:0">
-                <hr style="margin:0">
-                <hr style="margin:0">
-                <hr style="margin:0">
-                <hr style="margin:0">
-                <hr style="margin:0">
-                <hr style="margin:0">
-                <hr style="margin:0">
-                <hr style="margin:0">
-            {% endif %}
-        {% empty %}
-            <h1 style="color: red">NO ROOMS AVAILABLE YET </h1>
-        {% endfor %}
-    </main>
+
+        <div class="container-fluid rooms-container">
+            {% for room in room_list %}
+                <a class="text-decoration-none text-secondary" href="{{ room.get_absolute_url }}">
+                    <div class="room-container">
+                        {% if room.background %}
+                        <div class="room-image">
+                            <img src="{{ room.background.url }}" class="img-fluid" alt="...">
+                        </div>
+                        {% endif %}
+                        <div class="room-body m-1 p-2">
+                            <h3 class="card-title text-light">{{ room.name|capfirst }}</h3>
+                            <p class="card-text">{{ room.discription|capfirst }}</p>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
 {% endblock %}
 

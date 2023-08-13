@@ -8,6 +8,7 @@ from django.views.generic import ListView, DetailView
 
 
 from gallery.models import Picture, Room
+from gallery.forms import AddPictureForm
 
 
 # Index page
@@ -34,8 +35,10 @@ def detail_room(request, pk):
     template_name = "gallery/detail_room.html"
 
     room = get_object_or_404(Room, pk=pk)
+    add_picture_form = AddPictureForm()
 
     context = {
         "room": room,
+        "add_picture_form": add_picture_form,
     }
     return render(request, template_name, context)

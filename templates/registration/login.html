@@ -1,14 +1,16 @@
-{% extends 'registration/auth_layout.html' %}
+{% extends 'registration/layouts/form_layout.html' %}
 {% load static %}
 
 
 {% block head %}
-	<style>
-		.h-100vh {
-			height: 100vh;
-		}
-	</style>
+    <script>
+        $(document).ready(()=> {
+            inputs = $('input[type="text"], input[type="password"]').addClass('form-control');
 
+        })
+    </script>
+<style>
+</style>
 {% endblock %}
 
 {% block title %}
@@ -17,32 +19,52 @@
 
 
 {% block body %}
-	{% if form.errors %}
-	<p>Your username and password didn't match. Please try again.</p>
-	{% endif %}
-	{% if next %}
-	{% if user.is_authenticated %}
-	<p>Your account doesn't have access to this page. To proceed,
-	please login with an account that has access.</p>
-	{% else %}
-	<p>Please login to see this page.</p>
-	{% endif %}
-	{% endif %}
-	<form method="post" action="{% url 'login' %}">
-	{% csrf_token %}
-	<table>
-	<tr>
-	<td>{{ form.username.label_tag }}</td>
-	<td>{{ form.username }}</td>
-	</tr>
-	<tr>
-	<td>{{ form.password.label_tag }}</td>
-	<td>{{ form.password }}</td>
-	</tr>
-	</table>
-	<input type="submit" value="login">
-	<input type="hidden" name="next" value="{{ next }}">
-	</form>
-	{# Assumes you setup the password_reset view in your URLconf #}
-	<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+    <div class="form-container">
+
+        <div class="inline-form-container">
+            <div class="mb-5 text-center">
+                <h1 class="mb-0"><strong>XALLERY</strong></h1>
+                <p>Login</p>
+            </div>
+
+            {% if form.errors %}
+                {% for subject in form %}
+                    {% for error in subject.errors %}
+                        <p class="alert alert-danger">n{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" >
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}">
+
+                <div class="row mt-3">
+                    <div class="col">
+                        {{ form.username.label }}
+                        {{ form.username }}
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        {{ form.password.label }}
+                        {{ form.password }}
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col text-center">
+                        <input id="submit-btn" type="submit" class="btn btn-secondary w-50" value="Login">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col text-center ">
+                        <p><a class="text-secondary" href="{% url 'create-user' %}">Create new account</a></p>
+                    </div>
+                    <div class="col text-center ">
+                        <p><a class="text-secondary" href="{% url 'password_reset' %}">Lost password?</a></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}

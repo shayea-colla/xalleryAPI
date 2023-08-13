@@ -11,8 +11,8 @@ from django.urls import reverse
 class User(AbstractUser):
     discription = CharField(
         max_length=1000,
-        help_text="Write a short bio about yourself ( Optional )",
-        blank=True,
+        help_text="Write a short bio about yourself ( required )",
+        blank=False,
     )
 
     profile_picture = ImageField(upload_to="profiles/", null=True, blank=True)

@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang='en'>
+
+	<head>
+
+		<!-- Meta tags -->
+		<meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+		<meta charset="utf-8">
+		<meta name="description" content="Xallery is the most beautiful gallery in the Galaxy">
+
+
+
+        <!--stylesheets-->
+		<link rel="stylesheet" href="{% static 'CSS/bootstrap.min.css' %}"/>
+        <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="{% static 'CSS/style.css' %}"/>
+		<link rel="stylesheet" href="{% static 'CSS/icon-bar.css' %}"/>
+		<link rel="icon" href="{% static 'ICONS/xallery-32x32.png' %}"/>
+
+		<!-- JavaScript files -->
+		<script src="{% static 'JS/bootstrap.min.js' %}" defer/></script>
+		<script src="{% static 'JS/jquery-3.6.4.min.js' %}"></script>
+		<script src="{% static 'JS/script.js' %}" defer></script>
+
+		{% block head %} {% endblock %}
+		<title>{% block title %} {% endblock %}</title>
+		
+		<style>
+		</style>
+        <script>
+            $(document).ready(()=> {
+                $('.remove-message-btn').click(()=> {
+                    $('.alert-message').remove();
+                })
+                
+                $('input[type="text"], input[type="password"], input[type="email"], input[type="image"]').addClass('form-control text-dark');
+                
+                $('h1').addClass('text-dark-emphasis')
+            })
+
+        </script>
+        <style>
+            a {
+                color: grey;
+            }
+        </style>
+	</head>
+    <body data-bs-theme='dark'>
+        <!-- start of template -->
+        <div class="template">
+
+            <!-- Side navigation bar -->
+            <nav class="d-flex flex-column align-items-center" >
+                <div class="icon-bar text-light ">
+
+                    {% if request.user.is_authenticated %}
+                        <a title="home page" href="{% url 'list-all-rooms' %}" class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">
+                            <i class="fa-solid fa-house fa-lg" style="color: #9a9996;"></i>
+                        </a>
+                        <a title="profile" href="{% url 'profile' request.user.username %}" class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">
+                            <i class="fa-solid fa-user fa-lg" style="color: #9a9996;"></i>
+                        </a>
+                        <a title="create room" href="{% url 'add-room' %}" class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">
+                            <i class="fa-solid fa-plus fa-lg" style="color: #9a9996;"></i>
+                        </a>
+                    {% else %}
+                        <a  href="{% url 'login'%}?nex={{ request.path }}" class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">
+                            Login
+                        </a>
+                    {% endif %}
+                </div>
+            </nav>
+
+            <!-- Main dynamic content-->
+            <main class="h-100vh ms-2 pt-4">
+                <section class="container-fluid">
+                    <section class="messages alert-message">
+                        {% if messages %}
+                            {% for message in messages %}
+                            <div class="d-flex justify-content-center align-items-center alert alert-{{ message.tags }}">
+                                <p class="m-0">{{ message }}</p>
+                                <button class="ms-auto remove-message-btn btn btn-sm text-light ">X</button>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    </section>
+                    {% block body %} {% endblock %}
+                </section>
+            </main>
+
+        </div>
+        <!-- end of template -->
+    </body>
+    
+</html>

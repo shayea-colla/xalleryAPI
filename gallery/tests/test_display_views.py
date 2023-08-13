@@ -101,7 +101,6 @@ class TestDetailRoomView(TestCase):
             owner=test_user1,
         )
 
-
     def test_view_exist_at_desired_location(self):
         # Get room primary key
         room_pk = Room.objects.get(name="test_room").id

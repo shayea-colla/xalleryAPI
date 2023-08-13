@@ -49,7 +49,7 @@ class TestUserModel(TestCase):
     def test_description_help_text(self):
         user = User.objects.get(username="test_user")
         help_text = user._meta.get_field("discription").help_text
-        self.assertEqual(help_text, "Write a short bio about yourself ( Optional )")
+        self.assertEqual(help_text, "Write a short bio about yourself ( required )")
 
     """
         Testing profile_picture:

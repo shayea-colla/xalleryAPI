@@ -37,7 +37,7 @@ def add_room(request):
         # Validate submitted form
 
         # Populate the form with the request.POST data
-        form = CreateRoomForm(request.POST)
+        form = CreateRoomForm(request.POST, request.FILES)
 
         if form.is_valid():
             # Create new room
@@ -46,6 +46,10 @@ def add_room(request):
                 owner=request.user,
                 discription=form.cleaned_data["discription"],
             )
+            # Add the background as post step
+            if request.FILES:
+                room.background = request.FILES["background"]
+
             # Save the room instance
             room.save()
 
@@ -61,6 +65,7 @@ def add_room(request):
 
         # Estantiate an empty form
         form = CreateRoomForm()
+
         # Render the template with form context variable
         return render(request, template_name, {"form": form})
 
@@ -112,7 +117,7 @@ def delete_room(request, room_pk):
         return HttpResponse("premessionDenied", status=403)
 
 
-@require_http_methods(["GET", "POST"])
+@require_http_methods(["POST"])
 @login_required
 @permission_required("gallery.add_picture", raise_exception=True)
 def add_picture_to_room(request, room_pk):
@@ -120,7 +125,7 @@ def add_picture_to_room(request, room_pk):
     View for adding pictures into room
 
     http_methods:
-        accessible via POST and GET requests
+        accessible only via POST:
 
     login_required:
         True
@@ -132,44 +137,31 @@ def add_picture_to_room(request, room_pk):
     params:
       -room_pk: the room primary key passed via url
     """
-    template_name = "gallery/add_picture_form.html"
     room = get_object_or_404(Room, pk=room_pk)
 
-    if request.method == "POST":
-        # Process submitted request
-        form = AddPictureForm(request.POST, request.FILES)
-        print("#" * 100)
-        print(form.is_valid())
+    # Process submitted request
+    form = AddPictureForm(request.POST, request.FILES)
+    if form.is_valid():
+        # add picture into room
 
-        if form.is_valid():
-            # add picture into room
+        # Create a new_picture instance
+        new_picture = Picture.objects.create(
+            image=request.FILES["image"],
+            room=room,
+        )
 
-            # Create a new_picture instance
-            new_picture = Picture.objects.create(
-                image=request.FILES["image"],
-                room=room,
-            )
+        # Save the instance
+        new_picture.save()
 
-            # Save the instance
-            new_picture.save()
+        messages.add_message(
+            request, messages.SUCCESS, "picture was added successfully"
+        )
 
-            # redirect to the room page
-            messages.add_message(
-                request, messages.SUCCESS, "picture was added successfully"
-            )
-            return redirect(room.get_absolute_url())
-        else:
-            messages.add_message(request, messages.ERROR, "Couldn't add the picture")
-            return render(request, template_name, {"form": form})
+        # redirect to the room page
+        return redirect(room.get_absolute_url())
     else:
-        # Populate empty form for other request
-        add_picture_form = AddPictureForm()
-
-        context = {
-            "form": add_picture_form,
-            "room": room,
-        }
-        return render(request, template_name, context)
+        messages.add_message(request, messages.ERROR, "Couldn't add the picture")
+        return redirect(room.get_absolute_url())
 
 
 @require_http_methods(["POST"])

@@ -1,29 +1,68 @@
-
-{% extends 'registration/auth_layout.html' %}
+{% extends 'registration/layouts/auth_layout.html' %}
 
 {% block head %}
 {% endblock %}
 
 {% block title %}
-    {{ request.user.username }}
+    {{ user.username }}
 {% endblock %}
 
 
 {% block body %}
-    <p> PROFILE </p>
-    <p><strong> {{ user.username }}</strong> </p>
-    <div>
-        <a href="{% url 'add-room' %}"><button class="btn btn-outline-info">add room</button></a>
-    </div>
-    <section class="text-danger">
+    <section id="personal-info">
+        <div class="mb-3">
+            {% if user.get_full_name %}
+                <h1 class="mb-0"><strong>{{ user.get_full_name|capfirst }}</strong></h1>
+            {% else %}
+                <h1 class="mb-0"><strong>{{ user.username|capfirst }}</strong></h1>
+            {% endif %}
+            {% if user.discription %}
+                <p>
+                    {{ user.discription|capfirst }}     
+                </p>
+            {% endif %}
+        </div>
+        {% if user.email %}
+        <h4 class="mb-0">Contact: </h4>{{ user.email }}
+        {% endif %}
         <hr>
-        <h3>Rooms</h3>
-        <hr>
-        <hr>
-        
-
-        {% for room in user.rooms.all %}
-            <a class="link-danger" href="{{ room.get_absolute_url }}"><button class="btn btn-outline-secondary">{{ room.name }}</button></a>
-        {% endfor %}
+        <div>
+            <h1>Rooms: </h1>
+        </div>
     </section>
+
+    <div class="rooms-container ">
+        {% if user.rooms.all|length != 0 %}
+            {% for room in user.rooms.all %}
+                <a class="text-decoration-none text-secondary" href="{{ room.get_absolute_url }}">
+                    <div class="room-container">
+                        {% if room.background %}
+                            <div class="room-image">
+                                <img src="{{ room.background.url }}" class="img-fluid" alt="" loading="lazy">
+                            </div>
+                        {% endif %}
+                      <div class="room-body m-1 p-2">
+                          <h3 class="card-title text-light">{{ room.name|capfirst }}</h3>
+                          <p class="card-text">{{ room.discription|capfirst }}</p>
+                      </div>
+                    </div>
+                </a>
+            {% endfor %}
+        {% else %}
+            {% if request.user == user %}
+                <p class="text-light">you don't have any rooms. create new room from  <a href="{% url 'add-room' %}">here</a></p>
+            {% else %}
+                <p class="text-light">This user doesn't have any rooms.</p>
+            {% endif %}
+        {% endif %}
+    </div>
+    <!-- temporary action menue -->
+    <hr>
+    <div>
+        <h4>actions: </h4>
+        <a href="{% url 'logout' %}">logout</a>
+        <a href="{% url 'login' %}">login</a>
+        <a href="{% url 'password_reset' %}">change-password</a>
+        <a href="{% url 'password_change' %}">change-password</a>
+    </div>
 {% endblock %}

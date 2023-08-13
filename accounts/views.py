@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http import HttpResponse
 
+from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.models import Group
 
@@ -58,6 +59,7 @@ def add_user(request):
             # login new_user
             login(request, new_user)
 
+            messages.add_message(request, messages.SUCCESS, "You account created successfully.") 
             # redirect to the new user profile
             return redirect(reverse("profile", args=[new_user.username]))
 
