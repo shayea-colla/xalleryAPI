@@ -1,21 +1,45 @@
 from django.urls import path, include
 
-from gallery.views import display_views as get
-from gallery.views import edit_views as edit
 
-from gallery.views import tmp_views as tmp
+from gallery.views import display
+from gallery.views import edit
+from gallery.views import add
+from gallery.views import delete
 
 urlpatterns = [
-    # Get views
-    path("", get.ListAllRooms.as_view(), name="list-all-rooms"),
-    path("room/<uuid:pk>", get.detail_room, name="detail-room"),
-    # Edit views
-    path("room/add/", edit.add_room, name="add-room"),
-    path("room/<uuid:room_pk>/delete/", edit.delete_room, name="delete-room"),
-    path("picture/<uuid:room_pk>/add/", edit.add_picture_to_room, name="add-picture"),
+    # display views
     path(
-        "picture/<uuid:picture_pk>/delete/", edit.delete_picture, name="delete-picture"
+        "",
+        display.ListAllRooms.as_view(),
+        name="list-all-rooms"
     ),
-    # Temporary views for testing porpuses
-    path("tmp/", tmp.perms_view, name="tmp"),
+    path(
+        "room/<uuid:pk>", 
+        display.detail_room, 
+        name="detail-room"
+    ),
+
+    # Add views
+    path(
+        "room/add/",
+         add.add_room, 
+         name="add-room"
+    ),
+    path(
+        "picture/<uuid:room_pk>/add/",
+        add.add_picture_to_room,
+        name="add-picture",
+    ),
+
+    # Delete views
+    path(
+        "room/<uuid:room_pk>/delete/",
+        delete.delete_room,
+        name="delete-room"
+    ),
+    path(
+        "picture/<uuid:picture_pk>/delete/",
+        delete.delete_picture,
+        name="delete-picture",
+    ),
 ]

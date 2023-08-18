@@ -89,7 +89,7 @@ class TestAddUserView(test.TestCase):
                 __rerender_the_same_template_with_error_messages
 
     *Note:
-        Only you will need setUpTestData to create the designers group
+        You will need setUpTestData to only create the designers group
     """
 
     @classmethod

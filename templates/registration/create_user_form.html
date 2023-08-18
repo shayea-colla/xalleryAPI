@@ -21,7 +21,6 @@
             {% if form.errors %}
                 <p class="alert alert-danger">username and password didn't match.</p>
             {% endif %}
-            <p class="alert alert-danger">no way heom</p>
             <form method="post" >
                 {% csrf_token %}
                 <div class="row">
@@ -70,9 +69,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mt-3">
-                    <div class="col text-center">
+                <div class="row mt-3 text-center">
+                    <div class="col ">
                         <input id="submit-btn" type="submit" class="btn btn-secondary w-50" value="Create">
+                    </div>
+                    <div class="form-text mt-3">
+                        already have an account? <a href="{% url 'login' %}">login</a>
                     </div>
                 </div>
             </form>

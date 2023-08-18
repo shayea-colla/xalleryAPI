@@ -20,6 +20,7 @@ class TestPictureModel(TestCase):
             username="test_user", password="no way home"
         )
 
+        # Get the image file path
         current_dir = os.getcwd()
         path = "static/test_image/image.jpg"
         filePath = os.path.join(current_dir, path)

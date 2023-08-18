@@ -50,7 +50,7 @@
                 background-color: var(--bs-dark-bg-subtle);
                 padding: 3rem;
                 border: 3px solid var(--bs-border-color); 
-                flex-grow: 0.2;
+                flex-grow: 0.1;
             }
 
             @media (max-width: 35em) {
@@ -74,7 +74,10 @@
         </script>
 	</head>
     <body data-bs-theme='dark'>
-        {% block body %} {% endblock %}
+        
+        <section>
+            {% block body %} {% endblock %}
+        </section>
     </body>
     
 </html>
