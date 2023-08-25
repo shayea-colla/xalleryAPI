@@ -28,19 +28,19 @@ class TestProfileView(test.TestCase):
         # Get testUser
         testUser = User.objects.get(username="test_user_1")
 
-        res = self.client.get(f"/accounts/{testUser.username}/")
+        res = self.client.get(f"/accounts/{testUser.pk}/")
         self.assertEqual(res.status_code, 200)
 
     def test_view_accessible_by_name(self):
         # Get testUser
         testUser = User.objects.get(username="test_user_1")
 
-        res = self.client.get(reverse("profile", args=[testUser.username]))
+        res = self.client.get(reverse("profile", args=[testUser.pk]))
         self.assertEqual(res.status_code, 200)
 
     def test_view_uses_the_correct_template(self):
         testUser = User.objects.get(username="test_user_1")
-        res = self.client.get(reverse("profile", args=[testUser.username]))
+        res = self.client.get(reverse("profile", args=[testUser.pk]))
 
         # Assertions
         self.assertEqual(res.status_code, 200)
@@ -48,7 +48,7 @@ class TestProfileView(test.TestCase):
 
     def test_view_display_the_correct_user(self):
         testUser = User.objects.get(username="test_user_1")
-        res = self.client.get(reverse("profile", args=[testUser.username]))
+        res = self.client.get(reverse("profile", args=[testUser.pk]))
 
         # Assertions
         self.assertEqual(res.status_code, 200)

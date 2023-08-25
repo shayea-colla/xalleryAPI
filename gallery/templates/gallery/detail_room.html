@@ -21,12 +21,22 @@ body {
 @media (max-width: 45em) {
     .pictures-container {
         grid-template-columns: 1fr;
-    }
+    
 
 }
 
 
 </style>
+<script>
+    $(document).ready(()=> {
+        const addPictureForm = $("#AddPictureForm");
+        $("#AddPictureButton").click(()=> {
+            addPictureForm.submit();
+        })
+        
+    })
+</script>
+
 {% endblock %}
 
 {% block content %}
@@ -34,43 +44,76 @@ body {
     <header>
         <h1 class="mb-0"><strong>{{ room.name }}</strong></h1> 
         <p class="m-0">{{ room.discription }}</p>
-        <h4 class="mb-0 mt-4"><strong>Owner :</strong></h4>
-        <a class="ms-1 text-secondary text-decoration-none" href="{{ room.owner.get_absolute_url }}"<p>{{ room.owner.username }}</p></a>
+
+            <div>
+                <h4 class="mb-0 mt-4"><strong>Owner :</strong></h4>
+                <a class="ms-1 text-secondary text-decoration-none" href="{{ room.owner.get_absolute_url }}"<p>{{ room.owner.username }}</p></a>
+            </div>
+
+            {% if request.user == room.owner %}
+            <div class="btn-group dropend">
+                <button class="btn btn-sm btn-outline-info dropdown-toggle"  type="button" data-bs-toggle="dropdown" aria-expanded='false'>
+                    Actions
+                </button>
+
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'edit-room' room.pk %}">Edit room</a></li>
+                    <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#AddRoom">Add picture</button></li>
+                    <li><button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#ConfirmRoomDeletion">Delete room</button></li>
+                </ul>
+            </div>
+            <div class="modal fade" id="ConfirmRoomDeletion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ConfirmRoomDeletionLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="ConfirmRoomDeletionLabel"><span class="text-danger">Delete Room</span></h1>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete this room? all pictures will be deleted forever
+                        </div>
+                        <div class="modal-footer"> 
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                            <form action="{% url 'delete-room' room.pk %}" method="post">
+                                {% csrf_token %}
+                                <input type="submit" value="Delete anyway" class="btn btn-outline-danger">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="AddRoom" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="AddRoomLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="AddRoomLabel"><span class="text-info">Add picture to {{ room.name }}</span></h1>
+                        </div>
+                        <div class="modal-body">
+                            <form id="AddPictureForm" action="{% url 'add-picture' %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input type="hidden" value="{{ room.pk }}" name="room_pk">
+                                {{ add_picture_form.image }}
+                                {{ add_picture_form.room }}
+                            </form>
+                        </div>
+                        <div class="modal-footer"> 
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                            <button id="AddPictureButton" type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
     </header>
+    <hr>
 
     <section class="pictures-container">
-		{% for picture in room.pictures.all %}
-			<div class="picture-container">
+        {% for picture in room.pictures.all %}
+            <div class="picture-container">
                 <img loading="lazy" class="img-fluid" src="{{ picture.image.url }}">
-			</div>
-            
-		{% endfor %}
-	</section>
-
-    <section class="text-warning">
-        <hr>
-        <div><strong>actions:</strong></div>
-        {% if request.user.is_authenticated %}
-            <div>you can like this room </div>
-        {% endif %}
-        {% if request.user == room.owner %}
-            <div>you can edit this room </div>
-            <form action="{% url 'add-picture' room.pk %}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ add_picture_form.image }}
-                <input class="btn btn-secondary mt-3" type="submit" value="add">
-            </form>
-            <p> you can delete this room</p>
-            {% if room.owner.id == request.user.id %}
-                <form action="{% url 'delete-room' room.pk %}" method="POST">
-                    {% csrf_token %}
-                   <input type="submit" value="delete" class="btn btn-danger">
-                </form>
-            {% endif %}
-            
-        {% endif %}
-
+            </div>
+        {% endfor %}
     </section>
+
 {% endblock %}
 
 

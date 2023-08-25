@@ -22,6 +22,7 @@
 		<link rel="icon" href="{% static 'ICONS/xallery-32x32.png' %}"/>
 
 		<!-- JavaScript files -->
+		<script src="{% static 'JS/poper.min.js' %}" defer></script>
 		<script src="{% static 'JS/bootstrap.min.js' %}" defer></script>
 		<script src="{% static 'JS/jquery-3.6.4.min.js' %}"></script>
 		<script src="{% static 'JS/script.js' %}" defer></script>
@@ -61,7 +62,7 @@
                         <a title="home page" href="{% url 'list-all-rooms' %}" class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">
                             <i class="fa-solid fa-house fa-lg" style="color: #9a9996;"></i>
                         </a>
-                        <a title="profile" href="{% url 'profile' request.user.username %}" class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">
+                        <a title="profile" href="{{ request.user.get_absolute_url }}"  class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">
                             <i class="fa-solid fa-user fa-lg" style="color: #9a9996;"></i>
                         </a>
                         <a title="create room" href="{% url 'add-room' %}" class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">

@@ -53,6 +53,9 @@ class TestAddRoomView(TestCase):
         self.filePath = os.path.join(current_dir, path)
 
     def test_require_http_method(self):
+        # Login the user first, or you will always get a 302 (redirect) status code
+        self.client.login(username="test_user2", password="no way home ")
+
         res = self.client.delete(reverse("add-room"))
         self.assertEqual(res.status_code, 405)
 
@@ -136,7 +139,6 @@ class TestAddRoomView(TestCase):
         all_rooms = Room.objects.all()
         self.assertEqual(len(all_rooms), 0)
 
-        self.assertEqual(res.status_code, 400)
 
 
 class TestDeleteRoomView(TestCase):

@@ -50,10 +50,35 @@ def delete_room(request, room_pk):
         messages.add_message(
             request, messages.SUCCESS, f'"{room_name}" deleted successfully'
         )
-        return redirect(reverse("profile", args=[request.user.username]))
+        return redirect(reverse("profile", args=[request.user.pk]))
 
     else:
         return HttpResponse("premessionDenied", status=403)
+
+class DeleteRoomView(LoginRequiredMixin, DeleteView):
+    """
+    delete_room is a function based view for
+    deleting an entire room including all the pictures it contain
+
+    http_methods:
+        accessible only via POST request
+
+    login_required:
+        True
+
+    permissions:
+        only users with the delete_room permission can access this function
+        usually designers and superusers,
+
+    url params:
+        -room_pk:
+            The room primary key
+    """
+
+    model = Room
+
+    pass
+
 
 
 @require_http_methods(["POST"])

@@ -1,10 +1,12 @@
 from django.urls import path, include
+from django.views.generic import TemplateView
 
-
-from gallery.views import display
-from gallery.views import edit
-from gallery.views import add
-from gallery.views import delete
+from .views import (
+        display,
+        edit,
+        add,
+        delete,
+)
 
 urlpatterns = [
     # display views
@@ -15,20 +17,28 @@ urlpatterns = [
     ),
     path(
         "room/<uuid:pk>", 
-        display.detail_room, 
+        display.DetailRoomView.as_view(), 
         name="detail-room"
     ),
 
     # Add views
     path(
         "room/add/",
-         add.add_room, 
+         add.CreateRoomView.as_view(), 
          name="add-room"
     ),
+    # "picture/<uuid:room_pk>/add/",
     path(
-        "picture/<uuid:room_pk>/add/",
-        add.add_picture_to_room,
+        "picture/add/",
+        add.AddPictureView.as_view(),
         name="add-picture",
+    ),
+
+    # Edit views 
+    path(
+        "room/<uuid:pk>/edit/",
+        edit.UpdateRoom.as_view(), 
+        name="edit-room",
     ),
 
     # Delete views
@@ -41,5 +51,14 @@ urlpatterns = [
         "picture/<uuid:picture_pk>/delete/",
         delete.delete_picture,
         name="delete-picture",
+    ),
+
+
+
+    # expermental view 
+    path(
+        "exper/",
+        TemplateView.as_view(template_name='gallery/exper.html'),
+        name="Exper",
     ),
 ]

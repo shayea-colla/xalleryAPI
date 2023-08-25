@@ -4,6 +4,6 @@ from accounts import views
 
 urlpatterns = [
     path("", include("django.contrib.auth.urls")),
-    path("add/", views.add_user, name="create-user"),
-    path("<str:username>/", views.profile, name="profile"),
+    path("add/", views.CreateUserView.as_view(), name="create-user"),
+    path("<int:pk>/", views.ProfileView.as_view(), name="profile"),
 ]

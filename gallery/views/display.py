@@ -23,22 +23,24 @@ class ListAllRooms(ListView):
     paginate_by = 20
 
 
-@require_http_methods(["GET"])
-def detail_room(request, pk):
+class DetailRoomView(DetailView):
     """
-    function based view for displaying all
-    the information about a single room
-
-    url args: request, pk (uuid of the room)
-
+    Display indivitual room
+    via the primary key specified in the url
     """
+
     template_name = "gallery/detail_room.html"
+    model = Room
+    http_method_names = ["get"]
 
-    room = get_object_or_404(Room, pk=pk)
-    add_picture_form = AddPictureForm()
+    def get_context_data(self, **kwargs):
+        """
+        add the "add_picture_form" into detail view
+        with the room as initial value for the room field
+        """
 
-    context = {
-        "room": room,
-        "add_picture_form": add_picture_form,
-    }
-    return render(request, template_name, context)
+        context = super().get_context_data(**kwargs)
+        form = AddPictureForm()
+        form["room"].initial = context["room"]
+        context["add_picture_form"] = form
+        return context

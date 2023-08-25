@@ -1,0 +1,55 @@
+{% extends 'gallery/layouts/form.html' %}
+
+{% block title %}
+	{{ room.name }}
+{% endblock %}
+
+{% block head %}
+    <style>
+    
+    .inline-form-container {
+        max-width: 30em; 
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+        <div class="inline-form-container ms-auto me-auto mt-5">
+            <h3 class="text-center">Update "{{ room.name }}" Room</h3>
+            {% if form.errors %}
+                {% for subject in form %}
+                    {% for error in subject.errors %}
+                        <p class="alert alert-danger">{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row mt-3">
+                    <div class="col">
+                        {{ form.name.label }}
+                        {{ form.name }}
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        {{ form.background.label }}
+                        {{ form.background }}
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        {{ form.discription.label }}
+                        {{ form.discription }}
+                    </div>
+                </div>
+                <div class="row mt-2 text-center">
+                    <div class="col">
+                        <input class="btn btn-outline-secondary" type="submit" value="Update room">
+                    </div>
+                </div>
+            </form>
+        </div>
+{% endblock %}
+
+

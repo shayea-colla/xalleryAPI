@@ -1,6 +1,7 @@
 from django.db.models import (
     CharField,
     ImageField,
+    SlugField,
 )
 
 from django.contrib.auth.models import AbstractUser
@@ -17,5 +18,7 @@ class User(AbstractUser):
 
     profile_picture = ImageField(upload_to="profiles/", null=True, blank=True)
 
+    
     def get_absolute_url(self):
-        return reverse("profile", args=[self.username])
+        return reverse("profile", args=[self.pk])
+
