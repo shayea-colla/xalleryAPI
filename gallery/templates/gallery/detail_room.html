@@ -92,7 +92,6 @@ body {
                                 {% csrf_token %}
                                 <input type="hidden" value="{{ room.pk }}" name="room_pk">
                                 {{ add_picture_form.image }}
-                                {{ add_picture_form.room }}
                             </form>
                         </div>
                         <div class="modal-footer"> 

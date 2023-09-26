@@ -1,10 +1,12 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib import messages
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import DeleteView
 from django.contrib.auth.decorators import login_required, permission_required
-from django.views.decorators.http import require_http_methods, require_POST
+from django.views.decorators.http import require_http_methods 
 
 from gallery.models import Picture, Room
 
@@ -55,6 +57,7 @@ def delete_room(request, room_pk):
     else:
         return HttpResponse("premessionDenied", status=403)
 
+
 class DeleteRoomView(LoginRequiredMixin, DeleteView):
     """
     delete_room is a function based view for
@@ -77,7 +80,8 @@ class DeleteRoomView(LoginRequiredMixin, DeleteView):
 
     model = Room
 
-    pass
+    def delete(self, *args, **kwargs):
+        pass
 
 
 

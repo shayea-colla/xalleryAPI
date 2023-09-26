@@ -1,3 +1,6 @@
+from typing import Any
+from django import http
+from django.db import models
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.urls import reverse
@@ -9,7 +12,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.decorators.http import require_http_methods, require_POST
 from django.views.generic.edit import CreateView
-
+from django.views.generic.base import RedirectView
+from django.views.generic.detail import SingleObjectMixin
+from django.views.generic.edit import FormMixin
+from django.views.generic.edit import ProcessFormView
 
 from gallery.models import Picture, Room
 from gallery.forms import CreateRoomForm, AddPictureForm
@@ -49,45 +55,65 @@ class CreateRoomView(
 
 
 class AddPictureView(
-    SuccessMessageMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView
+    RedirectView,
+    SuccessMessageMixin,
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    ProcessFormView,
 ):
     """
-    View for adding pictures into room
+    __Description: 
+        View for adding pictures into room
 
-    http_methods:
-        accessible only via POST:
+    __Specification:
+        the view should be able to do the following:
 
-    login_required:
-        True
+        - process a form submitted using the AddPictureForm class
+        - assign the picture with its room
+        - assign the picture with the owner of the room (the one who add it)
+        - add new pictures to database and filesystem
+        - redirect to the room page picture was added to it with either success of failer message
+        - except only post request
+        - reject unautherized users (permission requiered)
+        - reject unauthenticated users (login required)
 
-    permissions:
-        only users with the add_picture permission can access this function
-        usually designers and superusers,
     """
 
     permission_required = "gallery.add_picture"
 
-    form_class = AddPictureForm
-
     success_message = "Picture added successfully."
 
-    model = Picture
+#    form_class = AddPictureForm
+#    model = Picture
 
-    def form_valid(self, form):
-        """
-        Validate that only owners of rooms can add pictures to it
-        """
+    def post(self, request,  *args, **kwargs):
+        form = AddPictureForm(self.request.POST)
 
-        if form.cleaned_data["room"].owner == self.request.user:
-            form.save()
+        if form.is_valid():
+            if self.request.user == form.cleaned_data['room'].owner:
+                return HttpResponse('<p>valid form submitted by the owner of the room</p>')
+                
 
-        return super().form_valid(form)
+
+            return super().post(*args, **kwargs)
+
+
+#    def form_valid(self, form):
+#        """
+#        Validate that only owners of rooms can add pictures to it
+#        """
+#        print()
+#
+#
+#        if form.cleaned_data["room"].owner == self.request.user:
+#            form.save()
+#
+#        return super().form_valid(form)
 
     def get_success_url(self):
         """
         return the room absolute url
         """
-
         return self.object.room.get_absolute_url()
 
 

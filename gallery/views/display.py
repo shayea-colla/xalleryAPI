@@ -40,6 +40,9 @@ class DetailRoomView(DetailView):
         """
 
         context = super().get_context_data(**kwargs)
+        """
+        Set the initial value of room in AddPictureForm to current room
+        """
         form = AddPictureForm()
         form["room"].initial = context["room"]
         context["add_picture_form"] = form

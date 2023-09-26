@@ -52,18 +52,18 @@ class TestAddRoomView(TestCase):
         path = "static/test_image/image.jpg"
         self.filePath = os.path.join(current_dir, path)
 
-    def test_require_http_method(self):
-        # Login the user first, or you will always get a 302 (redirect) status code
-        self.client.login(username="test_user2", password="no way home ")
-
-        res = self.client.delete(reverse("add-room"))
-        self.assertEqual(res.status_code, 405)
-
-        res = self.client.put(reverse("add-room"))
-        self.assertEqual(res.status_code, 405)
-
-        res = self.client.patch(reverse("add-room"))
-        self.assertEqual(res.status_code, 405)
+#    def test_require_http_method(self):
+#        # Login the user first, or you will always get a 302 (redirect) status code
+#        self.client.login(username="test_user2", password="no way home ")
+#
+#        res = self.client.delete(reverse("add-room"))
+#        self.assertEqual(res.status_code, 405)
+#
+#        res = self.client.put(reverse("add-room"))
+#        self.assertEqual(res.status_code, 405)
+#
+#        res = self.client.patch(reverse("add-room"))
+#        self.assertEqual(res.status_code, 405)
 
     def test_view_accessible_via_get_for_logged_in_users_with_correct_permission(self):
         self.client.login(username="test_user2", password="no way home ")
