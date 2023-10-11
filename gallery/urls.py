@@ -6,6 +6,7 @@ from .views import (
         edit,
         add,
         delete,
+        exper,
 )
 
 urlpatterns = [
@@ -27,12 +28,7 @@ urlpatterns = [
          add.CreateRoomView.as_view(), 
          name="add-room"
     ),
-    # "picture/<uuid:room_pk>/add/",
-    path(
-        "picture/add/",
-        add.AddPictureView.as_view(),
-        name="add-picture",
-    ),
+
 
     # Edit views 
     path(
@@ -43,13 +39,20 @@ urlpatterns = [
 
     # Delete views
     path(
-        "room/<uuid:room_pk>/delete/",
-        delete.delete_room,
+        "room/<uuid:pk>/delete/",
+        delete.DeleteRoomView.as_view(),
         name="delete-room"
     ),
+
     path(
-        "picture/<uuid:picture_pk>/delete/",
-        delete.delete_picture,
+        "picture/add/",
+        add.AddPictureView.as_view(),
+        name="add-picture",
+    ),
+
+    path(
+        "picture/<uuid:pk>/delete/",
+        delete.DeletePictureView.as_view(),
         name="delete-picture",
     ),
 
@@ -57,8 +60,8 @@ urlpatterns = [
 
     # expermental view 
     path(
-        "exper/",
-        TemplateView.as_view(template_name='gallery/exper.html'),
+        "exper/<uuid:pk>/",
+        exper.ExperView.as_view(),
         name="Exper",
     ),
 ]

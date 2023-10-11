@@ -44,26 +44,19 @@ class Room(Model):
         "unique": "This name is already bean used",
     }
 
-    def error_message_gen(self):
-        name = self.name
-        error_messages = {
-            "null": "This field is required",
-            "unique": 'This name "{name}" is already bean used',
-        }
-        return error_messages
 
     name = CharField(
         max_length=150,
         help_text="Enter a name for the Room",
         unique=True,
         blank=False,
-        #           error_messages=error_message_gen,
     )
 
     owner = ForeignKey("accounts.User", related_name="rooms", on_delete=PROTECT)
 
     background = ImageField(
         upload_to="rooms_background/",
+        max_length=1000,
         help_text="Set a background for the room",
         blank=False,
         null=False,

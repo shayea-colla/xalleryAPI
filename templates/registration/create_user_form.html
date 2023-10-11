@@ -19,7 +19,7 @@
                 <p>Create new account</p>
             </div>
             {% if form.errors %}
-                <p class="alert alert-danger">username and password didn't match.</p>
+                <p class="alert alert-danger">{{ form.error }}</p>
             {% endif %}
             <form method="post" >
                 {% csrf_token %}

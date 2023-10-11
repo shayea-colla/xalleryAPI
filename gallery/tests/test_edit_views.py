@@ -139,15 +139,3 @@ class TestAddRoomView(TestCase):
         all_rooms = Room.objects.all()
         self.assertEqual(len(all_rooms), 0)
 
-
-
-class TestDeleteRoomView(TestCase):
-    pass
-
-
-class TestAddPictureView(TestCase):
-    pass
-
-
-class TestDeletePictureView(TestCase):
-    pass

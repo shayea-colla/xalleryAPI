@@ -1,0 +1,63 @@
+{% extends 'registration/layouts/auth_layout.html' %}
+
+{% block head %}
+    <style>
+        .inline-form-container {
+            max-width: 40em;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}
+   Update Profile
+{% endblock %}
+
+
+{% block body %}
+    <div class="inline-form-container ms-auto me-auto mt-5">
+        <h1 class="text-center"><strong>Update Profile: </strong></h1>
+        {% if form.errors %}
+            {% for subject in form %}
+                {% for error in subject.errors %}
+                    <p class="alert alert-danger">{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row mt-3">
+                <div class="col">
+                    {{ form.first_name.label }}
+                    {{ form.first_name }}
+                </div>
+                <div class="col">
+                    {{ form.last_name.label }}
+                    {{ form.last_name }}
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    {{ form.username.label }}
+                    {{ form.username }}
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    {{ form.email.label }}
+                    {{ form.email }}
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    {{ form.discription.label }}
+                    {{ form.discription }}
+                </div>
+            </div>
+            <div class="row mt-2 text-center">
+                <div class="col">
+                    <input class="btn btn-outline-info" type="submit" value="Update"/>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

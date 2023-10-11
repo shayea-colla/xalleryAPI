@@ -15,6 +15,7 @@ body {
     
 }
 .picture-container, .picture-container img  {
+    position: relative;
     border-radius: 10px;
 }
 
@@ -25,6 +26,13 @@ body {
 
 }
 
+.pic-option {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+}
+
+}
 
 </style>
 <script>
@@ -33,6 +41,11 @@ body {
         $("#AddPictureButton").click(()=> {
             addPictureForm.submit();
         })
+
+        $(".delete-picture-btn").click(() => {
+
+        })
+
         
     })
 </script>
@@ -47,13 +60,13 @@ body {
 
             <div>
                 <h4 class="mb-0 mt-4"><strong>Owner :</strong></h4>
-                <a class="ms-1 text-secondary text-decoration-none" href="{{ room.owner.get_absolute_url }}"<p>{{ room.owner.username }}</p></a>
+                <a title="{{room.owner.get_full_name}}" class="ms-1 text-secondary text-decoration-none" href="{{ room.owner.get_absolute_url }}"<p>{{ room.owner.username }}</p></a>
             </div>
 
             {% if request.user == room.owner %}
             <div class="btn-group dropend">
                 <button class="btn btn-sm btn-outline-info dropdown-toggle"  type="button" data-bs-toggle="dropdown" aria-expanded='false'>
-                    Actions
+                    Options
                 </button>
 
                 <ul class="dropdown-menu">
@@ -88,10 +101,9 @@ body {
                             <h1 class="modal-title fs-5" id="AddRoomLabel"><span class="text-info">Add picture to {{ room.name }}</span></h1>
                         </div>
                         <div class="modal-body">
-                            <form id="AddPictureForm" action="{% url 'add-picture' %}" method="post" enctype="multipart/form-data">
+                            <form id="AddPictureForm" action="{% url 'add-picture'%}" method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
-                                <input type="hidden" value="{{ room.pk }}" name="room_pk">
-                                {{ add_picture_form.image }}
+                                {{ form.as_div }}
                             </form>
                         </div>
                         <div class="modal-footer"> 
@@ -108,7 +120,20 @@ body {
     <section class="pictures-container">
         {% for picture in room.pictures.all %}
             <div class="picture-container">
+                <div class="dropstart btn-group pic-option">
+                    <button title="Options" class="btn btn-sm btn-outline-dark dropdown-toggle"  type="button" data-bs-toggle="dropdown" aria-expanded='false'>:</button>
+
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item">home</li>
+                    </ul>
+
+                    <form action="{% url 'delete-picture' picture.pk %}" method="post">
+                        {% csrf_token %}
+                    </form>
+                </div>
+
                 <img loading="lazy" class="img-fluid" src="{{ picture.image.url }}">
+
             </div>
         {% endfor %}
     </section>

@@ -84,7 +84,7 @@
                             {% for message in messages %}
                             <div class="d-flex justify-content-center align-items-center alert alert-{{ message.tags }}">
                                 <p class="m-0">{{ message }}</p>
-                                <button class="ms-auto remove-message-btn btn btn-sm text-light ">X</button>
+                                <button type="button" class="ms-auto remove-message-btn btn-close xt-light" aria-label="close" data-bs-theme="dark" ></button>
                             </div>
                             {% endfor %}
                         {% endif %}

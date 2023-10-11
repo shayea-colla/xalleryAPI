@@ -55,7 +55,10 @@ class TestProfileView(test.TestCase):
         self.assertEqual(res.context["user"], testUser)
 
 
-class TestAddUserView(test.TestCase):
+class TestEditProfileView(test.TestCase):
+    pass
+
+class TestCreateUserView(test.TestCase):
     """
     Testing  the function-based view named 'add_user'
 

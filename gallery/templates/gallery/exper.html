@@ -12,31 +12,19 @@
 {% endblock %}
 
 {% block content %}
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-  Delete room
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-      </div>
-      <div class="modal-body">
-          Are you sure you want to delete this room? all pictures will be deleted forever
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-outline-danger">Delete anyway</button>
-      </div>
-
-    </div>
-  </div>
-</div>
-
+<h1>{{ object }}</h1>
+<hr>
+<h1>{{ object.owner }}</h1>
+<hr>
+<h1>{{ object.pk }}</h1>
+<hr>
+{% for picture in object.pictures.all %}
+<form method="post" action={% url 'delete-picture' picture.id %}>
+    {% csrf_token %}
+    <input type="hidden" value={{ picture.id }}>
+    <input type="submit" value="delete" class="btn btn-outline-warning">
+</form>
+{% endfor %}
 {% endblock %}
 
 

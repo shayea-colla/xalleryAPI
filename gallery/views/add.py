@@ -1,21 +1,7 @@
-from typing import Any
-from django import http
-from django.db import models
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
-from django.urls import reverse
-from django.contrib import messages
-from django.contrib.auth.models import Group
-
-from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.decorators.http import require_http_methods, require_POST
 from django.views.generic.edit import CreateView
-from django.views.generic.base import RedirectView
-from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.edit import FormMixin
-from django.views.generic.edit import ProcessFormView
 
 from gallery.models import Picture, Room
 from gallery.forms import CreateRoomForm, AddPictureForm
@@ -25,17 +11,19 @@ class CreateRoomView(
     SuccessMessageMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView
 ):
     """
-    view for creating a new room
+    __Description:
+        view for creating a new room
 
-    http_methods:
-        accessible via GET and POST methods
+    __Specifications:
+        http_methods:
+            accessible via GET and POST methods
 
-    login_required:
-        True
+        login_required:
+            True
 
-    permissions:
-        only users with the add_room permission can access this function
-        usually designers and superusers
+        permissions:
+            only users with the add_room permission can access this function
+            usually designers and superusers
     """
 
     permission_required = "gallery.add_room"
@@ -55,17 +43,16 @@ class CreateRoomView(
 
 
 class AddPictureView(
-    RedirectView,
     SuccessMessageMixin,
     LoginRequiredMixin,
     PermissionRequiredMixin,
-    ProcessFormView,
+    CreateView,
 ):
     """
     __Description: 
         View for adding pictures into room
 
-    __Specification:
+    __Specifications:
         the view should be able to do the following:
 
         - process a form submitted using the AddPictureForm class
@@ -79,36 +66,17 @@ class AddPictureView(
 
     """
 
+    http_method_names = ['post']
     permission_required = "gallery.add_picture"
-
-    success_message = "Picture added successfully."
-
-#    form_class = AddPictureForm
-#    model = Picture
-
-    def post(self, request,  *args, **kwargs):
-        form = AddPictureForm(self.request.POST)
-
-        if form.is_valid():
-            if self.request.user == form.cleaned_data['room'].owner:
-                return HttpResponse('<p>valid form submitted by the owner of the room</p>')
-                
+    form_class = AddPictureForm
+    model = Picture
 
 
-            return super().post(*args, **kwargs)
-
-
-#    def form_valid(self, form):
-#        """
-#        Validate that only owners of rooms can add pictures to it
-#        """
-#        print()
-#
-#
-#        if form.cleaned_data["room"].owner == self.request.user:
-#            form.save()
-#
-#        return super().form_valid(form)
+    def form_valid(self, form):
+        if form.cleaned_data['room'].owner == self.request.user:
+            form.save()
+            
+        return super().form_valid(form)
 
     def get_success_url(self):
         """
@@ -188,35 +156,45 @@ class AddPictureView(
 #    login_required:
 #        True
 #
-#    permissions:
-#        only users with the add_picture permission can access this function
-#        usually designers and superusers,
+#   permissions:
+#       only users with the add_picture permission can access this function
+#       usually designers and superusers,
 #
-#    params:
-#      -room_pk: the room primary key passed via url
-#    """
-#    room = get_object_or_404(Room, pk=room_pk)
+#   params:
+#     -room_pk: the room primary key passed via url
+#   """
+#   room = get_object_or_404(Room, pk=room_pk)
 #
-#    # Process submitted request
-#    form = AddPictureForm(request.POST, request.FILES)
-#    if form.is_valid():
-#        # add picture into room
+#   # Process submitted request
+#   form = AddPictureForm(request.POST, request.FILES)
+#   if form.is_valid():
+#       # add picture into room
 #
-#        # Create a new_picture instance
-#        new_picture = Picture.objects.create(
-#            image=request.FILES["image"],
-#            room=room,
-#        )
+#       # Create a new_picture instance
+#       new_picture = Picture.objects.create(
+#           image=request.FILES["image"],
+#           room=room,
+#       )
 #
-#        # Save the instance
-#        new_picture.save()
+#       # Save the instance
+#       new_picture.save()
 #
-#        messages.add_message(
-#            request, messages.SUCCESS, "picture was added successfully"
-#        )
+#       messages.add_message(
+#           request, messages.SUCCESS, "picture was added successfully"
+#       )
 #
-#        # redirect to the room page
-#        return redirect(room.get_absolute_url())
-#    else:
-#        messages.add_message(request, messages.ERROR, "Couldn't add the picture")
-#        return redirect(room.get_absolute_url())
+#       # redirect to the room page
+#       return redirect(room.get_absolute_url())
+#   else:
+#       messages.add_message(request, messages.ERROR, "Couldn't add the picture")
+#       return redirect(room.get_absolute_url())
+#
+
+def println(message):
+    print()
+    print("-" * 150)
+    print()
+    print(message)
+    print()
+    print("-" * 150)
+    print()
