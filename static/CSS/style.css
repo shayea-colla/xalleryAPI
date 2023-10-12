@@ -19,7 +19,7 @@
 }
 
 nav {
-    width: 60px;
+    min-width: 60px;
     grid-area: 'nav';
 
 }
