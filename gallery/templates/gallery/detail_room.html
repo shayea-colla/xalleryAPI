@@ -65,7 +65,7 @@ body {
 
             {% if request.user == room.owner %}
             <div class="btn-group dropend">
-                <button class="btn btn-sm btn-outline-info dropdown-toggle"  type="button" data-bs-toggle="dropdown" aria-expanded='false'>
+                <button class="btn btn-sm btn-outline-light dropdown-toggle"  type="button" data-bs-toggle="dropdown" aria-expanded='false'>
                     Options
                 </button>
 
@@ -98,7 +98,7 @@ body {
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="AddRoomLabel"><span class="text-info">Add picture to {{ room.name }}</span></h1>
+                            <h1 class="modal-title fs-5" id="AddRoomLabel"><span class="text-light">Add picture to {{ room.name }}</span></h1>
                         </div>
                         <div class="modal-body">
                             <form id="AddPictureForm" action="{% url 'add-picture'%}" method="post" enctype="multipart/form-data">
@@ -108,7 +108,7 @@ body {
                         </div>
                         <div class="modal-footer"> 
                             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                            <button id="AddPictureButton" type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Add</button>
+                            <button id="AddPictureButton" type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Add</button>
                         </div>
                     </div>
                 </div>

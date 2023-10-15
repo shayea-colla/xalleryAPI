@@ -69,12 +69,6 @@ main {
     .rooms-container {
         grid-template-columns: repeat(auto-fill, minmax(22em, 1fr));
     }
-    .room-container {
-        flex-direction: row;
-    }
-    .room-image img {
-        border-radius: 10px 0 0 10px;
-    }
     .room-body a {
         margin: auto 0 0 auto; 
     }

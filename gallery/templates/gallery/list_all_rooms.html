@@ -5,11 +5,11 @@
 
         <div class="mb-4 mt-2">
             <h1 class="text-dark-emphasis" ><strong>All Rooms :</strong></h1>
-            <hr>
+            <div class="mb-3"></div>
         </div>
 
 
-        <div class="container-fluid rooms-container">
+        <div class="container-fluid ps-0 rooms-container">
             {% for room in room_list %}
                 <a class="text-decoration-none text-secondary" href="{{ room.get_absolute_url }}">
                     <div class="room-container">
@@ -27,4 +27,48 @@
             {% endfor %}
         </div>
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
