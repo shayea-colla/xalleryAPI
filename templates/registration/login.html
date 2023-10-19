@@ -19,11 +19,9 @@
 
 
 {% block body %}
-    <div class="form-container">
-
-        <div class="inline-form-container">
+        <div class="inline-form-container rounded-5 border border-3 border-info text-info-emphasisu">
             <div class="mb-5 text-center">
-                <h1 class="mb-0"><strong>XALLERY</strong></h1>
+		<h1 class="mb-0 text-info"><strong>XALLERY</strong></h1>
                 <p>Login</p>
             </div>
 
@@ -51,20 +49,19 @@
                         {{ form.password }}
                     </div>
                 </div>
-                <div class="row mt-3">
-                    <div class="col text-center">
-                        <input id="submit-btn" type="submit" class="btn btn-secondary w-50" value="Login">
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col text-center ">
-                        <p><a class="text-secondary" href="{% url 'create-user' %}">Create new account</a></p>
-                    </div>
-                    <div class="col text-center ">
-                        <p><a class="text-secondary" href="{% url 'password_reset' %}">Lost password?</a></p>
-                    </div>
-                </div>
+		<div class="row mt-5">
+		    <div class="col text-center">
+			<input id="submit-btn" type="submit" class="btn btn-outline-info w-50" value="Login">
+		    </div>
+		</div>
+		<div class="row mt-3">
+		    <div class="col text-center ">
+			<p><a class="text-info " href="{% url 'create-user' %}">Create new account</a></p>
+		    </div>
+		    <div class="col text-center ">
+			<p><a class="text-info" href="{% url 'password_reset' %}">Lost password?</a></p>
+		    </div>
+		</div>
             </form>
-        </div>
-    </div>
+</div>
 {% endblock %}

@@ -11,73 +11,71 @@
 
 
 {% block body %}
-    <div class="form-container">
-        <div class="inline-form-container">
+<div class="inline-form-container rounded-5 border border-3 border-info text-info-emphasis">
 
-            <div class="mb-5 text-center">
-                <h1 class="mb-0"><strong>XALLERY</strong></h1>
-                <p>Create new account</p>
-            </div>
-            {% if form.errors %}
-                <p class="alert alert-danger">{{ form.error }}</p>
-            {% endif %}
-            <form method="post" >
-                {% csrf_token %}
-                <div class="row">
-                    <div class="col">
-                        {{ form.first_name.label }}
-                        {{ form.first_name}}
-                    </div>
-                    <div class="col">
-                        {{ form.last_name.label }}
-                        {{ form.last_name }}
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col">
-                        {{ form.username.label }}
-                        {{ form.username }}
-                        <div class="form-text">
-                        {{ form.username.help_text }}
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col">
-                        {{ form.email.label }}
-                        <div class="input-group">
-                            <div class="input-group-text">@</div>
-                            {{ form.email }}
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col">
-                        {{ form.discription.label }}
-                        {{ form.discription }}
-                        <div class="form-text">
-                            {{ form.discription.help_text }}
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col">
-                        {{ form.password.label }}
-                        {{ form.password }}
-                        <div class="form-text">
-                            {{ form.password.help_text }}
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-3 text-center">
-                    <div class="col ">
-                        <input id="submit-btn" type="submit" class="btn btn-secondary w-50" value="Create">
-                    </div>
-                    <div class="form-text mt-3">
-                        already have an account? <a href="{% url 'login' %}">login</a>
-                    </div>
-                </div>
-            </form>
-        </div>
+    <div class="mb-5 text-center">
+	<h1 class="mb-0 text-info"><strong>XALLERY</strong></h1>
+	<p>Create new account</p>
     </div>
+    {% if form.errors %}
+	<p class="alert alert-danger">{{ form.error }}</p>
+    {% endif %}
+    <form method="post" >
+	{% csrf_token %}
+	<div class="row">
+	    <div class="col">
+		{{ form.first_name.label }}
+		{{ form.first_name}}
+	    </div>
+	    <div class="col">
+		{{ form.last_name.label }}
+		{{ form.last_name }}
+	    </div>
+	</div>
+	<div class="row mt-3">
+	    <div class="col">
+		{{ form.username.label }}
+		{{ form.username }}
+		<div class="form-text">
+		{{ form.username.help_text }}
+		</div>
+	    </div>
+	</div>
+	<div class="row mt-3">
+	    <div class="col">
+		{{ form.email.label }}
+		<div class="input-group">
+		    <div class="input-group-text">@</div>
+		    {{ form.email }}
+		</div>
+	    </div>
+	</div>
+	<div class="row mt-3">
+	    <div class="col">
+		{{ form.discription.label }}
+		{{ form.discription }}
+		<div class="form-text">
+		    {{ form.discription.help_text }}
+		</div>
+	    </div>
+	</div>
+	<div class="row mt-3">
+	    <div class="col">
+		{{ form.password.label }}
+		{{ form.password }}
+		<div class="form-text">
+		    {{ form.password.help_text }}
+		</div>
+	    </div>
+	</div>
+	<div class="row mt-3 text-center">
+	    <div class="col ">
+		<input id="submit-btn" type="submit" class="btn btn-outline-info w-50" value="Create">
+	    </div>
+	    <div class="mt-3">
+		already have an account ? <a class="text-info" href="{% url 'login' %}">login</a>
+	    </div>
+	</div>
+    </form>
+</div>
 {% endblock %}
