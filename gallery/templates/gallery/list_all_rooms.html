@@ -12,7 +12,7 @@
         <div class="container-fluid ps-0 rooms-container">
             {% for room in room_list %}
                 <a class="text-decoration-none text-secondary" href="{{ room.get_absolute_url }}">
-                    <div class="room-container">
+                    <div class="room-container border border-light">
                         {% if room.background %}
                         <div class="room-image">
                             <img src="{{ room.background.url }}" class="img-fluid" alt="...">

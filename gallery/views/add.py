@@ -26,6 +26,7 @@ class CreateRoomView(
             usually designers and superusers
     """
 
+    http_method_names = ['get', 'post']
     permission_required = "gallery.add_room"
 
     template_name = "gallery/room_create_form.html"
