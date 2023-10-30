@@ -45,15 +45,17 @@
 
         </script>
         <style>
+	.nav-link {
+	}
         </style>
 	</head>
     <body data-bs-theme='dark' class="bg-info-subtle">
 
         <!-- start of template -->
-        <div class="template">
+        <div class="template container-fluid">
 
             <!-- Side navigation bar -->
-            <nav data-bs-theme="dark" class="d-flex rounded-3 m-1 text-black flex-column align-items-cneter flex-shrink-0 p-2 bg-gradient " >
+            <nav data-bs-theme="dark" class="d-flex rounded-3 mt-1 mb-1 shadow  text-black flex-column align-items-cneter flex-shrink-0 p-2 bg-gradient  " >
                 <a href="{% url 'list-all-rooms' %}" class="navbar-brand  text-black fw-bold d-flex justify-content-center ">
                     <span class="fs-1 text-info ">X</span>
                 </a>
@@ -63,17 +65,17 @@
                     {% if request.user.is_authenticated %}
                         <li class="nav-item mb-2">
                             <a class="nav-link " href="{% url 'list-all-rooms' %}">
-                                <i class="fa-solid fa-house fa-lg text-light "></i>
+                                <i class="fa-solid fa-house text-light "></i>
                             </a>
                         </li>
                         <li class="nav-item mb-2">
                             <a class="nav-link" href="{{ request.user.get_absolute_url }}">
-                                <i class="fa-solid fa-user fa-lg text-light"></i>
+                                <i class="fa-solid fa-user text-light"></i>
                             </a>
                         </li>
                         <li class="nav-item mb-2">
-                            <a class="nav-link" href="{% url 'add-room' %}">
-                                <i class="fa-solid fa-plus fa-lg text-light"></i>
+                            <a class="nav-link " href="{% url 'add-room' %}">
+                                <i class="fa-solid fa-plus text-light"></i>
                             </a>
                         </li>
                         <!--<a title="home page" href="{% url 'list-all-rooms' %}" class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">
@@ -86,9 +88,8 @@
                             <i class="fa-solid fa-plus fa-lg" style="color: #9a9996;"></i>
                         </a> -->
                     {% else %}
-                        <li class="nav-item">
-                            <a href="{% url 'login'%}?nex={{ request.path }}">
-                                <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+                        <li class="nav-item mb-2">
+                            <a class="nav-link" href="{% url 'login'%}?nex={{ request.path }}">
                                 login
                             </a>
                         </li>

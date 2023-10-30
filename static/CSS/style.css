@@ -11,23 +11,18 @@
 /* Layout Design */
 .template {
     min-height: 100vh;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: 1fr;
-    grid-template-areas:
-        "nav main"
+    display: flex;
 }
 
 nav {
     min-width: 60px;
-    grid-area: 'nav';
-
 }
 
 main {
     position: relative;
     grid-area: 'main';
     min-height: 100vh;
+    flex-grow: 1;
 }
 
 

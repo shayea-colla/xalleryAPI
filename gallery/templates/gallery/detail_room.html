@@ -10,7 +10,7 @@ body {
 }
 .pictures-container {
     display: grid;
-    grid-template-columns: 1fr 1fr ;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 1rem;
     
 }
@@ -38,12 +38,13 @@ body {
 <script>
     $(document).ready(()=> {
         const addPictureForm = $("#AddPictureForm");
+        const DeleteRoomForm = $("#del-room-form");
         $("#AddPictureButton").click(()=> {
             addPictureForm.submit();
         })
 
-        $(".delete-picture-btn").click(() => {
-
+        $("#del-room-btn").click(() => {
+            DeleteRoomForm.submit();
         })
 
         
@@ -75,25 +76,25 @@ body {
                     <li><button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#ConfirmRoomDeletion">Delete room</button></li>
                 </ul>
             </div>
-            <div class="modal fade" id="ConfirmRoomDeletion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ConfirmRoomDeletionLabel" aria-hidden="true">
+
+            <div class="modal modal-alert fade" id="ConfirmRoomDeletion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ConfirmRoomDeletionLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="ConfirmRoomDeletionLabel"><span class="text-danger">Delete Room</span></h1>
-                        </div>
+                    <div class="modal-content rounded-3 shadow">
                         <div class="modal-body">
-                            Are you sure you want to delete this room? all pictures will be deleted forever
+                            <h5 class="modal-title text-center fs-5" id="ConfirmRoomDeletionLabel"><span class="text-danger">Delete Room</span></h5>
+                            <p class="mb-0">Are you sure you want to delete this room? all pictures will be deleted forever</p>
                         </div>
-                        <div class="modal-footer"> 
-                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                            <form action="{% url 'delete-room' room.pk %}" method="post">
+                        <div class="modal-footer flex-nowrap p-0"> 
+                            <button type="button" class="btn text-light btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" data-bs-dismiss="modal">Close</button>
+                            <button id="del-room-btn" type="button" class="btn text-danger btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0">Delete</button>
+                            <form id="del-room-form" class="" action="{% url 'delete-room' room.pk %}" method="post">
                                 {% csrf_token %}
-                                <input type="submit" value="Delete anyway" class="btn btn-outline-danger">
-                            </form>
+                           </form> 
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="modal fade" id="AddRoom" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="AddRoomLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -132,7 +133,7 @@ body {
                     </form>
                 </div>
 
-                <img loading="lazy" class="img-fluid" src="{{ picture.image.url }}">
+                <img loading="lazy" class="img-fluid shadow-sm  " src="{{ picture.image.url }}">
 
             </div>
         {% endfor %}
