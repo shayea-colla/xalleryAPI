@@ -134,7 +134,7 @@ class TestDetailRoomView(TestCase):
         room_pk = Room.objects.get(name="test_room").id
         res = self.client.get(reverse("detail-room", args=[room_pk]))
 
-        self.assertEqual(res.status_code, 202)
+        self.assertEqual(res.status_code, 200)
         self.assertTemplateUsed(res, "gallery/detail_room.html")
 
     def test_template_passed_the_room_variable(self):

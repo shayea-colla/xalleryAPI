@@ -183,6 +183,8 @@ class DeletePictureView(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
 #    else:
 #        return HttpResponse("premessionDenied", status=403)
 #
+
+
 def println(message):
     print()
     print("-" * 150)

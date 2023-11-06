@@ -1,10 +1,13 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import CreateView
+from django.views.generic.detail import  SingleObjectMixin
 
 from gallery.models import Picture, Room
 from gallery.forms import CreateRoomForm, AddPictureForm
+from gallery.utils import debug
 
 
 class CreateRoomView(
@@ -60,7 +63,7 @@ class AddPictureView(
         - assign the picture with its room
         - assign the picture with the owner of the room (the one who add it)
         - add new pictures to database and filesystem
-        - redirect to the room page picture was added to it with either success of failer message
+       *- redirect to the room page picture was added to it with either success of failer message
         - except only post request
         - reject unautherized users (permission requiered)
         - reject unauthenticated users (login required)
@@ -68,16 +71,26 @@ class AddPictureView(
     """
 
     http_method_names = ['post']
+
     permission_required = "gallery.add_picture"
+
     form_class = AddPictureForm
+
     model = Picture
 
 
     def form_valid(self, form):
         if form.cleaned_data['room'].owner == self.request.user:
+            messages.add_message(self.request, messages.SUCCESS, "Picture added successfully")
             form.save()
             
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.add_message(self.request, messages.ERROR, "Invalid picture")
+        println(form.fields.items)
+
+
 
     def get_success_url(self):
         """
@@ -191,11 +204,3 @@ class AddPictureView(
 #       return redirect(room.get_absolute_url())
 #
 
-def println(message):
-    print()
-    print("-" * 150)
-    print()
-    print(message)
-    print()
-    print("-" * 150)
-    print()
