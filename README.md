@@ -1,2 +1,2 @@
 # New Xallery
-The most beautiful gallery in the Galaxy 
+The most beautiful gallery in the **Universe**
