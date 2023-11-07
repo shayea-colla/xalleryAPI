@@ -90,6 +90,31 @@ class TestCreatRoomView(TestCase):
 
 
 
-#class TestAddPictureView(TestCase):
-#    TODO
-#    ...
+class TestAddPictureView(TestCase):
+    def setUp(self):
+        # Create two test users
+        test_user1 = User.objects.create_user(
+            username="test_user1", password="no way home "
+        )
+
+        test_user2 = User.objects.create_user(
+            username="test_user2", password="no way home "
+        )
+        
+        # Add permission requried to the second user
+        add_room_perm = Permission.objects.get(codename="add_room")
+        test_user2.user_permissions.add(add_room_perm)
+
+        test_user2.save()
+
+        # Get the image filePath
+        current_dir = os.getcwd()
+        path = "static/test_image/image.jpg"
+        self.filePath = os.path.join(current_dir, path)
+
+
+        for i in range(2):
+            Room.objects.create(
+                name=f"test_room_{i}",
+                owner=test_user1 if i % 2 else test_user2,
+            )

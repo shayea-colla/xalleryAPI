@@ -60,7 +60,7 @@ urlpatterns = [
 
     # expermental view 
     path(
-        "exper/<uuid:pk>/",
+        "exper/",
         exper.ExperView.as_view(),
         name="Exper",
     ),

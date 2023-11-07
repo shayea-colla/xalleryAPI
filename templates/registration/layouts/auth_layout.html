@@ -49,18 +49,18 @@
 	}
         </style>
 	</head>
-    <body data-bs-theme='dark' class="bg-info-subtle">
+    <body data-bs-theme='dark'>
 
         <!-- start of template -->
         <div class="template container-fluid">
 
             <!-- Side navigation bar -->
-            <nav data-bs-theme="dark" class="d-flex rounded-3 mt-1 mb-1 shadow  text-black flex-column align-items-cneter flex-shrink-0 p-2 bg-gradient  " >
-                <a href="{% url 'list-all-rooms' %}" class="navbar-brand  text-black fw-bold d-flex justify-content-center ">
-                    <span class="fs-1 text-info ">X</span>
+            <nav data-bs-theme="dark" class="d-flex rounded-3 mt-1 mb-1 shadow flex-column align-items-cneter flex-shrink-0 p-2 bg-gradient  " >
+                <a href="{% url 'list-all-rooms' %}" class="navbar-brand  fw-bold d-flex justify-content-center ">
+                    <span class="fs-1 text-black ">X</span>
                 </a>
                 <hr>
-                <div class="nav nav-pills flex-column mb-auto align-items-center flex-grow-1 text-danger ">
+                <div class="nav nav-pills flex-column mb-auto align-items-center flex-grow-1 ">
 
                     {% if request.user.is_authenticated %}
                         <li class="nav-item mb-2">

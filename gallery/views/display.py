@@ -6,7 +6,8 @@ from django.contrib.auth.decorators import permission_required
 
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import FormMixin, ProcessFormView
+from django.views.generic.edit import FormMixin, ProcessFormView, CreateView
+from django.views.generic.detail import SingleObjectMixin
 
 
 from gallery.models import Picture, Room
@@ -46,6 +47,4 @@ class DetailRoomView(DetailView, FormMixin):
         """
         context['form'].initial['room'] = context['room']
         return context
-
-
 

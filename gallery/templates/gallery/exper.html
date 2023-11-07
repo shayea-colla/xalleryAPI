@@ -12,19 +12,6 @@
 {% endblock %}
 
 {% block content %}
-<h1>{{ object }}</h1>
-<hr>
-<h1>{{ object.owner }}</h1>
-<hr>
-<h1>{{ object.pk }}</h1>
-<hr>
-{% for picture in object.pictures.all %}
-<form method="post" action={% url 'delete-picture' picture.id %}>
-    {% csrf_token %}
-    <input type="hidden" value={{ picture.id }}>
-    <input type="submit" value="delete" class="btn btn-outline-warning">
-</form>
-{% endfor %}
 {% endblock %}
 
 

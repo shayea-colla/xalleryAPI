@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     # Third party
     "rest_framework",
     "fontawesomefree",
+    "bootstrap5",
 ]
 
 MIDDLEWARE = [

@@ -36,7 +36,7 @@ class CreateRoomView(
 
     form_class = CreateRoomForm
 
-    success_message = '"%(name)s" was created successfully.'
+    success_message = '"%(name)s" created successfully.'
 
     model = Room
 
@@ -75,20 +75,20 @@ class AddPictureView(
     permission_required = "gallery.add_picture"
 
     form_class = AddPictureForm
+    
+    success_message = "Picture added successfully"
 
     model = Picture
 
 
     def form_valid(self, form):
         if form.cleaned_data['room'].owner == self.request.user:
-            messages.add_message(self.request, messages.SUCCESS, "Picture added successfully")
             form.save()
-            
         return super().form_valid(form)
 
     def form_invalid(self, form):
         messages.add_message(self.request, messages.ERROR, "Invalid picture")
-        println(form.fields.items)
+        debug(form.fields.items)
 
 
 
