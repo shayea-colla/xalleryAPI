@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.models import Group
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.messages.views import SuccessMessageMixin
 
 from django.views.decorators.http import require_http_methods, require_GET
 from django.views.generic.edit import CreateView, UpdateView
@@ -25,7 +26,7 @@ class ProfileView(DetailView):
 
 
 
-class EditProfileView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
+class EditProfileView(UserPassesTestMixin, LoginRequiredMixin, UpdateView, SuccessMessageMixin):
     def test_func(self):
         # Only the owner of profile can edit it 
         return self.get_object() == self.request.user
@@ -35,13 +36,15 @@ class EditProfileView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
     template_name = "registration/update_profile.html"
     fields = ['username', 'first_name', 'last_name', 'email', 'discription']
     context_variable_name = "form"
+    success_message = 'Profile Updated'
 
 
 
-class CreateUserView(CreateView):
+class CreateUserView(CreateView, SuccessMessageMixin):
     model = User
     form_class = CreateUserForm
     template_name = "registration/create_user_form.html"
+    success_message = '"%(username)s" profile created successfully'
 
 
     def form_valid(self, form):

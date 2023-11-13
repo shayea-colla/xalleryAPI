@@ -6,7 +6,6 @@ from .views import (
         edit,
         add,
         delete,
-        exper,
 )
 
 urlpatterns = [
@@ -58,10 +57,5 @@ urlpatterns = [
 
 
 
-    # expermental view 
-    path(
-        "exper/",
-        exper.ExperView.as_view(),
-        name="Exper",
-    ),
+    # expermental views
 ]

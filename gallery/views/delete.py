@@ -18,14 +18,13 @@ from gallery.models import Picture, Room
 class DeleteRoomView(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
     """
     __Description:
+        View for deleting Rooms
 
     __Specifications:
-        -
-        -
-        -
-        -
-        -
-        -
+        - accept only post methods
+        - only the owner of the room can delete it 
+        - redirect to user profile page after successfully deleting the room
+        - delete all picture from local storage before deleting he picture instance in the db and the room background
     """
     http_method_names = ['post']
     model = Room
