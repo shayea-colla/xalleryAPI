@@ -21,8 +21,7 @@
 		<script src="{% static 'JS/bootstrap.min.js' %}" defer/></script>
 		<script src="{% static 'JS/jquery-3.6.4.min.js' %}"></script>
 		<script src="{% static 'JS/script.js' %}" defer></script>
-
-		{% block head %} {% endblock %}
+{% block head %} {% endblock %}
 		<title>{% block title %} {% endblock %}</title>
 		
 		<style>
@@ -47,10 +46,6 @@
                 .form-container {
                     align-items: stretch;
                 }
-                .inline-form-container {
-                    border: none;
-                    flex-grow: 1;
-                }
             }
 	    a {
 		    text-decoration: none !important;
@@ -58,21 +53,32 @@
 	    a:hover {
 		    text-decoration: underline !important;
 	    }
+
+        .tmp {
+            font-size: 100px;
+
+        }
 	</style>
         <script>
             $(document).ready(()=> {
                 $('.remove-message-btn').click(()=> {
                     $('.alert-message').remove();
                 })
-                inputs = $('input[type="text"], input[type="password"], input[type="email"]').addClass('form-control bg-transparent border-1 border-info text-info');
+                inputs = $('input[type="text"], input[type="password"], input[type="email"]').addClass('form-control bg-transparent border-1');
             })
 
         </script>
 	</head>
     <body data-bs-theme='dark'>
-        <section class="form-container bg-info-subtle">
-            {% block body %} {% endblock %}
-        </section>
+        <main class="d-flex flex-row-reverse align-items-center">
+            <section class="w-25 flex-xl-shrink-1 h-100vh ps-5 pe-5  bg-black d-flex flex-column lign-items-stretch justify-content-around">
+                {% block body %} {% endblock %}
+            </section>
+            <section class="flex-xl-grow-1 d-flex bg-gradient justify-content-center align-items-center bg-black  h-100vh" >
+                <p class="tmp">Xallery</p>
+            </section>
+
+        </main>
     </body>
     
 </html>

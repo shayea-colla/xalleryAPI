@@ -41,23 +41,29 @@
                 $('input[type="text"], input[type="password"], input[type="email"], input[type="image"]').addClass('form-control text-dark');
                 
                 $('h1').addClass('text-dark-emphasis')
+
             })
 
         </script>
         <style>
-	.nav-link {
-	}
+            /* nav {
+                width: 70px;
+                transition: 0.4s;
+
+            }
+            nav:hover {
+                width: 300px;
+            } */
         </style>
 	</head>
-    <body data-bs-theme='dark'>
+    <body class="" data-bs-theme='dark'>
 
         <!-- start of template -->
         <div class="template container-fluid">
-
             <!-- Side navigation bar -->
             <nav data-bs-theme="dark" class="d-flex rounded-3 mt-1 mb-1 shadow flex-column align-items-cneter flex-shrink-0 p-2 bg-gradient  " >
                 <a href="{% url 'list-all-rooms' %}" class="navbar-brand  fw-bold d-flex justify-content-center ">
-                    <span class="fs-1 text-black ">X</span>
+                    <span class="fs-1 text-light ">X</span>
                 </a>
                 <hr>
                 <div class="nav nav-pills flex-column mb-auto align-items-center flex-grow-1 ">

@@ -17,8 +17,8 @@
         <div class="inline-form-container ms-auto me-auto mt-5">
             {% if form.errors %}
                 {% for subject in form %}
-                    {% for error in subject.errors %}
-                        <p class="alert alert-danger">n{{ error }}</p>
+                    {% for error in subject.errors %}   
+                        <p class="alert alert-danger">{{ error }}</p>
                     {% endfor %}
                 {% endfor %}
             {% endif %}
