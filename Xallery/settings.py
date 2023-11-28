@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     # My apps
     "gallery.apps.GalleryConfig",
     "accounts.apps.AccountsConfig",
+    "api.order.apps.OrderConfig",
 
+    # Django Default applications
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

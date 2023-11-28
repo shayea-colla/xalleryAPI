@@ -23,6 +23,7 @@ urlpatterns = [
     path("", include("gallery.urls")),
     path("admin/", admin.site.urls),
     path("accounts/", include("accounts.urls")),
+    path("api/order/", include("accounts.urls")),
 ]
 
 # Serving images during development
