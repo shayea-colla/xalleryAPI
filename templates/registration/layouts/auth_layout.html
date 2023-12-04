@@ -33,13 +33,14 @@
 		<style>
 		</style>
         <script>
+
             $(document).ready(()=> {
                 $('.remove-message-btn').click(()=> {
                     $('.alert-message').remove();
                 })
-                
+
                 $('input[type="text"], input[type="password"], input[type="email"], input[type="image"]').addClass('form-control text-dark');
-                
+
                 $('h1').addClass('text-dark-emphasis')
 
             })
@@ -80,6 +81,11 @@
                             </a>
                         </li>
                         <li class="nav-item mb-2">
+                            <a class="nav-link " href="{% url 'order-home' %}">
+                                <i class="fa-solid text-light"><strong>O</strong></i>
+                            </a>
+                        </li>
+                        <li class="nav-item mb-2">
                             <a class="nav-link " href="{% url 'add-room' %}">
                                 <i class="fa-solid fa-plus text-light"></i>
                             </a>
@@ -88,6 +94,9 @@
                             <i class="fa-solid fa-house fa-lg" style="color: #9a9996;"></i>
                         </a>
                         <a title="profile" href="{{ request.user.get_absolute_url }}"  class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">
+                            <i class="fa-solid fa-user fa-lg" style="color: #9a9996;"></i>
+                        </a>
+                        <a title="orders" href="{{ r.get_absolute_url }}"  class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">
                             <i class="fa-solid fa-user fa-lg" style="color: #9a9996;"></i>
                         </a>
                         <a title="create room" href="{% url 'add-room' %}" class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">

@@ -68,3 +68,7 @@ main {
         margin: auto 0 0 auto; 
     }
 }
+
+a {
+  text-decoration: none !important;
+}

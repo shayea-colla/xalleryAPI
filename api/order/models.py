@@ -6,8 +6,9 @@ from django.db.models import (
     ImageField,
     CharField,
     ForeignKey,
+    ManyToManyField,
     TextField,
-    DateField,
+    DateTimeField,
     BooleanField,
     PROTECT,
     CASCADE,
@@ -22,7 +23,7 @@ class Order(Model):
     """
     fields in this model is:
     - orderer ( user foreignKey " normal or designer " )
-    - reciever ( user "only designer")
+    - receiver ( user "only designer")
     - date ( dateField )
     - state ( whether order has been accepted or refused or still waiting)
     """
@@ -31,51 +32,57 @@ class Order(Model):
         User,
         related_name="my_orders",
         on_delete=PROTECT,
+        null=False,
     )
 
-    reciever = ForeignKey(
+    receiver = ForeignKey(
         User,
         related_name="orders",
         on_delete=PROTECT,
+        null=False,
     )
-    
+
     # The state reflect three states :
     # None : order is still waiting to be accepted or refused.
-    # True : order has been accepted by reciever.
-    # False: order has been rejected by reciever.
-    state = BooleanField(null=True)
+    # True : order has been accepted by receiver.
+    # False: order has been rejected by receiver.
+    state = BooleanField(null=True, default=None)
 
-    date = DateField(auto_now_add=True)
+    message = TextField(null=False, blank=False)
+
+    date = DateTimeField(auto_now_add=True)
 
 
 
     class Meta:
         ordering = ['-date']
 
-    def __str__():
-        return f"User: {self.orderer.username} ordered User: {self.reciever.username} at {date}"
+    def __str__(self):
+        return f"User: {self.orderer.username} ordered User: {self.receiver.username} at {self.date}"
 
+    def get_absolute_url(self):
+        return reverse('order-detail')
 
     def is_accepted(self):
         return self.state == True
-    
+
     def is_rejected(self):
         return self.state == False
-    
 
     def is_waiting(self):
         return self.state == None
 
-pass
+
+class Replay(Model):
+    order_id = ForeignKey(Order, on_delete=CASCADE, related_name="replies")
+
+    message = TextField(null=False, blank=False)
+
+    sender = ForeignKey(User, on_delete=CASCADE)
+
+    date = DateTimeField(auto_now_add=True)
 
 
-class Message(Model):
-    """
-    fields in this model is:
-    - order ( Order id " ForeignKey ")
-    - date ( dateField )
-    - message ( textField (by the orderer) )
-    - replay ( textField "by the reciever")
-    
-    """
-    pass
+    class Meta:
+        ordering = ['-date']
+

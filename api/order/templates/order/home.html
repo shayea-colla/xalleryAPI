@@ -1,0 +1,32 @@
+{% extends 'gallery/layouts/display.html' %}
+{% load static %}
+
+{% block head %}
+		<script src="{% static 'JS/order.js' %}" defer></script>
+{% endblock %}
+{% block content %}
+  <div class="mb-4  mt-2">
+    <h1 class="text-dark-emphasis" ><strong>ORDERS :</strong></h1>
+  </div>
+  <div class="mb-5">
+        
+    <ul id="navigation" class="nav nav-tabs justify-content-center">
+      <li class="nav-item">
+        <a  class="nav-link active" href="#" >Orders</a>
+      </li>
+      <li class="nav-item">
+        <a data-bs-type="my_orders" class="nav-link" href="#">My orders</a>
+      </li>
+      <li class="nav-item">
+        <a  data-bs-type="accepted" class="nav-link" href="#">Accepted</a>
+      </li>
+      <li class="nav-item">
+        <a data-bs-type="rejected" class="nav-link" href="#">rejected</a>
+      </li>
+    </ul>
+
+  </div>
+  <div id="order-list" class="container">
+  </div>
+{% endblock %}
+
