@@ -83,7 +83,6 @@ class OrderViewSet(viewsets.ModelViewSet):
         """
         order = get_object_or_404(self.get_queryset(), pk=kwargs['pk'])
         if request.user == order.receiver:
-
             return super().update(request, *args, **kwargs)
 
         return Response({'detail':'you do not have permission to perform this action'}, status=status.HTTP_403_FORBIDDEN)
@@ -95,6 +94,6 @@ class OrderViewSet(viewsets.ModelViewSet):
         """
         order = get_object_or_404(self.get_queryset(), pk=kwargs['pk'])
         if order.orderer == request.user:
-            return super().destory(request, *args, **kwargs)
+            return super().destroy(request, *args, **kwargs)
 
         return Response({'detail':' you do not have permission to perform this action'}, status=status.HTTP_403_FORBIDDEN)
