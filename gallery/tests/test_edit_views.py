@@ -16,7 +16,7 @@ class TestAddRoomView(TestCase):
     Testing the add_room function-based view
 
     .Testing_area:
-        -url: /room/add/
+        -url: gallery/room/add/
         -require_http_methods: GET, POST
         -login_required
         -permission_required: 'gallery.add_room"
@@ -52,36 +52,36 @@ class TestAddRoomView(TestCase):
         path = "static/test_image/image.jpg"
         self.filePath = os.path.join(current_dir, path)
 
-#    def test_require_http_method(self):
-#        # Login the user first, or you will always get a 302 (redirect) status code
-#        self.client.login(username="test_user2", password="no way home ")
-#
-#        res = self.client.delete(reverse("add-room"))
-#        self.assertEqual(res.status_code, 405)
-#
-#        res = self.client.put(reverse("add-room"))
-#        self.assertEqual(res.status_code, 405)
-#
-#        res = self.client.patch(reverse("add-room"))
-#        self.assertEqual(res.status_code, 405)
+    #    def test_require_http_method(self):
+    #        # Login the user first, or you will always get a 302 (redirect) status code
+    #        self.client.login(username="test_user2", password="no way home ")
+    #
+    #        res = self.client.delete(reverse("add-room"))
+    #        self.assertEqual(res.status_code, 405)
+    #
+    #        res = self.client.put(reverse("add-room"))
+    #        self.assertEqual(res.status_code, 405)
+    #
+    #        res = self.client.patch(reverse("add-room"))
+    #        self.assertEqual(res.status_code, 405)
 
     def test_view_accessible_via_get_for_logged_in_users_with_correct_permission(self):
         self.client.login(username="test_user2", password="no way home ")
-        res = self.client.get("/room/add/")
+        res = self.client.get("/gallery/room/add/")
 
         self.assertEqual(res.status_code, 200)
 
     def test_permission_denied_if_logged_in_without_correct_permission(self):
         self.client.login(username="test_user1", password="no way home ")
-        res = self.client.get("/room/add/")
+        res = self.client.get("/gallery/room/add/")
 
         # Assert raising permissionDeniedError
         self.assertEqual(res.status_code, 403)
 
     def test_redirection_if_not_logged_in(self):
-        res = self.client.get("/room/add/")
+        res = self.client.get("/gallery/room/add/")
 
-        self.assertRedirects(res, reverse("login") + "?next=/room/add/")
+        self.assertRedirects(res, reverse("login") + "?next=/gallery/room/add/")
 
     def test_view_accessible_by_name(self):
         self.client.login(username="test_user2", password="no way home ")
@@ -91,14 +91,14 @@ class TestAddRoomView(TestCase):
 
     def test_view_use_correct_tmeplate(self):
         self.client.login(username="test_user2", password="no way home ")
-        res = self.client.get("/room/add/")
+        res = self.client.get("/gallery/room/add/")
 
         self.assertEqual(res.status_code, 200)
         self.assertTemplateUsed(res, "gallery/room_create_form.html")
 
     def test_view_use_correct_form_class(self):
         self.client.login(username="test_user2", password="no way home ")
-        res = self.client.get("/room/add/")
+        res = self.client.get("/gallery/room/add/")
 
         correct_form = CreateRoomForm()
         self.assertEqual(res.status_code, 200)
@@ -120,7 +120,7 @@ class TestAddRoomView(TestCase):
         test_room = Room.objects.get(name="test room")
 
         self.assertTrue(bool(test_room))
-        self.assertTrue(res.url.startswith("/room/"))
+        self.assertTrue(res.url.startswith("/gallery/room/"))
 
     def test_submitting_invalid_data(self):
         self.client.login(username="test_user2", password="no way home ")
@@ -138,4 +138,3 @@ class TestAddRoomView(TestCase):
         # Assert no room created.
         all_rooms = Room.objects.all()
         self.assertEqual(len(all_rooms), 0)
-

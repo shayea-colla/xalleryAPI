@@ -184,7 +184,7 @@ class TestRoomModel(TestCase):
 
     def test_get_absolute_url(self):
         room = Room.objects.get(name="room_1")
-        self.assertEqual(room.get_absolute_url(), f"/room/{room.id}")
+        self.assertEqual(room.get_absolute_url(), f"/gallery/room/{room.id}")
 
     """ 
     Testing name field 

@@ -30,7 +30,7 @@ class DetailRoomView(DetailView, FormMixin):
     """
     __Discription:
         Display indivitual room via the primary key specified in the url
-    __Specification: 
+    __Specification:
         ...
     """
 
@@ -38,13 +38,11 @@ class DetailRoomView(DetailView, FormMixin):
     model = Room
     http_method_names = ["get"]
     form_class = AddPictureForm
-    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         """
             Set the initial value of room_pk to current room id
         """
-        context['form'].initial['room'] = context['room']
+        context["form"].initial["room"] = context["room"]
         return context
-

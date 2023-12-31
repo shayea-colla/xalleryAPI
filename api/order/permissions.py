@@ -11,6 +11,7 @@ class IsOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         return obj.orderer == request.user
 
+
 class IsOwnerOrReceiver(permissions.BasePermission):
     """
     Object-level permission to only allow owners of an object to edit it.

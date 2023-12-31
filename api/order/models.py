@@ -17,7 +17,8 @@ from django.db.models import (
 from accounts.models import User
 
 # Create your models here.
-#  
+#
+
 
 class Order(Model):
     """
@@ -52,16 +53,14 @@ class Order(Model):
 
     date = DateTimeField(auto_now_add=True)
 
-
-
     class Meta:
-        ordering = ['-date']
+        ordering = ["-date"]
 
     def __str__(self):
         return f"User: {self.orderer.username} ordered User: {self.receiver.username} at {self.date}"
 
     def get_absolute_url(self):
-        return reverse('order-detail')
+        return reverse("order-detail")
 
     def is_accepted(self):
         return self.state == True
@@ -82,7 +81,5 @@ class Replay(Model):
 
     date = DateTimeField(auto_now_add=True)
 
-
     class Meta:
-        ordering = ['-date']
-
+        ordering = ["-date"]

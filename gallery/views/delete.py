@@ -2,18 +2,19 @@ from django.shortcuts import redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.urls import reverse
 
-from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import  messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.decorators import login_required, permission_required
 
-from django.views.generic import DeleteView 
+from django.views.generic import DeleteView
 from django.views.generic.base import View
 from django.views.generic.edit import ProcessFormView
 from django.views.generic.detail import SingleObjectMixin
 
-from django.views.decorators.http import require_http_methods 
 
 from gallery.models import Picture, Room
+from gallery.utils import debug
+
 
 class DeleteRoomView(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
     """
@@ -22,37 +23,44 @@ class DeleteRoomView(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
 
     __Specifications:
         - accept only post methods
-        - only the owner of the room can delete it 
+        - only the owner of the room can delete it
         - redirect to user profile page after successfully deleting the room
         - delete all picture from local storage before deleting he picture instance in the db and the room background
+
+
+    ____________IMPPORTANT_________ http_method_names only work when you specify the method as lower case, for example 
+    http_method_names = ["POST", "GET"], this Will NOT work , do this instead, http_method_names = ['post', 'get']
     """
-    http_method_names = ['post']
+
     model = Room
+    http_method_names = ["post"]
 
     def test_func(self):
         # Only the owner of the room can delete it
         self.object = self.get_object()
-        return True #self.get_object().owner == self.request.user
+        return self.get_object().owner == self.request.user
 
     def get_success_url(self, *args, **kwargs):
         return self.request.user.get_absolute_url()
 
-    def post(self, request, *args, **kwargs):
 
-        # For readability 
+    def post(self, request, *args, **kwargs):
+        debug(self)
+        debug(request)
+        # For readability
         room = self.object
-        
+
         # Delete all the picture first
         for picture in room.pictures.all():
             picture.image.delete()
-        
+
         # Get the room name
         room_name = room.name
-        
+
         # Delete the room
         room.background.delete()
         room.delete()
-        
+
         # Redirect to user profile page
         messages.add_message(
             request, messages.SUCCESS, f'"{room_name}" deleted successfully'
@@ -60,40 +68,37 @@ class DeleteRoomView(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
         return redirect(self.get_success_url())
 
 
+class DeletePictureView(UserPassesTestMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
-
-class DeletePictureView(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
     """
-    __Description:
-
-    __Specifications:
-        -
-        -
-        -
-        -
-        -
-        -
     """
-    http_method_names = ['post']
+
+    http_method_names = ["post"]
     model = Picture
+    success_message = "picture was deleted successfully"
 
     def get_success_url(self):
         return self.redirect_path
 
+
     def test_func(self):
         # Only the owner of the room can delete it
-        # Assign the object attribute manually 
+        # Assign the object attribute manually
         self.object = self.get_object()
         self.redirect_path = self.object.room.get_absolute_url()
 
         return self.object.room.owner == self.request.user
 
+    def post(self, request, *args, **kwargs):
+        messages.add_message(
+            request, messages.SUCCESS, "picture deleted successfully"
+        )
+        return super().post(self, request, *args, **kwargs)
 
-
-#@require_http_methods(["POST"])
-#@login_required
-#@permission_required("gallery.delete_picture", raise_exception=True)
-#def delete_picture(request, picture_pk):
+# @require_http_methods(["POST"])
+# @login_required
+# @permission_required("gallery.delete_picture", raise_exception=True)
+# def delete_picture(request, picture_pk):
 #    """
 #    Function based view for deleting pictures
 #    from rooms
@@ -136,10 +141,10 @@ class DeletePictureView(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
 #        return HttpResponse("PremessionDenied", status=403)
 
 
-#@require_http_methods(["POST"])
-#@login_required
-#@permission_required("gallery.delete_room", raise_exception=True)
-#def delete_room(request, room_pk):
+# @require_http_methods(["POST"])
+# @login_required
+# @permission_required("gallery.delete_room", raise_exception=True)
+# def delete_room(request, room_pk):
 #    """
 #    delete_room is a function based view for
 #    deleting an entire room including all the pictures it contain

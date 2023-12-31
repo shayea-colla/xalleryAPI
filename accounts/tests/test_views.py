@@ -58,6 +58,7 @@ class TestProfileView(test.TestCase):
 class TestEditProfileView(test.TestCase):
     pass
 
+
 class TestCreateUserView(test.TestCase):
     """
     Testing  the function-based view named 'add_user'

@@ -41,7 +41,7 @@ class TestListAllRoomsView(TestCase):
             )
 
     def test_view_exist_at_desired_location(self):
-        res = self.client.get("/")
+        res = self.client.get("/gallery/")
         self.assertEqual(res.status_code, 200)
 
     def test_view_accessible_by_name(self):
@@ -77,7 +77,7 @@ class TestDetailRoomView(TestCase):
     Testing area:
          _url_routing:
              --require_http_method=GET
-             --location="/room/<room_pk>/"
+             --location="gallery/room/<room_pk>/"
              --url_params=room_pk
              --raise 404 if room not exist
 
@@ -104,7 +104,7 @@ class TestDetailRoomView(TestCase):
     def test_view_exist_at_desired_location(self):
         # Get room primary key
         room_pk = Room.objects.get(name="test_room").id
-        res = self.client.get(f"/room/{room_pk}")
+        res = self.client.get(f"/gallery/room/{room_pk}")
 
         self.assertEqual(res.status_code, 200)
 

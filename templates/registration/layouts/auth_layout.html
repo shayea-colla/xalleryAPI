@@ -39,6 +39,7 @@
                     $('.alert-message').remove();
                 })
 
+
                 $('input[type="text"], input[type="password"], input[type="email"], input[type="image"]').addClass('form-control text-dark');
 
                 $('h1').addClass('text-dark-emphasis')
@@ -57,7 +58,7 @@
             } */
         </style>
 	</head>
-    <body class="" data-bs-theme='dark'>
+    <body class="h-100vh" data-bs-theme='dark'>
 
         <!-- start of template -->
         <div class="template container-fluid">
@@ -90,34 +91,20 @@
                                 <i class="fa-solid fa-plus text-light"></i>
                             </a>
                         </li>
-                        <!--<a title="home page" href="{% url 'list-all-rooms' %}" class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">
-                            <i class="fa-solid fa-house fa-lg" style="color: #9a9996;"></i>
-                        </a>
-                        <a title="profile" href="{{ request.user.get_absolute_url }}"  class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">
-                            <i class="fa-solid fa-user fa-lg" style="color: #9a9996;"></i>
-                        </a>
-                        <a title="orders" href="{{ r.get_absolute_url }}"  class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">
-                            <i class="fa-solid fa-user fa-lg" style="color: #9a9996;"></i>
-                        </a>
-                        <a title="create room" href="{% url 'add-room' %}" class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">
-                            <i class="fa-solid fa-plus fa-lg" style="color: #9a9996;"></i>
-                        </a> -->
                     {% else %}
                         <li class="nav-item mb-2">
                             <a class="nav-link" href="{% url 'login'%}?nex={{ request.path }}">
-                                login
+                              <i class="fa-solid fa-sign-in fa-lg text-light"></i>
                             </a>
                         </li>
-                       <!-- <a  href="{% url 'login'%}?nex={{ request.path }}" class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">
-                            Login
-                        </a> -->
+
                     {% endif %}
                 </div>
             </nav>
 
             <!-- Main dynamic content-->
-            <main class="h-100vh ms-2 pt-4">
-                <section class="container-fluid">
+            <main class=" ms-2 pt-4">
+                <section class="container">
                     <section class="messages alert-message">
                         {% if messages %}
                             {% for message in messages %}

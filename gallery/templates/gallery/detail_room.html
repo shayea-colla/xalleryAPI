@@ -6,13 +6,22 @@
 
 {% block head %}
 <style>
-body {
+
+.picture-container img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
 }
+
+
 .pictures-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 1rem;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: auto;
+    grid-auto-flow: dense;
+    gap: 6px;
     margin-bottom: 2em;
+    transition: all 0.1s ease;
     
 }
 .picture-container, .picture-container img  {
@@ -20,26 +29,53 @@ body {
     border-radius: 10px;
 }
 
-@media (max-width: 45em) {
+@media (max-width: 65em) {
     .pictures-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: auto auto;
+    }
     
 
 }
 
-.pic-option {
-    position: absolute;
-    z-index: 2;
-    right: 0;
+@media (max-width: 45em) {
+    .pictures-container {
+        grid-template-columns: auto;
+    
+
 }
 
+}
+
+.option-btn {
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    top: 2.5%;
+    right: 2.5%;
+    z-index: 2;
+    transition: all 0.1s ease;
+    background-color: transparent;
+
+}
+.option-btn::after {
+    display: none;
+
+}
+
+.option-btn:hover, .option-btn:focus {
+    background-color: gray;
+    border-color: transparent !important;
 }
 
 </style>
 <script>
     $(document).ready(()=> {
         const addPictureForm = $("#AddPictureForm");
+
         const DeleteRoomForm = $("#del-room-form");
+
+
+
         $("#AddPictureButton").click(()=> {
             addPictureForm.submit();
         })
@@ -47,6 +83,9 @@ body {
         $("#del-room-btn").click(() => {
             DeleteRoomForm.submit();
         })
+
+        $("#id_room").hide()
+        $("label [for='id_room']").hide()
 
         
     })
@@ -72,13 +111,26 @@ body {
                 </button>
 
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{% url 'edit-room' room.pk %}">Edit room</a></li>
-                    <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#AddRoom">Add picture</button></li>
-                    <li><button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#ConfirmRoomDeletion">Delete room</button></li>
+                    <li class="d-flex align-items-center dropdown-item">
+                        <i class="fa-solid fa-edit fa-lg text-secondary "></i>
+                        <a class="dropdown-item" href="{% url 'edit-room' room.pk %}">Edit room</a>
+                    </li>
+                    <li class="d-flex align-items-center dropdown-item">
+                        <i class="fa-solid fa-add fa-lg text-secondary "></i>
+                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#AddRoom">Add picture</button>
+                    </li>
+
+
+                    <hr class="m-1">
+
+                    <li class="d-flex mb-0 align-items-center dropdown-item">
+                        <i class="fa-solid fa-trash fa-lg text-danger "></i>
+                        <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#ConfirmRoomDeletion">Delete room</button>
+                    </li>
                 </ul>
             </div>
 
-            <div class="modal modal-alert fade" id="ConfirmRoomDeletion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ConfirmRoomDeletionLabel" aria-hidden="true">
+            <div class="modal modal-alert fade" id="ConfirmRoomDeletion" data-bs-backdrop="dynamic" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ConfirmRoomDeletionLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content rounded-3 shadow">
                         <div class="modal-body">
@@ -95,22 +147,34 @@ body {
                     </div>
                 </div>
             </div>
-
-            <div class="modal fade" id="AddRoom" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="AddRoomLabel" aria-hidden="true">
+            
+            <div class="modal modal-alert fade" id="ConfirmPictureDeletion" data-bs-backdrop="dynamic" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ConfirmRoomDeletionLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="AddRoomLabel"><span class="text-light">Add picture to {{ room.name }}</span></h1>
-                        </div>
+                    <div class="modal-content rounded-3 shadow">
                         <div class="modal-body">
+                            <h5 class="modal-title text-center fs-5" id="ConfirmRoomDeletionLabel"><span class="text-danger">Delete Picture</span></h5>
+                            <p class="mb-0 p-3  text-center">Are you sure you want to delete this Picture ? </p>
+                        </div>
+                        <div class="modal-footer flex-nowrap p-0"> 
+                            <button type="button" class="btn text-light btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" data-bs-dismiss="modal">Close</button>
+                            <button id="confirm-picture-deletion" type="button" class="btn text-danger btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal modal-alert fade" id="AddRoom" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="AddRoomLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content rounded-3 shadow">
+                        <div class="modal-body p-4">
                             <form id="AddPictureForm" action="{% url 'add-picture'%}" method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
-                                {{ form.as_div }}
+                                {{ form.as_p }}
                             </form>
                         </div>
-                        <div class="modal-footer"> 
-                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                            <button id="AddPictureButton" type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Add</button>
+                        <div class="modal-footer flex-nowrap p-0"> 
+                            <button type="button" class="btn text-light btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" data-bs-dismiss="modal">Close</button>
+                            <button id="AddPictureButton" type="button" class="btn text-info btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">Add</button>
                         </div>
                     </div>
                 </div>
@@ -121,25 +185,41 @@ body {
 
     <section class="pictures-container">
         {% for picture in room.pictures.all %}
-            <div class="picture-container">
-                <div class="dropstart btn-group pic-option">
-                    <button title="Options" class="btn btn-sm btn-outline-dark dropdown-toggle"  type="button" data-bs-toggle="dropdown" aria-expanded='false'>:</button>
+            <div class="picture-container ">
 
-                    <ul class="dropdown-menu">
-                        <li class="dropdown-item">home</li>
-                    </ul>
+                {% if room.owner == request.user %}
+                    <button title="Options" class="option-btn border rounded-circle border-light text-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            :
+                    </button>
+                    <div class="dropstart btn-group pic-option p-1 rounded-circle ">
 
-                    <form action="{% url 'delete-picture' picture.pk %}" method="post">
-                        {% csrf_token %}
-                    </form>
-                </div>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item d-flex align-items-center">
+                                <i class="fa-solid fa-download fa-lg"></i>
+                                <button class="dropdown-item">download <span class="visually-hidden">picture</span></button>
+                            </li>
 
-                <img loading="lazy" class="img-fluid shadow-sm  " src="{{ picture.image.url }}">
+                            <hr class="m-1">
+                            <li class="dropdown-item d-flex align-items-center">
+                                <i class="fa-solid fa-trash fa-lg text-danger "></i>
+                                <form class="del-picture-form"  action="{% url 'delete-picture' picture.pk %}" method="post">
+                                    <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#ConfirmPictureDeletion">Delete <span class="visually-hidden">picture</span></button>
+                                    {% csrf_token %}
+                               </form> 
+                            </li>
+
+                        </ul>
+
+                    </div> 
+                {% endif %}
+
+                <img loading="lazy" class="img-fluid shadow-lg" src="{{ picture.image.url }}">
 
             </div>
         {% endfor %}
     </section>
 
 {% endblock %}
+
 
 
