@@ -1,7 +1,9 @@
 ######### My costume ignore ############
 media/
-######### python Template Ignore ########
+db.sqlite3
 
+
+######### python Template Ignore ########
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
