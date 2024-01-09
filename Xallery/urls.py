@@ -18,12 +18,20 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic.base import RedirectView
+from api.order.views import HomePageOrder
 
 urlpatterns = [
-    path("", include("gallery.urls")),
+    path("", RedirectView.as_view(url="/gallery/")),
+    path("gallery/", include("gallery.urls")),
     path("admin/", admin.site.urls),
     path("accounts/", include("accounts.urls")),
-    path("api/order/", include("accounts.urls")),
+    path("api/order/", include("api.order.urls")),
+    path("order/", HomePageOrder.as_view(), name="order-home"),
+
+
+    # Experment Application for testing and learning new things
+    path("exper/", include("exper.urls")),
 ]
 
 # Serving images during development

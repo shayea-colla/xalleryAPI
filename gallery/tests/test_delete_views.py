@@ -5,6 +5,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.auth.models import Permission
 from django.test import TestCase
 from django.urls import reverse
+from gallery.utils import debug
 
 from gallery.models import Room, Picture
 from gallery.forms import CreateRoomForm
@@ -12,7 +13,7 @@ from accounts.models import User
 
 
 class TestDeleteRoomView(TestCase):
-
+    """ NOTCOMP """
     def setUp(self):
         user_1 = User.objects.create_user(username="user_1", password="no way home")
 
@@ -58,24 +59,15 @@ class TestDeleteRoomView(TestCase):
                 room=room_1 if i % 2 else room_2,
             )
 
-
-    def test_test_func(self) :
+    def test_pass_test_func(self):
         room = Room.objects.get(name="room_1")
         self.client.login(username="user_1", password="no way home")
-        res = self.client.post(f'/room/{room.id}/delete', follow=True)
 
-        print("-"*100)
-        print(room)
-        print("-"*100)
-        print("-"*100)
-        print(Room.objects.get(name="room_1"))
-        print("-"*100)
-        self.assertEqual(res.status_code, 200)
-        self.assertFalse()
-        
+        res = self.client.post(f"/gallery/room/{room.id}/delete", follow=True)
+
+        self.assertEqual(res.status_code, 201)
 
 
-
-#class TestDeletePictureView(TestCase):
+# class TestDeletePictureView(TestCase):
 #    TODO
 #    ...

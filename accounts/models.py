@@ -18,7 +18,5 @@ class User(AbstractUser):
 
     profile_picture = ImageField(upload_to="profiles/", null=True, blank=True)
 
-    
     def get_absolute_url(self):
         return reverse("profile", args=[self.pk])
-

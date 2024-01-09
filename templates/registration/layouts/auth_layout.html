@@ -33,13 +33,15 @@
 		<style>
 		</style>
         <script>
+
             $(document).ready(()=> {
                 $('.remove-message-btn').click(()=> {
                     $('.alert-message').remove();
                 })
-                
+
+
                 $('input[type="text"], input[type="password"], input[type="email"], input[type="image"]').addClass('form-control text-dark');
-                
+
                 $('h1').addClass('text-dark-emphasis')
 
             })
@@ -56,59 +58,52 @@
             } */
         </style>
 	</head>
-    <body class="" data-bs-theme='dark'>
+    <body class="h-100vh" data-bs-theme='dark'>
 
         <!-- start of template -->
-        <div class="template container-fluid">
+        <div class="d-flex flex-column flex-sm-row container-fluid">
             <!-- Side navigation bar -->
-            <nav data-bs-theme="dark" class="d-flex rounded-3 mt-1 mb-1 shadow flex-column align-items-cneter flex-shrink-0 p-2 bg-gradient  " >
-                <a href="{% url 'list-all-rooms' %}" class="navbar-brand  fw-bold d-flex justify-content-center ">
-                    <span class="fs-1 text-light ">X</span>
-                </a>
-                <hr>
-                <div class="nav nav-pills flex-column mb-auto align-items-center flex-grow-1 ">
+            <nav data-bs-theme="dark" class="d-flex align-items-center rounded-3 mt-2 mb-2 shadow flex-row align-items-cneter flex-shrink-0  p-2 border border-light  justify-content-center flex-sm-column " >
+                <div class="nav nav-pills flex-row flex-sm-column align-items-center justify-content-sm-start justify-content-between flex-grow-1 ">
+                    <a href="{% url 'list-all-rooms' %}" class="navbar-brand  fw-bold d-flex justify-content-center ">
+                        <span class="fs-1 text-secondary me-3 ms-3 ">X</span>
+                    </a>
 
                     {% if request.user.is_authenticated %}
-                        <li class="nav-item mb-2">
+                        <li class="nav-item ">
                             <a class="nav-link " href="{% url 'list-all-rooms' %}">
                                 <i class="fa-solid fa-house text-light "></i>
                             </a>
                         </li>
-                        <li class="nav-item mb-2">
+                        <li class="nav-item ">
                             <a class="nav-link" href="{{ request.user.get_absolute_url }}">
                                 <i class="fa-solid fa-user text-light"></i>
                             </a>
                         </li>
-                        <li class="nav-item mb-2">
+                        <li class="nav-item ">
+                            <a class="nav-link " href="{% url 'order-home' %}">
+                                <i class="fa-solid text-light"><strong>O</strong></i>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
                             <a class="nav-link " href="{% url 'add-room' %}">
                                 <i class="fa-solid fa-plus text-light"></i>
                             </a>
                         </li>
-                        <!--<a title="home page" href="{% url 'list-all-rooms' %}" class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">
-                            <i class="fa-solid fa-house fa-lg" style="color: #9a9996;"></i>
-                        </a>
-                        <a title="profile" href="{{ request.user.get_absolute_url }}"  class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">
-                            <i class="fa-solid fa-user fa-lg" style="color: #9a9996;"></i>
-                        </a>
-                        <a title="create room" href="{% url 'add-room' %}" class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">
-                            <i class="fa-solid fa-plus fa-lg" style="color: #9a9996;"></i>
-                        </a> -->
                     {% else %}
                         <li class="nav-item mb-2">
                             <a class="nav-link" href="{% url 'login'%}?nex={{ request.path }}">
-                                login
+                              <i class="fa-solid fa-sign-in fa-lg text-light"></i>
                             </a>
                         </li>
-                       <!-- <a  href="{% url 'login'%}?nex={{ request.path }}" class="icon text-light text-decoration-none bg-dark text-center d-flex justify-content-center align-items-center">
-                            Login
-                        </a> -->
+
                     {% endif %}
                 </div>
             </nav>
 
             <!-- Main dynamic content-->
-            <main class="h-100vh ms-2 pt-4">
-                <section class="container-fluid">
+            <main class=" ms-2 pt-4">
+                <section class="container">
                     <section class="messages alert-message">
                         {% if messages %}
                             {% for message in messages %}

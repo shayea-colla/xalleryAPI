@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import Room, Picture
 
+
 class CreateRoomForm(ModelForm):
     # Add a form-controle class to all form fields
     def __init__(self, *args, **kwargs):
@@ -18,14 +19,13 @@ class CreateRoomForm(ModelForm):
 
 
 class AddPictureForm(ModelForm):
-#    room = forms.UUIDField(widget=forms.HiddenInput)
+    #    room = forms.UUIDField(widget=forms.HiddenInput)
     class Meta:
         model = Picture
-        fields = ["image", "room" ]
+        fields = ["image", "room"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         for visible in self.visible_fields():
             visible.field.widget.attrs["class"] = "form-control"
-            

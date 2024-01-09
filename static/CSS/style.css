@@ -9,11 +9,6 @@
 }
 
 /* Layout Design */
-.template {
-    min-height: 100vh;
-    display: flex;
-}
-
 nav {
     min-width: 60px;
 }
@@ -67,4 +62,8 @@ main {
     .room-body a {
         margin: auto 0 0 auto; 
     }
+}
+
+a {
+  text-decoration: none !important;
 }

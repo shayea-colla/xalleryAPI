@@ -1,10 +1,13 @@
 from django.views.generic.edit import CreateView, UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    PermissionRequiredMixin,
+)
 from django.contrib.messages.views import SuccessMessageMixin
 
 from gallery.models import Picture, Room
 from gallery.forms import CreateRoomForm, AddPictureForm
-
 
 
 class UpdateRoom(
@@ -12,12 +15,11 @@ class UpdateRoom(
     UserPassesTestMixin,
     LoginRequiredMixin,
     PermissionRequiredMixin,
-    UpdateView
- ):
+    UpdateView,
+):
     def test_func(self):
-        # Only the owner of the Room can edit it 
+        # Only the owner of the Room can edit it
         return self.get_object().owner == self.request.user
-
 
     success_message = '"%(name)s" updated successfully.'
     model = Room

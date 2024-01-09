@@ -25,19 +25,18 @@ class ProfileView(DetailView):
     template_name = "registration/profile.html"
 
 
-
-class EditProfileView(UserPassesTestMixin, LoginRequiredMixin, UpdateView, SuccessMessageMixin):
+class EditProfileView(
+    UserPassesTestMixin, LoginRequiredMixin, UpdateView, SuccessMessageMixin
+):
     def test_func(self):
-        # Only the owner of profile can edit it 
+        # Only the owner of profile can edit it
         return self.get_object() == self.request.user
-        
 
     model = User
     template_name = "registration/update_profile.html"
-    fields = ['username', 'first_name', 'last_name', 'email', 'discription']
+    fields = ["username", "first_name", "last_name", "email", "discription"]
     context_variable_name = "form"
-    success_message = 'Profile Updated'
-
+    success_message = "Profile Updated"
 
 
 class CreateUserView(CreateView, SuccessMessageMixin):
@@ -45,7 +44,6 @@ class CreateUserView(CreateView, SuccessMessageMixin):
     form_class = CreateUserForm
     template_name = "registration/create_user_form.html"
     success_message = '"%(username)s" profile created successfully'
-
 
     def form_valid(self, form):
         # Save the form first so you can have access to "new_user" object
@@ -61,8 +59,8 @@ class CreateUserView(CreateView, SuccessMessageMixin):
         return super().form_valid(form)
 
 
-#@require_http_methods(["GET", "POST"])
-#def add_user(request):
+# @require_http_methods(["GET", "POST"])
+# def add_user(request):
 #    """
 #    view for adding new users
 #    """
@@ -84,7 +82,7 @@ class CreateUserView(CreateView, SuccessMessageMixin):
 #                discription=form.cleaned_data["discription"],
 #                password=form.cleaned_data["password"],
 #            )
-#        
+#
 #            # Assigne the user to the designers group
 #            designersGroup = Group.objects.get(name="designers")
 #            new_user.groups.add(designersGroup)
@@ -95,7 +93,7 @@ class CreateUserView(CreateView, SuccessMessageMixin):
 #            # login new_user
 #            login(request, new_user)
 #
-#            messages.add_message(request, messages.SUCCESS, "Your account created successfully.") 
+#            messages.add_message(request, messages.SUCCESS, "Your account created successfully.")
 #            # redirect to the new user profile
 #            return redirect(reverse("profile", args=[new_user.pk]))
 #

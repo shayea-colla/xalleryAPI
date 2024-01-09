@@ -44,7 +44,6 @@ class Room(Model):
         "unique": "This name is already bean used",
     }
 
-
     name = CharField(
         max_length=150,
         help_text="Enter a name for the Room",
