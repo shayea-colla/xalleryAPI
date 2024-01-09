@@ -1,3 +1,4 @@
+import  Order from '../components/Order.js'
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== "") {
@@ -14,6 +15,7 @@ function getCookie(name) {
   return cookieValue;
 }
 
+
 async function fetchOrders(bURL, type = "") {
   /* This function takes two arguments: 
    __bURL : base url to fetch resource from
@@ -21,33 +23,67 @@ async function fetchOrders(bURL, type = "") {
    */
   let url = bURL + `?type=${type}`;
   let res = await fetch(url);
-  return await res.json();
+  return transform(await res.json());
 }
 
 
-function setLinksEventHandlers(setDisplay) {
-  console.log("executin setLinksEventHnalders")
-  /* Add event listener to all links */
-  // Default display is "orders"
- 
+function display(orders) {
+  /* display orders to the screen
+   __orders : array of orders objects
+  */
+  const orderListContainer = $("#order-list-container")
+
+  // empty the order list
+  orderListContainer.empty()
+
+  // Create an array containing Order objects orderList 
+  const orderList = orders.map((order) => Order(order))
+
+  // Appned Order List to the container
+  orderListContainer.append(orderList)
+
 }
 
-function setNavLink(navLink) {
-  console.log("executin setNavLink")
-  // Set the nav link to be active based on the SelectedNav global variable
-  let navLinks = $("#navigation .nav-link");
 
-  for (let nav of navLinks) {
-    $(nav).removeClass("active");
-  }
+function setNavLink(displayType) {
+  /* set active link to whatever passed as displayType */
 
-  $(`[data-display='${navLink}']`).addClass("active");
+  $("#navigation .nav-link").removeClass('active');
+
+  $(`[data-display-type=${displayType}]`).addClass("active");
+}
+
+
+function transform(orders) {
+  // Transform Response
+  return orders
+
+}
+
+function updateOrder(orderId, state) {
+  /* what are the changes required after accepting or rejecting any order? 
+   - change the background color
+   - change the border color
+   - remove the footer buttons */
+
+ // change the background color
+ $(`#${orderId}`).removeClass(`bg-info-subtle`)
+ $(`#${orderId}`).addClass(`bg-${state}-subtle`)
+
+ // change the border collor
+ $(`#${orderId}`).removeClass(`border-info-subtle`)
+ $(`#${orderId}`).addClass(`border-${state}-subtle`)
+
+ // remove the footer buttons
+ $(`#${orderId}`).children('.footer').empty()
+
 }
 
 
 export {
   fetchOrders,
-  setLinksEventHandlers,
   setNavLink,
   getCookie,
+  display,
+  updateOrder,
 };

@@ -45,8 +45,6 @@ class DeleteRoomView(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
 
 
     def post(self, request, *args, **kwargs):
-        debug(self)
-        debug(request)
         # For readability
         room = self.object
 

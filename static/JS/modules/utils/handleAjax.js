@@ -71,10 +71,8 @@ function handleDeleteOrder(e, bURL, setMyOrders, navLink) {
 }
 
 
-function setEventListenersHandlers(bURL, setOrders, setMyOrders, navLink) {
+function setEventListenersHandlers(bURL, setOrders, setMyOrders, navLink, setDisplay) {
   /* Set Event listeners to everythign that needs to*/
-
-  console.log("Executin setAjaxEventHandlers")
 
   // Set listeners to navigation links
   $("#navigation .nav-link").click((e) => {
@@ -89,8 +87,9 @@ function setEventListenersHandlers(bURL, setOrders, setMyOrders, navLink) {
 
   // handle order deletion
   $(".delete-order").click((e)=> handleDeleteOrder(e, bURL, setMyOrders, navLink));
+
   // handle order sending
-  $(".confirmSend").click((e) => console.log(e))
+  $("#confirmSend").click((e) => handleSendingOrder())
 
   $(".setState").click((e) => {
     /* Make patch request to change the state of an order ( accepted, rejected ) */
@@ -118,6 +117,9 @@ function setEventListenersHandlers(bURL, setOrders, setMyOrders, navLink) {
 }
 
 function handleSendingOrder() {
+  alert('no way home')
+  return false
+  const modalAlert = $(".modal-body .modal-alert .alert")
 
   const order = {
       recipient: $("#recipient-name").val().trim(),
@@ -125,8 +127,10 @@ function handleSendingOrder() {
   }
 
   if (isValidOrder(order)) {
+    modalAlert.addClass('d-none')
     sendOrder(order)
   } else {
+    modalAlert.removeClass('d-none')
     alert("not sending")
   }
 }

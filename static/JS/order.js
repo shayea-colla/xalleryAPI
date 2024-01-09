@@ -1,105 +1,130 @@
-import { Order } from "./modules/components/Order.js";
-import { setEventListenersHandlers } from "./modules/utils/handleAjax.js";
+import { 
+  fetchOrders, 
+  display, 
+  setNavLink, 
+  getCookie,
+  updateOrder,
+} from './modules/utils/utils.js'
 
-import {
-  fetchOrders,
-  setLinksEventHandlers,
-  setNavLink,
-} from "./modules/utils/utils.js";
+const baseUrl = '/api/order/orders/'
 
-// Declare the ORDERS array an set it to empty for now
-let MY_ORDERS = [];
-let ORDERS = [];
-let DISPLAY = [];
-let navLink = "orders"; // Default display is orders
-const bURL = "/api/order/orders/";
 
-function Main() {
-  setMyOrders();
-  setOrders();
 
-  // DEFAULT VALUE FOR SELECTED NAV
-  setLinksEventHandlers(setDisplay);
-}
+// Set the Default display when the page load
+$(document).ready( async () => {
+ 
+  handleDisplayingOrders('orders')
 
-Main();
+})
 
-function setDisplay(display) {
-  // function to change  the DISPLAY array values  based on the type provided by navigation link
 
-  navLink = display
+// Attache event listeners to the nav links and display orders depending on that 
+$(".nav-link").click( async (e) => {
+  const displayType = $(e.target).data('display-type')
 
-  switch (display) {
-    case "orders":
-      DISPLAY = ORDERS;
-      break;
+  // handle the Displaying of orders 
+  handleDisplayingOrders(displayType)
+})
 
-    case "my_orders":
-      DISPLAY = MY_ORDERS.filter((order) => {
-        return order.state === null;
-      });
-      break;
 
-    case "accepted":
-      DISPLAY = MY_ORDERS.filter((order) => {
-        return order.state === true;
-      });
 
-      break;
+async function handleDisplayingOrders(displayType) {
+  // Set the navigation link to be active
+  setNavLink(displayType)
 
-    case "rejected":
-      DISPLAY = MY_ORDERS.filter((order) => {
-        return order.state === false;
-      });
+  // Fetch orders from the server
+  const res = await fetchOrders(baseUrl, displayType)
 
-      break;
-  }
+  // Display orders
+  display(res)
 
-  return render();
+  // Set Listeners to buttons ( accept , reject, delete )
+  setButtonsListeners()
+
 }
 
 
-async function setMyOrders(display='my_orders') {
-  // fetch MY_ORDERS
-  MY_ORDERS = await fetchOrders(bURL, "my_orders");
+function setButtonsListeners() {
+  // Set click Listeners and handle function for each buttons ( accept , reject, delete )
 
-  // add my_order attr to each order that belong to the user, so you can differ between orders in term of UI design
-  MY_ORDERS.map((order) => {
-    order.my_order = true;
+  $(".accept-order-btn").click(handleOrderAcception)
+  $(".reject-order-btn").click(handleOrderRejection)
+
+}
+
+
+function handleOrderAcception(e) {
+  const orderId = $(e.target).data('order-id')
+
+  // disable button 
+  $(e.target).addClass("disabled")
+
+  // show spinner 
+  $(e.target).prepend(`
+    <div class="spinner-border-sm spinner-border text-secondary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  `)
+
+  $.ajax({
+    url: baseUrl + `${orderId}/`,
+    method: "PATCH",
+    data: { state: true },
+    headers: {
+      "X-CSRFTOKEN": getCookie("csrftoken"),
+    },
+
+    success: (data, statusCode) => {
+      // Rerender the whole list of orders ( it will not be an effecint approache )
+      console.log('success acception')
+      updateOrder(orderId, 'success')
+
+    },
+    error: (data, statusCode) => {
+      console.error(data.responseJSON.detail);
+    },
   });
 
-  // set the Display to reflect new changes
-  return setDisplay(display);
 }
 
 
-async function setOrders() {
-  // fetch ORDERS
-  ORDERS = await fetchOrders(bURL);
-
-  // set the Display to reflect new changes
-  return setDisplay('orders');
-}
+// What should I do when I am waiting for server response ?
+// display spinner 
+// disable button
 
 
-function render() {
+function handleOrderRejection(e) {
+  const orderId = $(e.target).data('order-id')
 
-  let orderList = $("#order-list");
+  // disable button 
+  $(e.target).addClass("disabled")
 
-  // delete all existing orders
-  orderList.empty();
+  // show spinner 
+  $(e.target).prepend(`
+    <div class="spinner-border-sm spinner-border text-secondary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+`)
 
-  DISPLAY.map((order) => {
-    orderList.append(Order(order));
+  $.ajax({
+    url: baseUrl + `${orderId}/`,
+    method: "PATCH",
+    data: { state: false },
+    headers: {
+      "X-CSRFTOKEN": getCookie("csrftoken"),
+    },
+
+    success: (data, statusCode) => {
+      // Rerender the whole list of orders ( it will not be an effecint approache )
+      console.log('success rejection')
+      updateOrder(orderId, 'danger')
+
+    },
+    error: (data, statusCode) => {
+      console.error(data.responseJSON.detail);
+    },
   });
-
-  // Reset selected nav link
-  setNavLink(navLink);
-  setLinksEventHandlers()
-
-  // set click listeners for accept , reject and delete buttons
-  // and make ajax request based on the event, (accept clicked; accept request, etc)
-  setEventListenersHandlers(bURL, setOrders, setMyOrders, navLink);
-
 }
+
+// Expermenting 
 

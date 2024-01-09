@@ -9,11 +9,6 @@
 }
 
 /* Layout Design */
-.template {
-    min-height: 100vh;
-    display: flex;
-}
-
 nav {
     min-width: 60px;
 }

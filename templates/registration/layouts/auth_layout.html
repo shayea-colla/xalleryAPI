@@ -61,32 +61,31 @@
     <body class="h-100vh" data-bs-theme='dark'>
 
         <!-- start of template -->
-        <div class="template container-fluid">
+        <div class="d-flex flex-column flex-sm-row container-fluid">
             <!-- Side navigation bar -->
-            <nav data-bs-theme="dark" class="d-flex rounded-3 mt-1 mb-1 shadow flex-column align-items-cneter flex-shrink-0 p-2 " >
-                <a href="{% url 'list-all-rooms' %}" class="navbar-brand  fw-bold d-flex justify-content-center ">
-                    <span class="fs-1 text-light ">X</span>
-                </a>
-                <hr>
-                <div class="nav nav-pills flex-column mb-auto align-items-center flex-grow-1 ">
+            <nav data-bs-theme="dark" class="d-flex align-items-center rounded-3 mt-2 mb-2 shadow flex-row align-items-cneter flex-shrink-0  p-2 border border-light  justify-content-center flex-sm-column " >
+                <div class="nav nav-pills flex-row flex-sm-column align-items-center justify-content-sm-start justify-content-between flex-grow-1 ">
+                    <a href="{% url 'list-all-rooms' %}" class="navbar-brand  fw-bold d-flex justify-content-center ">
+                        <span class="fs-1 text-secondary me-3 ms-3 ">X</span>
+                    </a>
 
                     {% if request.user.is_authenticated %}
-                        <li class="nav-item mb-2">
+                        <li class="nav-item ">
                             <a class="nav-link " href="{% url 'list-all-rooms' %}">
                                 <i class="fa-solid fa-house text-light "></i>
                             </a>
                         </li>
-                        <li class="nav-item mb-2">
+                        <li class="nav-item ">
                             <a class="nav-link" href="{{ request.user.get_absolute_url }}">
                                 <i class="fa-solid fa-user text-light"></i>
                             </a>
                         </li>
-                        <li class="nav-item mb-2">
+                        <li class="nav-item ">
                             <a class="nav-link " href="{% url 'order-home' %}">
                                 <i class="fa-solid text-light"><strong>O</strong></i>
                             </a>
                         </li>
-                        <li class="nav-item mb-2">
+                        <li class="nav-item ">
                             <a class="nav-link " href="{% url 'add-room' %}">
                                 <i class="fa-solid fa-plus text-light"></i>
                             </a>

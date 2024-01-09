@@ -28,19 +28,7 @@
             #submit-btn {
                  width: 50%;
             }
-            .form-container {
-                display: flex;
-                min-height: 100vh;
-                margin: 0;
-                justify-content: center;
-                align-items: center;
-            }
-            .inline-form-container {
-                padding: 3rem;
-                flex-grow: 0.1;
-            }
-	    .inline-form-container input {
-	    }
+       
 
             @media (max-width: 35em) {
                 .form-container {
@@ -56,8 +44,8 @@
 
         .tmp {
             font-size: 100px;
-
         }
+
 	</style>
         <script>
             $(document).ready(()=> {
@@ -70,14 +58,10 @@
         </script>
 	</head>
     <body data-bs-theme='dark'>
-        <main class="d-flex flex-row-reverse align-items-center">
-            <section class="w-25 flex-xl-shrink-1 h-100vh ps-5 pe-5  bg-black d-flex flex-column lign-items-stretch justify-content-around">
+        <main class=" bg-dark d-flex justify-content-sm-center align-items-sm-center align-items-stretch">
+            <section class="p-5 flex-sm-grow-0 flex-grow-1 rounded-4 border border-4 bg-black d-flex flex-column align-items-stretch justify-content-around">
                 {% block body %} {% endblock %}
             </section>
-            <section class="flex-xl-grow-1 d-flex bg-gradient justify-content-center align-items-center bg-black  h-100vh" >
-                <p class="tmp">Xallery</p>
-            </section>
-
         </main>
     </body>
     
