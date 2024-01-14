@@ -32,8 +32,7 @@ REST_FRAMEWORK = {
 }
 # Django Cors Headers Configurations
 # http://localhost:3000/
-CORS_ALLOWED_ORIGINS  = [
-]
+CORS_ALLOWED_ORIGINS  = []
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/

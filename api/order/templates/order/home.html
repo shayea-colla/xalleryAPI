@@ -27,35 +27,35 @@
   </div>
   <div class='d-flex justify-content-center flex-column align-items-center'>
     <div id="order-list-container" class="container"></div>
-    <button id="add-order" type="button" class="btn rounded-circle btn-outline-secondary shadow mt-5 fs-2" data-bs-toggle="modal" data-bs-target="#addOrderModal" data-bs-whatever="@mdo">$</button>
+    <button id="add-order" type="button" class="btn rounded-circle btn-outline-secondary shadow mt-5 fs-2">$</button>
   </div>
 
 
-    <div class="modal modal-alert fade" id="addOrderModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="addOrderModalLabel" aria-hidden="flase">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+    <div class="modal modal-alert  fade" id="addOrderModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="addOrderModalLabel" aria-hidden="flase">
+      <div class="modal-dialog  modal-dialog-centered">
+        <div class="modal-content bg-black text-light">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">New order</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="modal-alert">
-              <div class="alert alert-danger d-none" role="alert">
+              <div id="add-order-alert" class="alert alert-danger d-none" role="alert">
                 you must fill out both fields
               </div>
             </div>
             <form>
               <div class="mb-4">
-                <input type="text" class="form-control bg-transparent" placeholder="Recipient" id="recipient-name">
+                <input type="text" class="form-control bg-light" placeholder="Recipient" id="order-receiver">
               </div>
               <div class="mb-3">
-                <textarea style="height:200px" class="form-control  bg-transparent" placeholder="Message" id="message-text"></textarea>
+                <textarea style="height:200px" class="form-control text-light bg-black" placeholder="Message" id="order-message"></textarea>
               </div>
             </form>
           </div>
           <div class="modal-footer flex-nowrap p-0"> 
               <button type="button" class="btn text-light btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" data-bs-dismiss="modal">Close</button>
-              <button id="confirmSend" type="button" class="btn text-primary btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0">Send order</button>
+              <button id="confirmOrderSend" type="button" class="btn text-primary btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0">Send order</button>
           </div>
         </div>
       </div>

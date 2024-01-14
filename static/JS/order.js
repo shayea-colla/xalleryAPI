@@ -52,6 +52,88 @@ function setButtonsListeners() {
 
 }
 
+$("#add-order").click(handleAddingNewOrder)
+
+async function getDesigners() {
+  const response = await fetch('http://127.0.0.1:8000/api/order/designers/')
+  return await response.json()
+}
+
+function validateOrder() {
+  // get order inputs values
+  getDesigners().then((designers) => {
+
+    const receiver = $("#order-receiver").val()
+    const message = $("#order-message").val()
+
+    // Check that receiver exist among designers
+    const designer = designers.filter((designer) => {
+      designer.username === receiver
+    })[0]
+    if (message.trim().length > 0 && designer?.id !== undefined) {
+      // if valid data submitted 
+      return { is_valid: true, data: { designer, message } }
+    }
+    return { is_valid:false, data:null }
+  })
+}
+
+function showErrorMessage(element) {
+  // show error message by removing the dsiplay class 
+  $(element).removeClass('d-none')
+
+}
+
+function sendOrder(data) {
+  // Ajax request to add new order
+  $.ajax({
+    url: baseUrl,
+    method: "POST",
+    data: {
+      message: data.message,
+      receiver: data.receiver.id
+    },
+    headers: {
+      "X-CSRFTOKEN": getCookie("csrftoken"),
+    },
+
+    success: (data, statusCode) => {
+      console.log('added new order')
+
+    },
+    error: (data, statusCode) => {
+      console.error(data.responseJSON.detail);
+    },
+  });
+
+}
+function handleAddingNewOrder(e) {
+  const addOrderModal = new bootstrap.Modal('#addOrderModal')
+
+  // show adding new order modal form
+  addOrderModal.show()
+
+  // Listen for the user to submit the order
+  $("#confirmOrderSend").click( async () =>{
+    const order = await validateOrder()
+
+    if (order.is_valid == true) {
+      // sned order
+      sendOrder(order.data)
+
+    } else {
+      showErrorMessage("#add-order-alert")
+    }
+
+  })
+
+  // Steps to add new order
+  //
+  // - Show adding new order modal form
+  // - validate data when submitted
+  // - if valid ( send order ) else show error message
+  // - if request rejected due to invalid user: show the message that indicate that 
+}
 
 function handleOrderAcception(e) {
   const orderId = $(e.target).data('order-id')
@@ -88,12 +170,9 @@ function handleOrderAcception(e) {
 }
 
 
-// What should I do when I am waiting for server response ?
-// display spinner 
-// disable button
-
 
 function handleOrderRejection(e) {
+
   const orderId = $(e.target).data('order-id')
 
   // disable button 
@@ -106,6 +185,7 @@ function handleOrderRejection(e) {
     </div>
 `)
 
+  // Send ajax request to update the state of an order to ( flase )
   $.ajax({
     url: baseUrl + `${orderId}/`,
     method: "PATCH",

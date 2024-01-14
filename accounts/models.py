@@ -10,6 +10,7 @@ from django.urls import reverse
 
 # Create your models here.
 class User(AbstractUser):
+
     discription = CharField(
         max_length=1000,
         help_text="Write a short bio about yourself ( required )",
