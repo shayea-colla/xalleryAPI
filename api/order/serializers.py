@@ -4,11 +4,7 @@ from gallery.utils import debug
 from accounts.models import User
 from drf_dynamic_fields import DynamicFieldsMixin
 
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ["id", "username"]
+from api.designers.serializers import UserSerializer
 
 
 class OrderSerializer(DynamicFieldsMixin, serializers.ModelSerializer):

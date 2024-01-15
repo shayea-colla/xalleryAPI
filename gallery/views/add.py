@@ -92,7 +92,6 @@ class AddPictureView(
     def form_invalid(self, form):
         messages.add_message(self.request, messages.ERROR, "Invalid picture")
 
-
     def get_success_url(self):
         """
         return the room absolute url

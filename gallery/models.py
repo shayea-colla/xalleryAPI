@@ -64,8 +64,8 @@ class Room(Model):
     #    blur_background = ImageField( upload_to="rooms_background/", help_text="Set a background",)
 
     discription = CharField(
-        max_length=60,
-        help_text="Describe your room ( maximum letters 60 )",
+        max_length=150,
+        help_text="Describe your room ( maximum letters 150 )",
         blank=False,
         null=False,
     )

@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseNotAllowed
 from django.urls import reverse
 
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib import  messages
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from django.views.generic import DeleteView
@@ -28,7 +28,7 @@ class DeleteRoomView(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
         - delete all picture from local storage before deleting he picture instance in the db and the room background
 
 
-    ____________IMPPORTANT_________ http_method_names only work when you specify the method as lower case, for example 
+    ____________IMPPORTANT_________ http_method_names only work when you specify the method as lower case, for example
     http_method_names = ["POST", "GET"], this Will NOT work , do this instead, http_method_names = ['post', 'get']
     """
 
@@ -42,7 +42,6 @@ class DeleteRoomView(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
 
     def get_success_url(self, *args, **kwargs):
         return self.request.user.get_absolute_url()
-
 
     def post(self, request, *args, **kwargs):
         # For readability
@@ -66,10 +65,11 @@ class DeleteRoomView(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
         return redirect(self.get_success_url())
 
 
-class DeletePictureView(UserPassesTestMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class DeletePictureView(
+    UserPassesTestMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView
+):
 
-    """
-    """
+    """ """
 
     http_method_names = ["post"]
     model = Picture
@@ -77,7 +77,6 @@ class DeletePictureView(UserPassesTestMixin, LoginRequiredMixin, SuccessMessageM
 
     def get_success_url(self):
         return self.redirect_path
-
 
     def test_func(self):
         # Only the owner of the room can delete it
@@ -88,10 +87,9 @@ class DeletePictureView(UserPassesTestMixin, LoginRequiredMixin, SuccessMessageM
         return self.object.room.owner == self.request.user
 
     def post(self, request, *args, **kwargs):
-        messages.add_message(
-            request, messages.SUCCESS, "picture deleted successfully"
-        )
+        messages.add_message(request, messages.SUCCESS, "picture deleted successfully")
         return super().post(self, request, *args, **kwargs)
+
 
 # @require_http_methods(["POST"])
 # @login_required

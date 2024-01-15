@@ -17,7 +17,7 @@ from gallery.utils import debug
 from accounts.models import User
 
 from .models import Order
-from .serializers import OrderSerializer, UserSerializer
+from .serializers import OrderSerializer
 from .permissions import IsOwnerOrReceiver
 
 
@@ -50,7 +50,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         else:
             queryset = request.user.orders.all()
 
-        serializer = OrderSerializer(queryset, many=True, context={'request': request})
+        serializer = OrderSerializer(queryset, many=True, context={"request": request})
         return Response(serializer.data)
 
     def create(self, request):
@@ -108,8 +108,6 @@ class OrderViewSet(viewsets.ModelViewSet):
         """
         Only the orderer is allowed to delete order
         """
-        # Artificially delay the response three seconds
-        sleep(1)
 
         order = get_object_or_404(self.get_queryset(), pk=kwargs["pk"])
         if order.orderer == request.user:
@@ -119,9 +117,3 @@ class OrderViewSet(viewsets.ModelViewSet):
             {"detail": " you do not have permission to perform this action"},
             status=status.HTTP_403_FORBIDDEN,
         )
-
-
-class ListDesignersView(generics.ListAPIView):
-    queryset = User.objects.filter(groups=Group.objects.get(name='designers'))
-    serializer_class = UserSerializer
-    permission_classes = [AllowAny]

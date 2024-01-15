@@ -10,25 +10,10 @@ from .views import (
 
 urlpatterns = [
     # display views
-    path(
-        "", 
-        display.ListAllRooms.as_view(), 
-        name="list-all-rooms"
-    ),
-
-    path(
-        "room/<uuid:pk>", 
-        display.DetailRoomView.as_view(), 
-        name="detail-room"
-    ),
-
+    path("", display.ListAllRooms.as_view(), name="list-all-rooms"),
+    path("room/<uuid:pk>", display.DetailRoomView.as_view(), name="detail-room"),
     # Add views
-    path(
-        "room/add/", 
-        add.CreateRoomView.as_view(), 
-        name="add-room"
-    ),
-
+    path("room/add/", add.CreateRoomView.as_view(), name="add-room"),
     # Edit views
     path(
         "room/<uuid:pk>/edit/",
@@ -36,18 +21,12 @@ urlpatterns = [
         name="edit-room",
     ),
     # Delete views
-    path(
-        "room/<uuid:pk>/delete/", 
-        delete.DeleteRoomView.as_view(), 
-        name="delete-room"
-    ),
-
+    path("room/<uuid:pk>/delete/", delete.DeleteRoomView.as_view(), name="delete-room"),
     path(
         "picture/add/",
         add.AddPictureView.as_view(),
         name="add-picture",
     ),
-
     path(
         "picture/<uuid:pk>/delete/",
         delete.DeletePictureView.as_view(),

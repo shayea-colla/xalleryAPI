@@ -13,7 +13,8 @@ from accounts.models import User
 
 
 class TestDeleteRoomView(TestCase):
-    """ NOTCOMP """
+    """NOTCOMP"""
+
     def setUp(self):
         user_1 = User.objects.create_user(username="user_1", password="no way home")
 
