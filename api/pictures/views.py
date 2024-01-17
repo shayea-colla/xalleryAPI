@@ -4,7 +4,6 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from gallery.models import Picture
 
 from .serializers import PictureSerializer
-
 from .permissions import IsRoomOwnerOrReadOnly, IsObjectOwnerOrReadOnly
 
 # Create your views here.

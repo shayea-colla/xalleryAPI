@@ -4,6 +4,8 @@ media/
 
 .md/
 
+.swp
+
 
 ######### python Template Ignore ########
 # Byte-compiled / optimized / DLL files
