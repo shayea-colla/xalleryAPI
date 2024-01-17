@@ -24,15 +24,16 @@ from api.order.views import HomePageOrder
 
 urlpatterns = [
     path("", RedirectView.as_view(url="/gallery/")),
-    path("gallery/", include("gallery.urls")),
     path("admin/", admin.site.urls),
+    path("gallery/", include("gallery.urls")),
     path("accounts/", include("accounts.urls")),
     path("order/", HomePageOrder.as_view(), name="order-home"),
     # API urls
     path("api/", include("api.rooms.urls")),
-    path("api/order/", include("api.order.urls")),
+    path("api/", include("api.pictures.urls")),
+    path("api/", include("api.order.urls")),
     path("api/designers/", include("api.designers.urls")),
-    # Experment Application for testing and learning new things
+    # Experment Application for testing purposes
     path("exper/", include("exper.urls")),
 ]
 

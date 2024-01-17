@@ -2,6 +2,8 @@
 media/
 *.sqlite3
 
+.md/
+
 
 ######### python Template Ignore ########
 # Byte-compiled / optimized / DLL files
