@@ -21,4 +21,12 @@ class PicturePermissions(BasePermission):
         return request.user.is_designer()
 
     def has_object_permission(self, request, view, obj):
-        return request.user.is_owner(obj)
+        """
+        Allow Non authenticated users and Normal users to "GET"
+        the Picture Details, but restrict Dangerous action to only
+        the Onwer of the Picture
+        """
+        if request.method in SAFE_METHODS:
+            return True
+
+        return request.user == obj.owner
