@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('gallery', '0001_initial'),
+        ("gallery", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='room',
-            name='discription',
-            field=models.CharField(help_text='Describe your room ( maximum letters 150 )', max_length=150),
+            model_name="room",
+            name="discription",
+            field=models.CharField(
+                help_text="Describe your room ( maximum letters 150 )", max_length=150
+            ),
         ),
     ]

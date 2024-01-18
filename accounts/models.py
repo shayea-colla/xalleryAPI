@@ -4,7 +4,7 @@ from django.db.models import (
     SlugField,
 )
 
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group
 from django.urls import reverse
 
 
@@ -20,3 +20,10 @@ class User(AbstractUser):
 
     def get_absolute_url(self):
         return reverse("profile", args=[self.pk])
+
+    def is_designer(self) -> bool:
+        designers_group = Group.objects.get(name="designers")
+        return designers_group in self.groups.all()
+
+    def is_owner(self, obj: any) -> bool:
+        return obj.owner == self

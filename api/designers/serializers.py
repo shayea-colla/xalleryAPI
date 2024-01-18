@@ -2,7 +2,6 @@ from rest_framework import serializers
 from accounts.models import User
 from drf_dynamic_fields import DynamicFieldsMixin
 
-
 class UserSerializer(DynamicFieldsMixin, serializers.ModelSerializer):
     class Meta:
         model = User

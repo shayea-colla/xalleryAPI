@@ -9,4 +9,12 @@ class RoomSerializer(serializers.DynamicModelSerializer):
     # owner = UserSerializer(read_only=True)
     class Meta:
         model = Room
-        fields = ("id", "name", "owner", "background", "discription", "created_at", "pictures")
+        fields = (
+            "id",
+            "name",
+            "owner",
+            "background",
+            "discription",
+            "created_at",
+            "pictures",
+        )

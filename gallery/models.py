@@ -17,12 +17,8 @@ from django.db.models import (
 class Picture(Model):
     id = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    # High image reselution for wide screens.
+    owner = ForeignKey("accounts.User", related_name="pictures", on_delete=CASCADE)
     image = ImageField(upload_to="pictures/")
-
-    # The same image with low reselution for mobile screens.
-    #    low_image = ImageField(upload_to="pictures/")
-
     room = ForeignKey(
         "Room",
         related_name="pictures",
@@ -51,7 +47,7 @@ class Room(Model):
         blank=False,
     )
 
-    owner = ForeignKey("accounts.User", related_name="rooms", on_delete=PROTECT)
+    owner = ForeignKey("accounts.User", related_name="rooms", on_delete=CASCADE)
 
     background = ImageField(
         upload_to="rooms_background/",
