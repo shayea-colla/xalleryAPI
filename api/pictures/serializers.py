@@ -1,15 +1,9 @@
-from dynamic_rest.serializers import DynamicModelSerializer, DynamicRelationField
-from rest_framework.serializers import ValidationError, PrimaryKeyRelatedField
-
+from rest_flex_fields import FlexFieldsModelSerializer
+from rest_framework.serializers import ValidationError
 from gallery.models import Picture
-from api.designers.serializers import UserSerializer
-
-from rest_framework import permissions
-
-from gallery.utils import debug
 
 
-class PictureSerializer(DynamicModelSerializer):
+class PictureSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = Picture
         fields = ("id", "image", "room")
