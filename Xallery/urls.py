@@ -22,6 +22,8 @@ from django.conf.urls.static import static
 from django.views.generic.base import RedirectView
 from api.order.views import HomePageOrder
 
+from rest_framework.authtoken import views
+
 urlpatterns = [
     path("", RedirectView.as_view(url="/gallery/")),
     path("admin/", admin.site.urls),
@@ -33,6 +35,8 @@ urlpatterns = [
     path("api/", include("api.pictures.urls")),
     path("api/", include("api.order.urls")),
     path("api/designers/", include("api.designers.urls")),
+    # rest_framework Token auth endpoint
+    path("api/authtoken/", views.obtain_auth_token),
     # Experment Application for testing purposes
     path("exper/", include("exper.urls")),
 ]

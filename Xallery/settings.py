@@ -19,14 +19,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.AllowAny",
+        "rest_framework.permissions.IsAuthenticated",
     ],
     "DEFAULT_RENDERER_CLASSES": [
-        "dynamic_rest.renderers.DynamicBrowsableAPIRenderer",
         "rest_framework.renderers.JSONRenderer",
     ],
 }
@@ -59,6 +58,8 @@ INSTALLED_APPS = [
     "accounts.apps.AccountsConfig",
     "api.order.apps.OrderConfig",
     "api.designers.apps.UserConfig",
+    "api.pictures.apps.UserConfig",
+    "api.auth.apps.UserConfig",
     "exper.apps.ExperConfig",
     # Django Default applications
     "django.contrib.admin",
@@ -69,6 +70,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Third party
     "rest_framework",
+    "rest_framework.authtoken",
     "fontawesomefree",
     "bootstrap5",
     "corsheaders",
