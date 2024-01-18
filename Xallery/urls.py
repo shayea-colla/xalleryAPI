@@ -25,20 +25,19 @@ from api.order.views import HomePageOrder
 from rest_framework.authtoken import views
 
 urlpatterns = [
-    path("", RedirectView.as_view(url="/gallery/")),
-    path("admin/", admin.site.urls),
-    path("gallery/", include("gallery.urls")),
-    path("accounts/", include("accounts.urls")),
-    path("order/", HomePageOrder.as_view(), name="order-home"),
+    path(r"", RedirectView.as_view(url="/gallery/")),
+    path(r"admin/", admin.site.urls),
+    path(r"gallery/", include("gallery.urls")),
+    path(r"accounts/", include("accounts.urls")),
+    path(r"order/", HomePageOrder.as_view(), name="order-home"),
     # API urls
-    path("api/", include("api.rooms.urls")),
-    path("api/", include("api.pictures.urls")),
-    path("api/", include("api.order.urls")),
-    path("api/designers/", include("api.designers.urls")),
-    # rest_framework Token auth endpoint
-    path("api/authtoken/", views.obtain_auth_token),
+    path(r"api/", include("api.rooms.urls")),
+    path(r"api/", include("api.pictures.urls")),
+    path(r"api/", include("api.order.urls")),
+    path(r"api/auth/", include("api.knox_auth.urls")),
+    path(r"api/designers/", include("api.designers.urls")),
     # Experment Application for testing purposes
-    path("exper/", include("exper.urls")),
+    path(r"exper/", include("exper.urls")),
 ]
 
 # Serving images during development

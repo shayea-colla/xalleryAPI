@@ -1,5 +1,6 @@
 import os
 from django.contrib.messages import constants as messages
+from datetime import timedelta
 
 """
 Django settings for Xallery project.
@@ -18,10 +19,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.BasicAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
-    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",),
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
@@ -33,6 +31,7 @@ REST_FRAMEWORK = {
 # http://localhost:3000/
 CORS_ALLOWED_ORIGINS = []
 
+REST_KNOX = {"TOKEN_TTL": timedelta(days=10)}
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -57,9 +56,10 @@ INSTALLED_APPS = [
     "gallery.apps.GalleryConfig",
     "accounts.apps.AccountsConfig",
     "api.order.apps.OrderConfig",
-    "api.designers.apps.UserConfig",
-    "api.pictures.apps.UserConfig",
-    "api.auth.apps.UserConfig",
+    "api.designers.apps.DesignersConfig",
+    "api.rooms.apps.RoomsConfig",
+    "api.pictures.apps.PicturesConfig",
+    "api.knox_auth",
     "exper.apps.ExperConfig",
     # Django Default applications
     "django.contrib.admin",
@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Third party
     "rest_framework",
+    "knox",
     "rest_framework.authtoken",
     "fontawesomefree",
     "bootstrap5",
