@@ -7,3 +7,7 @@ from .permissions import PicturePermissions
 
 
 # Create your views here.
+class PictureViewSet(FlexFieldsModelViewSet):
+    queryset = Picture.objects.all()
+    serializer_class = PictureSerializer
+    permission_classes = [PicturePermissions]

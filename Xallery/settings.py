@@ -28,6 +28,7 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_RENDERER_CLASSES": [
         "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
     ],
 }
 # Django Cors Headers Configurations
@@ -74,11 +75,10 @@ INSTALLED_APPS = [
     # Third party
     "rest_framework",
     "knox",
-    "rest_framework.authtoken",
+    "django_extensions",
     "fontawesomefree",
     "bootstrap5",
     "corsheaders",
-    "dynamic_rest",
 ]
 
 MIDDLEWARE = [

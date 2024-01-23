@@ -1,8 +1,7 @@
 from django.shortcuts import render
 
 from rest_framework import status
-from rest_framework import viewsets
-from dynamic_rest.viewsets import DynamicModelViewSet
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.permissions import (
     DjangoModelPermissionsOrAnonReadOnly,
@@ -14,7 +13,7 @@ from .permissions import IsRoomOwnerOrReadOnly
 
 
 # Create your views here.
-class RoomViewSet(DynamicModelViewSet):
+class RoomViewSet(ModelViewSet):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
     permission_classes = [IsRoomOwnerOrReadOnly, DjangoModelPermissionsOrAnonReadOnly]

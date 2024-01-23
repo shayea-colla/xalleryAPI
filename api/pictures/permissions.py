@@ -3,6 +3,8 @@ from django.contrib.auth.models import Group
 
 from gallery.utils import debug
 
+from .utils import is_owner, is_designer
+
 
 class PicturePermissions(BasePermission):
     """
@@ -16,7 +18,7 @@ class PicturePermissions(BasePermission):
     def has_permission(self, request, view):
         """
         The main reason for implementing this method is for the 'POST' request,
-        since POST request doesn't call has_object_permission, I have to make
+        since POST request doesn't call has_object_permission, I have to ensure
         that only designers is allowed to add new pictures
         """
         # Read for All users
@@ -35,12 +37,3 @@ class PicturePermissions(BasePermission):
             return True
 
         return is_owner(request.user, obj)
-
-
-def is_designer(user: any) -> bool:
-    designer_group = Group.objects.get(name="designers")
-    return designer_group in user.groups.all()
-
-
-def is_owner(user: any, obj: any) -> bool:
-    return obj.owner == user

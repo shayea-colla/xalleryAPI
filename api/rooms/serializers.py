@@ -1,11 +1,10 @@
 from rest_framework import serializers
 from gallery.models import Room
-from api.designers.serializers import UserSerializer
-from dynamic_rest import serializers
+from accounts.serializers import UserSerializer
 import json
 
 
-class RoomSerializer(serializers.DynamicModelSerializer):
+class RoomSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
 
     class Meta:

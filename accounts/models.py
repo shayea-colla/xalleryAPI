@@ -1,7 +1,10 @@
+from email.policy import default
+from random import choices
+from unittest.util import _MAX_LENGTH
 from django.db.models import (
     CharField,
     ImageField,
-    SlugField,
+    TextChoices,
 )
 
 from django.contrib.auth.models import AbstractUser, Group
@@ -10,20 +13,26 @@ from django.urls import reverse
 
 # Create your models here.
 class User(AbstractUser):
+    class Types(TextChoices):
+        DESIGNER = "DESIGNER", "Designer"
+        NORMAL = "NORMAL", "Normal"
+
     discription = CharField(
         max_length=1000,
         help_text="Write a short bio about yourself ( required )",
         blank=False,
     )
 
-    profile_picture = ImageField(upload_to="profiles/", null=True, blank=True)
+    base_type = Types.NORMAL
+
+    picture = ImageField(upload_to="profiles/", null=True, blank=True)
+
+    type = CharField("Type", max_length=50, choices=Types.choices, default=Types.NORMAL)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.type = self.base_type
+        return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("profile", args=[self.pk])
-
-    def is_designer(self) -> bool:
-        designers_group = Group.objects.get(name="designers")
-        return designers_group in self.groups.all()
-
-    def is_owner(self, obj: any) -> bool:
-        return obj.owner == self
