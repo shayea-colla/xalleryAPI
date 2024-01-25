@@ -46,3 +46,6 @@ class DesignerMore(models.Model):
     favorate_application = models.CharField(
         "Favorate Application", max_length=100, null=False, blank=False
     )
+
+    def __str__(self) -> str:
+        return f"designer: {self.user.username},favorate_application: {self.favorate_application}"

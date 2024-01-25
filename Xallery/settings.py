@@ -60,7 +60,6 @@ INSTALLED_APPS = [
     "gallery.apps.GalleryConfig",
     "accounts.apps.AccountsConfig",
     "api.order.apps.OrderConfig",
-    "api.designers.apps.DesignersConfig",
     "api.rooms.apps.RoomsConfig",
     "api.pictures.apps.PicturesConfig",
     "api.knox_auth",

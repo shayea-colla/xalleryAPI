@@ -1,27 +1,39 @@
 from rest_framework import serializers
-from accounts.models import User
 from django.db import transaction
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 from ..profiles import Designer, NormalUser
-from ..models import DesignerMore
+from ..models import DesignerMore, User
 
 from gallery.utils import debug
 
 
-class NormalUserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = NormalUser
+        model = User
         fields = (
             "id",
             "first_name",
             "last_name",
             "username",
             "email",
+            "type",
             "discription",
             "date_joined",
         )
-        read_only_fields = ["date_joined"]
+        read_only_fields = ["date_joined", "type"]
+
+
+class NormalUserSerializer(UserSerializer):
+    """Normal User serializer ,
+
+    Args:
+        UserSerializer (serializers.ModelSerializer): inherit from the UserSerializer,
+        change the model Meta attribute to  NormalUser
+    """
+
+    class Meta(UserSerializer.Meta):
+        model = NormalUser
 
 
 class DesignerMoreSerializer(serializers.ModelSerializer):
