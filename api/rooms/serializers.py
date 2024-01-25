@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from gallery.models import Room
-from accounts.serializers import UserSerializer
+from accounts.api.serializers import UserSerializer
 import json
 
 

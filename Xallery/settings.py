@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     # Third party
     "rest_framework",
     "knox",
+    "phonenumber_field",
     "django_extensions",
     "fontawesomefree",
     "bootstrap5",

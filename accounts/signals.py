@@ -2,10 +2,9 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import Group
 from django.dispatch import receiver
 
-from .models import User
-
-from api.designers.models import Designer
 from gallery.utils import debug
+
+from .profiles import Designer
 
 
 @receiver(post_save, sender=Designer)

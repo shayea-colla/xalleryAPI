@@ -4,7 +4,7 @@ from gallery.utils import debug
 from accounts.models import User
 from drf_dynamic_fields import DynamicFieldsMixin
 
-from accounts.serializers import UserSerializer
+from accounts.api.serializers import UserSerializer
 
 
 class OrderSerializer(DynamicFieldsMixin, serializers.ModelSerializer):
