@@ -1,12 +1,11 @@
-from rest_framework import serializers
 from gallery.models import Room
-from accounts.api.serializers import UserSerializer
-import json
+from accounts.api.serializers import DesignerSerializer
+from rest_flex_fields import FlexFieldsModelSerializer
+
+from core.mixins import SetOwnerTheCurrentUserMixin
 
 
-class RoomSerializer(serializers.ModelSerializer):
-    owner = UserSerializer(read_only=True)
-
+class RoomSerializer(SetOwnerTheCurrentUserMixin, FlexFieldsModelSerializer):
     class Meta:
         model = Room
         fields = (
@@ -18,3 +17,6 @@ class RoomSerializer(serializers.ModelSerializer):
             "created_at",
             "pictures",
         )
+        # this field is automatically set by the serializer
+        read_only_fields = ("owner",)
+        expandable_fields = {"owner": DesignerSerializer}

@@ -1,5 +1,5 @@
 from rest_framework.routers import SimpleRouter
-from .views import RoomViewSet
+from .viewsets import RoomViewSet
 
 
 router = SimpleRouter()

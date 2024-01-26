@@ -1,20 +1,16 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
-from .debug import debug
+
+from core.debug import debug
+from core.utils import is_designer
 
 
-def debug(message):
-    print()
-    print("-" * 150)
-    print()
-    print(message)
-    print()
-    print("-" * 150)
-    print()
+class IsObjectOwnerOrReadOnly(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        debug("has_object_permission")
+        if request.method in SAFE_METHODS:
+            return True
 
-
-class IsOwnerOrReadOnly(BasePermission):
-    def has_object_permissions(self, request, view, obj):
         return obj.owner == request.user
 
 
@@ -23,3 +19,12 @@ class IsAccountOwnerOrReadOnly(BasePermission):
         if request.method in SAFE_METHODS:
             return True
         return obj == request.user
+
+
+class IsDesignerOrReadOnly(BasePermission):
+    def has_permission(self, request, view):
+        debug("has_permission")
+        if request.method in SAFE_METHODS:
+            return True
+
+        return is_designer(request.user)

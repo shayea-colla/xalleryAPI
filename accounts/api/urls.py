@@ -6,6 +6,6 @@ urlpatterns = [
     path(
         "<str:username>/",
         RetrieveUpdateDestroyAccountAPIView.as_view(),
-        name="retrieve-account",
+        name="user-detail",
     ),
 ]

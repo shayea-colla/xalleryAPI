@@ -43,7 +43,7 @@ class Room(Model):
     name = CharField(
         max_length=150,
         help_text="Enter a name for the Room",
-        unique=True,
+        unique=False,
         blank=False,
     )
 
