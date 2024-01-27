@@ -7,7 +7,6 @@ from core.utils import is_designer
 
 class IsObjectOwnerOrReadOnly(BasePermission):
     def has_object_permission(self, request, view, obj):
-        debug("has_object_permission")
         if request.method in SAFE_METHODS:
             return True
 
@@ -23,7 +22,6 @@ class IsAccountOwnerOrReadOnly(BasePermission):
 
 class IsDesignerOrReadOnly(BasePermission):
     def has_permission(self, request, view):
-        debug("has_permission")
         if request.method in SAFE_METHODS:
             return True
 

@@ -6,9 +6,7 @@ from django.db.models import (
     ImageField,
     CharField,
     ForeignKey,
-    TextField,
     DateField,
-    PROTECT,
     CASCADE,
 )
 

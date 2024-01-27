@@ -36,6 +36,7 @@ urlpatterns = [
     path(r"api/", include("api.order.urls")),
     path(r"api/accounts/", include("accounts.api.urls")),
     path(r"api/auth/", include("api.knox_auth.urls")),
+    path(r"api-auth/", include("rest_framework.urls")),
     # Experment Application for testing purposes
     path(r"exper/", include("exper.urls")),
 ]
