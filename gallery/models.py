@@ -6,9 +6,12 @@ from django.db.models import (
     ImageField,
     CharField,
     ForeignKey,
+    ManyToManyField,
     DateField,
     CASCADE,
 )
+
+from api.tags.models import Tag
 
 
 # Create your models here.
@@ -21,6 +24,8 @@ class Picture(Model):
         "Room",
         related_name="pictures",
         on_delete=CASCADE,
+        null=True
+
     )
 
     def __str__(self):
@@ -65,6 +70,8 @@ class Room(Model):
     )
 
     created_at = DateField(auto_now_add=True)
+
+    tags = ManyToManyField(Tag, verbose_name="Tags", related_name="rooms", blank=True)
 
     class Meta:
         ordering = ["-created_at"]

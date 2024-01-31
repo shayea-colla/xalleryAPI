@@ -20,15 +20,12 @@ class PictureSerializer(SetOwnerTheCurrentUserMixin, FlexFieldsModelSerializer):
         - this method will be called for every save or update to the data,
         """
         user = self.context["request"].user
-
-        """ 
-        Check if the room key exist before accessing it,
-        when partially updating the instance the room might not be included,
-        and the code will throw a KeyError.
-        """
-        if "room" in data:
+        # Get the room
+        room = data.get("room")
+        # Check room value
+        if room is not None:
             # room exist in the data provided , check the room owner
-            if data["room"].owner != user:
+            if room.owner != user:
                 raise serializers.ValidationError(
                     "you can not add pictures to this room"
                 )

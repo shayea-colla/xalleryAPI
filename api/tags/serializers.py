@@ -1,9 +1,14 @@
 from rest_framework import serializers
+from rest_flex_fields.serializers import FlexFieldsModelSerializer
 
-from .models import Tags
+from api.rooms.serializers import RoomSerializer
+
+from .models import Tag
 
 
-class TagsSerializer(serializers.ModelSerializer):
+class TagSerializer(FlexFieldsModelSerializer):
     class Meta:
-        model = Tags
-        fields = ("id", "name")
+        model = Tag
+        fields = ("name", "rooms")
+        read_only_fields = ["rooms"]
+        expandable_fields = {"rooms": (RoomSerializer, {"many": True})}
