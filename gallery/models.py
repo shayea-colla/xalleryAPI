@@ -20,13 +20,7 @@ class Picture(Model):
 
     owner = ForeignKey("accounts.User", related_name="pictures", on_delete=CASCADE)
     image = ImageField(upload_to="pictures/")
-    room = ForeignKey(
-        "Room",
-        related_name="pictures",
-        on_delete=CASCADE,
-        null=True
-
-    )
+    room = ForeignKey("Room", related_name="pictures", on_delete=CASCADE, null=True)
 
     def __str__(self):
         return str(self.id)

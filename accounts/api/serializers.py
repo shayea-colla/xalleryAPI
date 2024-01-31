@@ -31,7 +31,7 @@ class UserSerializer(FlexFieldsModelSerializer):
     def create(self, validated_data):
         """
         set the password manually ,
-        or it will call model.objects.create() and store the row value of the password
+        or it will call model.objects.create() and store unhashed password
 
         Args:
             validated_data (dictionary): Dictionary containing all the validated data
@@ -62,7 +62,7 @@ class DesignerMoreSerializer(FlexFieldsModelSerializer):
 
     class Meta:
         model = DesignerMore
-        fields = ["favorate_application"]
+        fields = ["favorate_application", "tags"]
 
 
 class DesignerSerializer(UserSerializer, WritableNestedModelSerializer):

@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     "knox",
     "phonenumber_field",
     "django_extensions",
+    "django_filters",
     "fontawesomefree",
     "bootstrap5",
     "corsheaders",

@@ -2,17 +2,19 @@ from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
 )
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from core.permissions import IsAccountOwnerOrReadOnly
 
 from ..models import User
 from ..profiles import Designer, NormalUser
-
 from .serializers import DesignerSerializer, NormalUserSerializer, UserSerializer
+from .filters import AccountTagsFilter
 
 
 class ListCreateAccounts(ListCreateAPIView):
     permission_classes = [AllowAny]
+    filter_backends = [AccountTagsFilter]
 
     def get_serializer_class(self, *args, **kwargs):
         """Return different serializers class based on the query params 'type'"""
@@ -23,12 +25,14 @@ class ListCreateAccounts(ListCreateAPIView):
             # Return Normal User Serializer
             return NormalUserSerializer
 
-        # Return DesignerSerializers
+        # Return DesignerSerializers by default
         return DesignerSerializer
 
     def get_queryset(self):
-        """if `?tyep=normal` included, return all Normal Users,
-           otherwise return all Designers
+        """return differenct querysets based on the `?type` url parameter.
+
+        if `?tyep=normal` included, return all Normal Users,
+        otherwise return all Designers
 
         Returns:
             QuerySet: Django reqular QuerySet object
@@ -39,8 +43,11 @@ class ListCreateAccounts(ListCreateAPIView):
         ):
             return NormalUser.objects.all()
 
-        # Return all Designers By default
-        return Designer.objects.all()
+        # Filter designers queryset
+        return self.filter_queryset(Designer.objects.all())
+
+    def filter_queryset(self, queryset):
+        return super().filter_queryset(queryset)
 
 
 class RetrieveUpdateDestroyAccountAPIView(RetrieveUpdateDestroyAPIView):

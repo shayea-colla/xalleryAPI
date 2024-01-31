@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
 
+from api.tags.models import Tag
+
 
 # Main User Model in Xallery
 class User(AbstractUser):
@@ -47,5 +49,7 @@ class DesignerMore(models.Model):
         "Favorate Application", max_length=100, null=False, blank=False
     )
 
+    tags = models.ManyToManyField(Tag, verbose_name="Tags", related_name="designers")
+
     def __str__(self) -> str:
-        return f"designer: {self.user.username},favorate_application: {self.favorate_application}"
+        return f"designer: {self.user.username}"
