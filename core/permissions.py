@@ -22,11 +22,9 @@ class IsAccountOwnerOrReadOnly(BasePermission):
 
 class IsDesignerOrReadOnly(BasePermission):
     def has_permission(self, request, view):
-        debug("is Designer or Read Only")
         if request.method in SAFE_METHODS:
             return True
 
-        debug("is Designer or Read Only")
         return is_designer(request.user)
 
 
