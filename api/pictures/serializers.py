@@ -6,6 +6,7 @@ from core import debug
 from gallery.models import Picture
 
 from core.mixins import SetOwnerTheCurrentUserMixin
+from core.debug import debug
 
 
 class PictureSerializer(SetOwnerTheCurrentUserMixin, FlexFieldsModelSerializer):
@@ -14,18 +15,20 @@ class PictureSerializer(SetOwnerTheCurrentUserMixin, FlexFieldsModelSerializer):
         fields = ("id", "owner", "image", "room")
         read_only_fields = ("owner",)
 
-    def validate(self, data):
+    def validate_room(self, data):
         """
         check if the user ( request.user ) is the owner of the room.
         - this method will be called for every save or update to the data,
         """
         user = self.context["request"].user
-        # Get the room
-        room = data.get("room")
-        # Check room value
-        if room is not None:
-            # room exist in the data provided , check the room owner
-            if room.owner != user:
+
+        """ 
+        Check if the room key exist before accessing it,
+        when partially updating the instance the room might not be included,
+        and the code will throw a KeyError.
+        """
+        if "room" in data:
+            if data["room"].owner != user:
                 raise serializers.ValidationError(
                     "you can not add pictures to this room"
                 )
