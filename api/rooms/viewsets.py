@@ -11,7 +11,6 @@ from .filters import RoomTagsFilter
 from .utils import clean_tags, create_tags
 
 
-
 # Create your views here.
 class RoomViewSet(FlexFieldsModelViewSet):
     # Queryset and serializer

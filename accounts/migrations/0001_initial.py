@@ -167,7 +167,7 @@ class Migration(migrations.Migration):
             },
             bases=("accounts.user",),
             managers=[
-                ("objects", accounts.managers.DesignersManager()),
+                ("objects", accounts.managers.DesignerManager()),
             ],
         ),
         migrations.CreateModel(

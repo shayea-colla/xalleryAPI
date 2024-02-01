@@ -22,7 +22,9 @@ class User(AbstractUser):
         blank=False,
     )
 
-    picture = models.ImageField(upload_to="profiles/", null=True, blank=True)
+    picture = models.ImageField(
+        upload_to="profiles/", verbose_name="Profile picture", null=True, blank=True
+    )
 
     type = models.CharField(
         "Type", max_length=50, choices=Types.choices, default=Types.NORMAL

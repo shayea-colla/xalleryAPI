@@ -45,6 +45,7 @@ class TestPictureModel(TestCase):
             content_type="image/jpg",
         )
         test_pic.room = test_room
+        test_pic.owner = test_user
         test_pic.save()
 
     def test_str_function(self):
@@ -166,6 +167,7 @@ class TestRoomModel(TestCase):
                     content_type="image/jpg",
                 ),
                 room=room_1 if i % 2 else room_2,
+                owner=user_1 if i % 2 else user_2,
             )
 
     """ 

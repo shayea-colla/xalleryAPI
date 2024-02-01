@@ -9,7 +9,7 @@ class NormalUserManager(UserManager):
         return results.filter(type=User.Types.NORMAL)
 
 
-class DesignersManager(UserManager):
+class DesignerManager(UserManager):
     def get_queryset(self) -> QuerySet:
         results = super().get_queryset()
         return results.filter(type=User.Types.DESIGNER)
