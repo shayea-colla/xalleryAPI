@@ -12,7 +12,7 @@ class Tag(models.Model):
         Model (django Model): Base Model class provided by Django
     """
 
-    name = models.CharField(primary_key=True, max_length=50, unique=True)
+    name = models.CharField(primary_key=True, max_length=150, unique=True)
 
     def __str__(self) -> str:
         return self.name
