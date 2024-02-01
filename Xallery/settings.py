@@ -66,7 +66,6 @@ INSTALLED_APPS = [
     "api.pictures.apps.PicturesConfig",
     "api.knox_auth",
     "api.tags.apps.TagsConfig",
-    "exper.apps.ExperConfig",
     # Django Default applications
     "django.contrib.admin",
     "django.contrib.auth",

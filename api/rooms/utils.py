@@ -22,4 +22,7 @@ def create_tags(tags):
         obj, created = Tag.objects.get_or_create(name=tag)
         if created:
             print(f"created new object: {obj}")
+        else: 
+            print(f"object: {obj}")
+            
     return

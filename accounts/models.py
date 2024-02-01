@@ -52,4 +52,4 @@ class DesignerMore(models.Model):
     tags = models.ManyToManyField(Tag, verbose_name="Tags", related_name="designers")
 
     def __str__(self) -> str:
-        return f"designer: {self.user.username}"
+        return f"designermore: {self.user.username}"

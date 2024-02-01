@@ -37,8 +37,6 @@ urlpatterns = [
     path(r"api/accounts/", include("accounts.api.urls")),
     path(r"api/tags/", include("api.tags.urls")),
     path(r"api/auth/", include("api.knox_auth.urls")),
-    # Experment Application for testing purposes
-    path(r"exper/", include("exper.urls")),
 ]
 
 # Serving images during development
