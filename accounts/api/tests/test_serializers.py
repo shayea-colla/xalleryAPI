@@ -19,6 +19,7 @@ class TestUserSerializer(TestCase):
     def test_user_serializer_use_correct_fields(self):
         serializer = UserSerializer()
         fields = serializer.Meta.fields
+        debug(fields)
         expected_fields = (
             "id",
             "first_name",
@@ -29,6 +30,8 @@ class TestUserSerializer(TestCase):
             "type",
             "discription",
             "date_joined",
+            "liked_pictures",
+            "liked_rooms",
         )
         self.assertEqual(fields, expected_fields)
 
@@ -39,6 +42,8 @@ class TestUserSerializer(TestCase):
             "id",
             "type",
             "date_joined",
+            "liked_pictures",
+            "liked_rooms",
         )
         self.assertEqual(read_only_fields, expected_read_only_fields)
 

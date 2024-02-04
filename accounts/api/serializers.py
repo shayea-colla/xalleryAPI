@@ -24,8 +24,12 @@ class UserSerializer(FlexFieldsModelSerializer):
             "type",
             "discription",
             "date_joined",
+            # many to many field ( read only )
+            "liked_pictures",
+            # many to many field ( read only )
+            "liked_rooms",
         )
-        read_only_fields = ("id", "type", "date_joined")
+        read_only_fields = ("id", "type", "date_joined", "liked_pictures", "liked_rooms")
         extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):

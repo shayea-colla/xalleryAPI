@@ -20,6 +20,7 @@ class RoomSerializer(SetOwnerTheCurrentUserMixin, FlexFieldsModelSerializer):
             "created_at",
             "pictures",
             "tags",
+            "likes",
         )
         # this field is automatically set by the serializer
         read_only_fields = (

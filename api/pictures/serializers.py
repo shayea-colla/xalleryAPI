@@ -12,7 +12,7 @@ from core.debug import debug
 class PictureSerializer(SetOwnerTheCurrentUserMixin, FlexFieldsModelSerializer):
     class Meta:
         model = Picture
-        fields = ("id", "owner", "image", "room")
+        fields = ("id", "owner", "image", "room", "likes")
         read_only_fields = ("owner",)
 
     def validate_room(self, room):
