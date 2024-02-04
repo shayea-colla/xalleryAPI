@@ -51,7 +51,9 @@ class DesignerMore(models.Model):
         "Favorate Application", max_length=100, null=False, blank=False
     )
 
-    tags = models.ManyToManyField(Tag, verbose_name="Tags", related_name="designers")
+    tags = models.ManyToManyField(
+        Tag, verbose_name="Tags", related_name="designers", blank=True
+    )
 
     def __str__(self) -> str:
         return f"designermore: {self.user.username}"

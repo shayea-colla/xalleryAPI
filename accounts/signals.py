@@ -12,5 +12,5 @@ from .models import DesignerMore
 @receiver(post_save, sender=Designer)
 def assign_designers_group(sender, instance, created, **kwargs):
     if created:
-        group = Group.objects.get(name="designers")
+        group, created = Group.objects.get_or_create(name="designers")
         instance.groups.add(group)

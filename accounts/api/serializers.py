@@ -25,7 +25,7 @@ class UserSerializer(FlexFieldsModelSerializer):
             "discription",
             "date_joined",
         )
-        read_only_fields = ["id", "date_joined", "type"]
+        read_only_fields = ("id", "type", "date_joined")
         extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
@@ -62,13 +62,21 @@ class DesignerMoreSerializer(FlexFieldsModelSerializer):
 
     class Meta:
         model = DesignerMore
-        fields = ["favorate_application", "tags"]
+        fields = ("favorate_application", "tags")
 
 
 class DesignerSerializer(UserSerializer, WritableNestedModelSerializer):
     designermore = DesignerMoreSerializer(required=True)
 
     class Meta(UserSerializer.Meta):
+        """
+        Meta options.
+
+        Note: don't forget to learn how to inherit the fields of UserSerializer
+        and *append* to the fields list without explicitly specifying each field
+        that has been already declared in the UserSerializer
+        """
+
         model = Designer
         fields = (
             "id",
@@ -78,7 +86,7 @@ class DesignerSerializer(UserSerializer, WritableNestedModelSerializer):
             "password",
             "email",
             "type",
-            "date_joined",
             "discription",
+            "date_joined",
             "designermore",
         )

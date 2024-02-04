@@ -193,7 +193,6 @@ class TestRoomModel(TestCase):
         _name:
             - max_length
             - help_text
-            - unique
             - error_messages *
     """
 
@@ -207,10 +206,10 @@ class TestRoomModel(TestCase):
         max_length = room._meta.get_field("name").max_length
         self.assertEqual(max_length, 150)
 
-    def test_name_is_unique(self):
+    def test_name_is_not_unique(self):
         room = Room.objects.get(name="room_1")
         unique_field = room._meta.get_field("name").unique
-        self.assertTrue(unique_field)
+        self.assertFalse(unique_field)
 
     """
     Testing owner field 

@@ -7,7 +7,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ],
     "DEFAULT_RENDERER_CLASSES": [
         "rest_framework.renderers.BrowsableAPIRenderer",
@@ -23,7 +23,7 @@ SECRET_KEY = "django-insecure-^wa()z-bj5os1)a@e*bbr^$7#!lg&oml5)pr#%j+n9ydng8b0q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["testserver"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # Application definition

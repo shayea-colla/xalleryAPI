@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import ListCreateAccounts, RetrieveUpdateDestroyAccountAPIView
+from .views import ListCreateAccountsAPIView, RetrieveUpdateDestroyAccountAPIView
 
 urlpatterns = [
-    path("", ListCreateAccounts.as_view(), name="list-accounts"),
+    path("", ListCreateAccountsAPIView.as_view(), name="list-accounts"),
     path(
         "<str:username>/",
         RetrieveUpdateDestroyAccountAPIView.as_view(),

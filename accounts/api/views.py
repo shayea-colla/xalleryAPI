@@ -12,16 +12,17 @@ from .serializers import DesignerSerializer, NormalUserSerializer, UserSerialize
 from .filters import AccountTagsFilter
 
 
-class ListCreateAccounts(ListCreateAPIView):
+class ListCreateAccountsAPIView(ListCreateAPIView):
     permission_classes = [AllowAny]
     filter_backends = [AccountTagsFilter]
 
     def get_serializer_class(self, *args, **kwargs):
         """Return different serializers class based on the query params 'type'"""
-        if (
-            "type" in self.request.query_params
-            and self.request.query_params["type"] == "normal"
-        ):
+        # Get the type url params
+        type = self.request.query_params.get("type")
+
+        # Check if provided
+        if type is not None and type == "normal":
             # Return Normal User Serializer
             return NormalUserSerializer
 
@@ -37,20 +38,24 @@ class ListCreateAccounts(ListCreateAPIView):
         Returns:
             QuerySet: Django reqular QuerySet object
         """
-        if (
-            "type" in self.request.query_params
-            and self.request.query_params["type"] == "normal"
-        ):
-            return NormalUser.objects.all()
+        # Default value of the queyset
+        queryset = Designer.objects.all()
 
-        # Filter designers queryset
-        return self.filter_queryset(Designer.objects.all())
+        # Get the type url params
+        type = self.request.query_params.get("type")
 
-    def filter_queryset(self, queryset):
-        return super().filter_queryset(queryset)
+        # Check if type has value
+        if type is not None and type == "normal":
+            # Return normal users
+            queryset = NormalUser.objects.all()
+
+        # Return and filter queryset
+        return self.filter_queryset(queryset)
 
 
 class RetrieveUpdateDestroyAccountAPIView(RetrieveUpdateDestroyAPIView):
+    # queryset is all users except system users,
+    # you can retrieve normal and designers from this queryset
     queryset = User.objects.exclude(type=User.Types.SYSTEM)
     permission_classes = [IsAccountOwnerOrReadOnly]
     lookup_field = "username"
