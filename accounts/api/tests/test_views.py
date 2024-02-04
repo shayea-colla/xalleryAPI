@@ -140,6 +140,8 @@ class TestListCreateAccount(TestCase):
         self.assertEqual(response.data.get("type"), "DESIGNER")
 
     """There is an error with this wsgi request, it doesn't have a `query_params` attribute , causing error on the test"""
+
+
 #    def test_view_returns_correct_serializer_class_with_request_factory(self):
 #        request = self.factory.get(
 #            "/api/accounts/?type=designer",

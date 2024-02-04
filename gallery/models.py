@@ -22,7 +22,9 @@ class Picture(Model):
     owner = ForeignKey("accounts.User", related_name="pictures", on_delete=CASCADE)
     image = ImageField(upload_to="pictures/")
     room = ForeignKey("Room", related_name="pictures", on_delete=CASCADE, null=True)
-    likes = ManyToManyField('accounts.User', verbose_name='Likes', related_name='liked_pictures', blank=True)
+    likes = ManyToManyField(
+        "accounts.User", verbose_name="Likes", related_name="liked_pictures", blank=True
+    )
 
     def __str__(self):
         return str(self.id)
@@ -69,7 +71,10 @@ class Room(Model):
 
     tags = ManyToManyField(Tag, verbose_name="Tags", related_name="rooms", blank=True)
 
-    likes = ManyToManyField('accounts.User', verbose_name='Likes', related_name='liked_rooms', blank=True)
+    likes = ManyToManyField(
+        "accounts.User", verbose_name="Likes", related_name="liked_rooms", blank=True
+    )
+
     class Meta:
         ordering = ["-created_at"]
 
