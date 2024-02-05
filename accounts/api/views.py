@@ -1,9 +1,15 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
 )
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
+from django_filters.rest_framework import DjangoFilterBackend
+
 from core.permissions import IsAccountOwnerOrReadOnly
 
 from ..models import User
@@ -52,13 +58,13 @@ class ListCreateAccountsAPIView(ListCreateAPIView):
         # Return and filter queryset
         return self.filter_queryset(queryset)
 
+list_create_accounts_view = ListCreateAccountsAPIView.as_view()
 
 class RetrieveUpdateDestroyAccountAPIView(RetrieveUpdateDestroyAPIView):
     # queryset is all users except system users,
     # you can retrieve normal and designers from this queryset
     queryset = User.objects.exclude(type=User.Types.SYSTEM)
     permission_classes = [IsAccountOwnerOrReadOnly]
-    lookup_field = "username"
 
     def get_serializer_class(self):
         """Dynamically return the serializer class based on the user type"""
@@ -73,3 +79,62 @@ class RetrieveUpdateDestroyAccountAPIView(RetrieveUpdateDestroyAPIView):
 
         # Return default User serializer if the user doesn't belone to either types
         return UserSerializer
+
+retrieve_update_destroy_account_view = RetrieveUpdateDestroyAccountAPIView.as_view()
+
+class FollowUserAPIView(APIView):
+    """API View enable any type of user to follow any type of user"""
+
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, pk, *args, **kwargs):
+        """add  the requesting user to the followers list of the target user"""
+        # Get the Targe user
+        user = get_object_or_404(User, pk=pk)
+
+        # Get the requesting user
+        follower = request.user
+
+        # if user is trying to follow themselves
+        if user == follower: 
+            # return Forbidden response
+            return Response(data={"detail":"you can not follow your self"}, status=status.HTTP_403_FORBIDDEN)
+
+        # Else add the follower to the user followers
+        user.followers.add(follower)
+
+        # Serialize the user
+        serializer = UserSerializer(user)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+follow_user_view = FollowUserAPIView.as_view()
+
+
+class UnFollowUserAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, pk, *args, **kwargs):
+        """remove  the requesting user from the followers list of the target user"""
+        # Get the Targe user
+        user = get_object_or_404(User, pk=pk)
+
+        # Get the requesting user
+        follower = request.user
+
+        # if user is trying to follow themselves
+        if user == follower: 
+            # return Forbidden response
+            return Response(data={"detail":"you can not unfollow your self"}, status=status.HTTP_403_FORBIDDEN)
+
+        # Else remove the follower from the user followers
+        user.followers.remove(follower)
+
+        # Serialize the user
+        serializer = UserSerializer(user)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+unfollow_user_view = UnFollowUserAPIView.as_view()

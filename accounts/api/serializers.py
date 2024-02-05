@@ -24,10 +24,10 @@ class UserSerializer(FlexFieldsModelSerializer):
             "type",
             "discription",
             "date_joined",
-            # many to many field ( read only )
             "liked_pictures",
-            # many to many field ( read only )
             "liked_rooms",
+            "folowers",
+            "following",
         )
         read_only_fields = (
             "id",
@@ -99,4 +99,8 @@ class DesignerSerializer(UserSerializer, WritableNestedModelSerializer):
             "discription",
             "date_joined",
             "designermore",
+            "liked_pictures",
+            "liked_rooms",
+            "followers",
+            "following",
         )

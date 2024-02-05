@@ -24,7 +24,7 @@ class LikePictureAPIView(APIView):
 
         # Add new like to the picture
         picture.likes.add(user)
-        
+
         # serialize the data
         serializer = PictureSerializer(picture)
 
@@ -47,7 +47,7 @@ class UnLikePictureAPIView(APIView):
 
         # remove like from the picture
         picture.likes.remove(user)
-        
+
         # serialize the data
         serializer = PictureSerializer(picture)
 

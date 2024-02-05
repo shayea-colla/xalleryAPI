@@ -35,6 +35,8 @@ class User(AbstractUser):
     )
     base_type = Types.SYSTEM
 
+    following = models.ManyToManyField("self", related_name="followers", symmetrical=False)
+
     def save(self, *args, **kwargs):
         if not self.pk:
             self.type = self.base_type
