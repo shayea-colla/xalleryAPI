@@ -25,19 +25,16 @@ from api.order.views import HomePageOrder
 from rest_framework.authtoken import views
 
 urlpatterns = [
-    path(r"", RedirectView.as_view(url="/gallery/")),
+    path(r"", RedirectView.as_view(url="/admin/")),
     path(r"admin/", admin.site.urls),
-    path(r"gallery/", include("gallery.urls")),
-    path(r"accounts/", include("accounts.urls")),
-    path(r"order/", HomePageOrder.as_view(), name="order-home"),
+
     # API urls
-    path(r"api/", include("api.rooms.urls")),
-    path(r"api/", include("api.pictures.urls")),
-    path(r"api/", include("api.order.urls")),
-    path(r"api/accounts/", include("accounts.api.urls")),
-    path(r"api/tags/", include("api.tags.urls")),
-    path(r"api/auth/", include("api.knox_auth.urls")),
+    path(r"api/", include("api.urls")),
 ]
+
+#    path(r"order/", HomePageOrder.as_view(), name="order-home"),
+#    path(r"gallery/", include("gallery.urls")),
+#    path(r"accounts/", include("accounts.urls")),
 
 # Serving images during development
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
