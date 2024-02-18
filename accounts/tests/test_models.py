@@ -38,7 +38,7 @@ class TestUserModel(TestCase):
 
     def test_get_absolute_url_function(self):
         user = User.objects.get(username="test_user")
-        self.assertEqual(user.get_absolute_url(), f"/accounts/{user.pk}/")
+        self.assertEqual(user.get_absolute_url(), f"/api/accounts/{user.pk}/")
 
     def test_description_field_label(self):
         user = User.objects.get(username="test_user")

@@ -1,5 +1,5 @@
 from django.test import TestCase, SimpleTestCase
-from ..serializers import (
+from accounts.api.serializers import (
     UserSerializer,
     NormalUserSerializer,
     DesignerMoreSerializer,
@@ -19,7 +19,6 @@ class TestUserSerializer(TestCase):
     def test_user_serializer_use_correct_fields(self):
         serializer = UserSerializer()
         fields = serializer.Meta.fields
-        debug(fields)
         expected_fields = (
             "id",
             "first_name",
@@ -32,8 +31,11 @@ class TestUserSerializer(TestCase):
             "date_joined",
             "liked_pictures",
             "liked_rooms",
+            "followers",
+            "following",
         )
-        self.assertEqual(fields, expected_fields)
+        # convert the fields into a set to ignore the order
+        self.assertEqual(set(fields), set(expected_fields))
 
     def test_user_serializer_read_only_fileds(self):
         serializer = UserSerializer()
@@ -77,57 +79,6 @@ class TestNormalUserSerializer(TestCase):
     def test_normal_user_serializer_use_NormalUser_model(self):
         serializer = NormalUserSerializer()
         self.assertEqual(serializer.Meta.model, NormalUser)
-
-    def test_user_serializer_use_correct_fields(self):
-        serializer = UserSerializer()
-        fields = serializer.Meta.fields
-        expected_fields = (
-            "id",
-            "first_name",
-            "last_name",
-            "username",
-            "password",
-            "email",
-            "type",
-            "discription",
-            "date_joined",
-        )
-        self.assertEqual(fields, expected_fields)
-
-    def test_normal_user_serializer_read_only_fileds(self):
-        serializer = UserSerializer()
-        read_only_fields = serializer.Meta.read_only_fields
-        expected_read_only_fields = (
-            "id",
-            "type",
-            "date_joined",
-        )
-        self.assertEqual(read_only_fields, expected_read_only_fields)
-
-    def test_normal_user_serialzier_password_field_is_wirte_only(self):
-        serializer = UserSerializer()
-        write_only = serializer.fields.get("password").write_only
-        self.assertTrue(write_only)
-
-    def test_normal_user_serializer_create_method_hashes_the_password_before_saving(
-        self,
-    ):
-        # Data for test user
-        test_user = {
-            "username": "test_user",
-            "password": "no way home",
-            "discription": "test_user discription",
-        }
-        serializer = UserSerializer(data=test_user)
-
-        # Assert serializer is valid
-        self.assertTrue(serializer.is_valid())
-
-        # Save the instance
-        created_user = serializer.save()
-
-        # Assert that serializer doesn't store UNHASHED passwords
-        self.assertNotEqual(created_user.password, test_user["password"])
 
 
 class TestDesignerMoreSerializer(SimpleTestCase):
@@ -176,16 +127,7 @@ class TestDesignerSerializer(TestCase):
     def test_user_serializer_use_correct_fields(self):
         serializer = DesignerSerializer()
         fields = serializer.Meta.fields
-        expected_fields = (
-            "id",
-            "first_name",
-            "last_name",
-            "username",
-            "password",
-            "email",
-            "type",
-            "discription",
-            "date_joined",
+        expected_fields = UserSerializer.Meta.fields + (
             "designermore",
         )
-        self.assertEqual(fields, expected_fields)
+        self.assertEqual(set(fields), set(expected_fields))

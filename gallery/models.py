@@ -79,7 +79,7 @@ class Room(Model):
         ordering = ["-created_at"]
 
     def get_absolute_url(self):
-        return reverse("detail-room", args=[self.id])
+        return reverse("rooms:room-detail", args=[self.id])
 
     def __str__(self):
         return self.name

@@ -3,7 +3,7 @@ from rest_framework.test import APIClient, APIRequestFactory
 from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.status import HTTP_405_METHOD_NOT_ALLOWED
-from ..filters import AccountTagsFilter
+from accounts.api.filters import AccountTagsFilter
 
 from accounts.api.views import ListCreateAccountsAPIView
 from accounts.models import User

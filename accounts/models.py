@@ -33,9 +33,10 @@ class User(AbstractUser):
     birth_date = models.DateField(
         "Birth Date", auto_now=False, auto_now_add=False, null=True
     )
+
     base_type = Types.SYSTEM
 
-    following = models.ManyToManyField("self", related_name="followers", symmetrical=False)
+    following = models.ManyToManyField("self", related_name="followers", symmetrical=False, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.pk:
@@ -43,7 +44,7 @@ class User(AbstractUser):
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse("profile", args=[self.pk])
+        return reverse("accounts:detail", args=[self.pk])
 
 
 class DesignerMore(models.Model):

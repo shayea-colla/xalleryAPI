@@ -7,3 +7,4 @@ from . import views
 router = SimpleRouter()
 router.register(r"orders", OrderViewSet)
 urlpatterns = router.urls
+

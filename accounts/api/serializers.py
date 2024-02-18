@@ -1,17 +1,24 @@
 from rest_framework import serializers
+
 from drf_writable_nested.serializers import WritableNestedModelSerializer
-
-from ..profiles import Designer, NormalUser
-from ..models import DesignerMore, User
-
-from gallery.utils import debug
 from rest_flex_fields.serializers import (
     FlexFieldsModelSerializer,
     FlexFieldsSerializerMixin,
 )
 
+from core.debug import debug
+
+from ..profiles import Designer, NormalUser
+from ..models import DesignerMore, User
+
 
 class UserSerializer(FlexFieldsModelSerializer):
+    followers = serializers.PrimaryKeyRelatedField(
+                queryset=User.objects.exclude(type="SYSTEM"),
+                many=True,
+                required=False
+            )
+
     class Meta:
         model = User
         fields = (
@@ -26,9 +33,10 @@ class UserSerializer(FlexFieldsModelSerializer):
             "date_joined",
             "liked_pictures",
             "liked_rooms",
-            "folowers",
+            "followers",
             "following",
         )
+
         read_only_fields = (
             "id",
             "type",
@@ -88,19 +96,6 @@ class DesignerSerializer(UserSerializer, WritableNestedModelSerializer):
         """
 
         model = Designer
-        fields = (
-            "id",
-            "first_name",
-            "last_name",
-            "username",
-            "password",
-            "email",
-            "type",
-            "discription",
-            "date_joined",
+        fields = UserSerializer.Meta.fields + (
             "designermore",
-            "liked_pictures",
-            "liked_rooms",
-            "followers",
-            "following",
         )
