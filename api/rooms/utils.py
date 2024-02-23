@@ -4,12 +4,18 @@ from api.tags.models import Tag
 def clean_tags(tags):
     """Clean a list of tags ( list of strings )"""
     # Strip white spaces
-    tags_iter = map(lambda tag: tag.strip(), tags)
-    # Exclude empty strings
-    tags_filter = filter(lambda tag: tag != "", tags_iter)
-    # remove duplicate tags
-    return set(tags_filter)
+    tags = map(lambda tag: tag.strip(), tags)
 
+    # Exclude empty strings
+    tags = filter(lambda tag: tag != "", tags)
+
+    # remove duplicate tags
+    return remove_duplicate_tags(tags)
+
+
+def remove_duplicate_tags(tags):
+    """Remove duplicate Tags from a list by convert it to a set"""
+    return set(tags)
 
 def create_tags(tags):
     """

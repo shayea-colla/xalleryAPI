@@ -25,16 +25,15 @@ from api.order.views import HomePageOrder
 from rest_framework.authtoken import views
 
 urlpatterns = [
-    path(r"", RedirectView.as_view(url="/admin/")),
-    path(r"admin/", admin.site.urls),
-
-    # API urls
+    path(r"", RedirectView.as_view(url="/api/")),
     path(r"api/", include("api.urls")),
 ]
+
 
 #    path(r"order/", HomePageOrder.as_view(), name="order-home"),
 #    path(r"gallery/", include("gallery.urls")),
 #    path(r"accounts/", include("accounts.urls")),
+#    path(r"admin/", admin.site.urls),
 
 # Serving images during development
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

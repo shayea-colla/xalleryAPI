@@ -5,7 +5,10 @@ from rest_framework import status
 from rest_framework.status import HTTP_405_METHOD_NOT_ALLOWED
 from accounts.api.filters import AccountTagsFilter
 
-from accounts.api.views import ListCreateAccountsAPIView, RetrieveUpdateDestroyAccountAPIView
+from accounts.api.views import (
+    ListCreateAccountsAPIView,
+    RetrieveUpdateDestroyAccountAPIView,
+)
 from accounts.models import User
 from accounts.api.serializers import DesignerSerializer
 from accounts.profiles import NormalUser, Designer
@@ -18,8 +21,7 @@ class TestListCreateAccount(TestCase):
     num_designers = 20
     num_normal_users = 10
 
-    @classmethod
-    def setUpTestData(self):
+    def setUp(self):
         """Create a few designers and nromal users"""
 
         for i in range(self.num_designers):
@@ -144,7 +146,6 @@ class TestListCreateAccount(TestCase):
 
     """There is an error with this wsgi request, it doesn't have a `query_params` attribute , causing error on the test"""
 
-
     def test_view_returns_correct_serializer_class_with_request_factory(self):
         request = self.factory.get(
             "/api/accounts/?type=designer",
@@ -189,6 +190,7 @@ class TestListCreateAccount(TestCase):
         for user in queryset:
             self.assertEqual(user.type, "NORMAL")
 
+
 class TestRetrieveUpdateDestroyAccountAPIView(TestCase):
     num_designers = 10
     num_normal_users = 5
@@ -223,7 +225,7 @@ class TestRetrieveUpdateDestroyAccountAPIView(TestCase):
     def test_view_accept_get_request(self):
         client = APIClient()
         response = client.get("/api/accounts/")
-        self.assertEqual(response.status_code , status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_view_do_not_accept_post_request(self):
         client = APIClient()
@@ -264,33 +266,33 @@ class TestRetrieveUpdateDestroyAccountAPIView(TestCase):
         test_user = Designer.objects.first()
         response = client.get(f"/api/accounts/{test_user.id}/")
 
-        self.assertEqual(response.status_code , status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Assert we are getting the specific user
-        self.assertEqual(response.data['username'], test_user.username)
-        self.assertEqual(response.data['id'], test_user.id)
+        self.assertEqual(response.data["username"], test_user.username)
+        self.assertEqual(response.data["id"], test_user.id)
 
     def test_updating_account_without_providing_valid_credentials(self):
         client = APIClient()
         test_user = Designer.objects.first()
         response = client.put(f"/api/accounts/{test_user.id}/")
 
-        self.assertEqual(response.status_code , status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_updating_another_user_account(self):
         client = APIClient()
-        client.login(username='test_designer1', password="no way home")
+        client.login(username="test_designer1", password="no way home")
         test_user = Designer.objects.get(username="test_designer2")
 
         response = client.put(f"/api/accounts/{test_user.id}/")
 
-        self.assertEqual(response.status_code , status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_partial_updating_another_user_account(self):
         client = APIClient()
-        client.login(username='test_designer1', password="no way home")
+        client.login(username="test_designer1", password="no way home")
         test_user = Designer.objects.get(username="test_designer2")
 
         response = client.patch(f"/api/accounts/{test_user.id}/")
 
-        self.assertEqual(response.status_code , status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
