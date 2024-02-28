@@ -1,16 +1,20 @@
+from termcolor import colored
 def debug(message):
+    dir_line = "_" * 50,"Dir", "_" * 50
+    message_line = "_" * 50,"Message", "_" * 50
     print()
-    print("#" * 150)
+    print(colored(dir_line, "red"))
     print()
-    print("#" * 150)
+    print((colored(dir(message), "magenta")))
     print()
-    print("#" * 50, "DIR", "#" * 50)
+    print(colored(message_line, "red"))
     print()
-    print(dir(message))
+    print(colored(message, "magenta"))
     print()
-    print("#" * 50, "Message", "#" * 50)
+
+
+def line(message=None):
+    message = "_" * 50,message, "_" * 50
     print()
-    print(message)
-    print()
-    print("#" * 150)
+    print(colored(message, "red"))
     print()

@@ -1,7 +1,8 @@
 from rest_framework.authentication import BasicAuthentication
 from knox.views import LoginView as KnoxLoginView
+from accounts.api.serializers import UserSerializer
 
-from gallery.utils import debug
+from core.debug import debug, line
 
 
 # Create your views here.

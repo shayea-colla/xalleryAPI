@@ -1,9 +1,9 @@
 import os
 import unittest
 from unittest.mock import patch, Mock
-
 from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework.filters import BaseFilterBackend
+from rest_framework.test import APIRequestFactory
 from django.db.models import Q  # Ensure compatibility with both Django versions
 from django.test import TestCase
 from api.rooms.utils import clean_tags
@@ -14,9 +14,10 @@ from accounts.models import User
 from api.tags.models import Tag
 
 from ..filters import RoomTagsFilter
+from ..viewsets import  RoomViewSet
 
 
-class RoomTagsFilterTest(TestCase):
+class TestRoomTagsFilter(TestCase):
 
     def setUp(self):
         # Create test user
@@ -47,66 +48,59 @@ class RoomTagsFilterTest(TestCase):
             )
 
         # Set the tags list
-        self.tags = []
-        for i in range(3):
-            self.tags.append(
-                Tag.objects.create(
-                    name=f"tag{i}",
-                )
-            )
+        tag1 = Tag.objects.create(name="tag1")
+        tag2 = Tag.objects.create(name="tag2")
+        tag3 = Tag.objects.create(name="tag3")
 
         # Add tags to rooms
-        self.rooms[0].tags.add(self.tags[0])
-        self.rooms[0].tags.add(self.tags[0], self.tags[1])
-        self.rooms[0].tags.add(self.tags[0], self.tags[1], self.tags[2])
+        self.rooms[0].tags.add(tag1)
+        self.rooms[1].tags.add(tag1, tag2)
+        self.rooms[2].tags.add(tag1, tag2, tag3)
+
+        self.factory = APIRequestFactory()
+        # Intentially left like this, we don't want to create instance of the class we want the class itself
+        self.view = RoomViewSet
+        self.base_url = "/api/rooms/"
+        self.queryset = Room.objects.all()
 
 
-#    def test_filter_queryset_empty_tags(self):
-#        request = Mock(query_params={})
-#        filtered_rooms = self.filter.filter_queryset(
-#            request, Room.objects.all(), Mock()
-#        )
-#        self.assertEqual(filtered_rooms.count(), len(self.rooms))
-#
-#    def test_filter_queryset_single_tag(self):
-#        request = Mock(query_params={"tags": "tag1"})
-#        filtered_rooms = self.filter.filter_queryset(
-#            request, Room.objects.all(), Mock()
-#        )
-#        self.assertEqual(filtered_rooms.count(), 2)  # Rooms with "tag1"
-#        self.assertQuerysetEqual(
-#            filtered_rooms, Room.objects.filter(Q(tags="tag1") | Q(tags="tag1,tag4"))
-#        )
-#
-#    def test_filter_queryset_multiple_tags(self):
-#        request = Mock(query_params={"tags": "tag2,tag3"})
-#        filtered_rooms = self.filter.filter_queryset(
-#            request, Room.objects.all(), Mock()
-#        )
-#        self.assertEqual(filtered_rooms.count(), 1)  # Room with "tag2"
-#        self.assertQuerysetEqual(filtered_rooms, Room.objects.filter(tags="tag2"))
-#
-#    def test_filter_queryset_invalid_tags(self):
-#        request = Mock(query_params={"tags": "invalid_tag"})
-#        filtered_rooms = self.filter.filter_queryset(
-#            request, Room.objects.all(), Mock()
-#        )
-#        self.assertEqual(filtered_rooms.count(), 0)  # No tags match
-#
-#    @patch("api.rooms.utils.clean_tags")
-#    def test_filter_queryset_clean_tags(self, mock_clean_tags):
-#        mock_clean_tags.return_value = ["cleaned_tag1"]
-#        request = Mock(query_params={"tags": "tag1,   extra_spaces"})
-#        filtered_rooms = self.filter.filter_queryset(
-#            request, Room.objects.all(), Mock()
-#        )
-#        mock_clean_tags.assert_called_once_with(["tag1", ",  extra_spaces"])
-#        self.assertEqual(filtered_rooms.count(), 2)  # Rooms with "cleaned_tag1"
-#        self.assertQuerysetEqual(
-#            filtered_rooms,
-#            Room.objects.filter(Q(tags="cleaned_tag1") | Q(tags="cleaned_tag1,tag4")),
-#        )
-#
-#
-# if __name__ == "__main__":
-#    unittest.main()
+    def test_filter_queryset_empty_tags(self):
+        request = Mock(query_params={"tags": ""})
+        filtered_rooms = self.filter.filter_queryset(
+            request, self.queryset , Mock()
+        )
+
+        self.assertEqual(filtered_rooms.count(), len(self.rooms))
+
+    def test_filter_queryset_tag1(self):
+        request = Mock(query_params={"tags": "tag1"})
+        filtered_rooms = self.filter.filter_queryset(
+            request, self.queryset , Mock()
+        )
+
+        self.assertEqual(filtered_rooms.count(), len(self.rooms))
+
+    def test_filter_queryset_single_tag(self):
+        request = Mock(query_params={"tags": "tag2"})
+        filtered_rooms = self.filter.filter_queryset(
+            request, Room.objects.all(), Mock()
+        )
+        self.assertEqual(filtered_rooms.count(), 2)  # Rooms with "tag1"
+        self.assertQuerysetEqual(
+            filtered_rooms, Room.objects.filter(Q(tags="tag2"))
+        )
+ 
+    def test_filter_queryset_multiple_tags(self):
+        request = Mock(query_params={"tags": "tag2,tag3"})
+        filtered_rooms = self.filter.filter_queryset(
+            request, Room.objects.all(), Mock()
+        )
+        self.assertEqual(filtered_rooms.count(), 1)  # Room with "tag2" and "tag3"
+        self.assertQuerysetEqual(filtered_rooms, Room.objects.filter(tags="tag2").filter(tags="tag3"))
+
+    def test_filter_queryset_invalid_tags(self):
+        request = Mock(query_params={"tags": "invalid_tag"})
+        filtered_rooms = self.filter.filter_queryset(
+            request, Room.objects.all(), Mock()
+        )
+        self.assertEqual(filtered_rooms.count(), 0)  # No tags match

@@ -2,7 +2,7 @@ from rest_framework.filters import BaseFilterBackend
 
 from api.rooms.utils import clean_tags
 
-from core.debug import debug
+from core.debug import debug, line
 
 
 class RoomTagsFilter(BaseFilterBackend):

@@ -16,6 +16,3 @@ class NormalUser(User):
 
     class Meta:
         proxy = True
-
-    def normal_user_method(self):
-        return "I am a normal user"

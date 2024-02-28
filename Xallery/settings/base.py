@@ -29,11 +29,16 @@ REST_FRAMEWORK = {
         "rest_framework.renderers.JSONRenderer",
     ],
 }
+
+USER_SERIALIZER = "accounts.api.serializers.UserSerializer"
 # Django Cors Headers Configurations
 # http://localhost:3000/
 CORS_ALLOWED_ORIGINS = []
 
-REST_KNOX = {"TOKEN_TTL": timedelta(days=10)}
+REST_KNOX = {
+    "TOKEN_TTL": timedelta(days=10),
+    "USER_SERIALIZER": "accounts.api.serializers.UserSerializer"
+}
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 

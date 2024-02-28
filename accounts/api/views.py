@@ -77,7 +77,7 @@ class RetrieveUpdateDestroyAccountAPIView(RetrieveUpdateDestroyAPIView):
         elif user.type == User.Types.NORMAL:
             return NormalUserSerializer
 
-        # Return default User serializer if the user doesn't belone to either types
+        # Return default User serializer if the user doesn't belong to either types
         return UserSerializer
 
 retrieve_update_destroy_account_view = RetrieveUpdateDestroyAccountAPIView.as_view()
