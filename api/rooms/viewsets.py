@@ -25,4 +25,4 @@ class RoomViewSet(FlexFieldsModelViewSet):
 
     # Filter config
     filter_backends = [DjangoFilterBackend, RoomTagsFilter]
-    filterset_fields = ["name"]
+    filterset_fields = ["name", "owner"]
