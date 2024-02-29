@@ -98,4 +98,8 @@ class DesignerSerializer(UserSerializer, WritableNestedModelSerializer):
         model = Designer
         fields = UserSerializer.Meta.fields + (
             "designermore",
+            "rooms",
+        )
+        read_only_fields = UserSerializer.Meta.read_only_fields + (
+            "rooms",
         )

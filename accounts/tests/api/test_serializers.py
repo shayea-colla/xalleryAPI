@@ -124,10 +124,19 @@ class TestDesignerSerializer(TestCase):
         serializer = DesignerSerializer()
         self.assertEqual(serializer.Meta.model, Designer)
 
-    def test_user_serializer_use_correct_fields(self):
+    def test_designer_serializer_use_correct_fields(self):
         serializer = DesignerSerializer()
         fields = serializer.Meta.fields
         expected_fields = UserSerializer.Meta.fields + (
             "designermore",
+            "rooms"
         )
         self.assertEqual(set(fields), set(expected_fields))
+
+    def test_designer_serializer_read_only_fields(self):
+        serializer = DesignerSerializer()
+        read_only_fields = serializer.Meta.read_only_fields
+        expected_fields = UserSerializer.Meta.read_only_fields + (
+            "rooms",
+        )
+        self.assertEqual(set(read_only_fields), set(expected_fields))
