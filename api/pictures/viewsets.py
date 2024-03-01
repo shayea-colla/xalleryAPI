@@ -15,7 +15,6 @@ class PictureViewSet(FlexFieldsModelViewSet):
     Viewset for the Picture model,
     it handle all standard actions provided by ModelViewSet
     """
-
     queryset = Picture.objects.all()
     serializer_class = PictureSerializer
     permission_classes = [
