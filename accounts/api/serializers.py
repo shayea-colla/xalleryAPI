@@ -27,6 +27,7 @@ class UserSerializer(FlexFieldsModelSerializer):
             "last_name",
             "username",
             "password",
+            "picture",
             "email",
             "type",
             "discription",

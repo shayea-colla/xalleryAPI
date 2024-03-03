@@ -26,6 +26,7 @@ class TestUserSerializer(TestCase):
             "username",
             "password",
             "email",
+            "picture",
             "type",
             "discription",
             "date_joined",
