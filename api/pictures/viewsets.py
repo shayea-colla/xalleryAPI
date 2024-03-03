@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_flex_fields import FlexFieldsModelViewSet
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 from core.permissions import IsDesignerOrReadOnly, IsObjectOwnerOrReadOnly
@@ -21,3 +22,7 @@ class PictureViewSet(FlexFieldsModelViewSet):
         IsDesignerOrReadOnly,
         IsObjectOwnerOrReadOnly,
     ]
+
+    # Filter config
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["room", "owner"]
