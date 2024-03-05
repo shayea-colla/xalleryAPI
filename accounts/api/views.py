@@ -22,7 +22,8 @@ from .mixins import DynamicSerializerClassMixin
 
 class ListCreateAccountsAPIView(ListCreateAPIView):
     permission_classes = [AllowAny]
-    filter_backends = [AccountTagsFilter]
+    filter_backends = [DjangoFilterBackend, AccountTagsFilter]
+    filterset_fields = ["username"]
 
     def get_serializer_class(self, *args, **kwargs):
         """Return different serializers class based on the query params 'type'"""
