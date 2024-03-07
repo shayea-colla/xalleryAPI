@@ -12,7 +12,7 @@ from rest_framework import status
 from yaml import serialize
 
 from core.permissions import IsAccountOwnerOrReadOnly
-from core.debug import debug
+from core.debug import debug, line
 
 from ..models import User
 from ..profiles import Designer, NormalUser
@@ -78,7 +78,7 @@ class RetrieveUpdateDestroyAccountAPIView(
 retrieve_update_destroy_account_view = RetrieveUpdateDestroyAccountAPIView.as_view()
 
 
-class UserProfileView(DynamicSerializerClassMixin, APIView):
+class UserProfileView(DynamicSerializerClassMixin, RetrieveAPIView):
     """View for retrieving account info based on the authentication credentials, not by id or username"""
 
     queryset = User.objects.all()
@@ -86,13 +86,6 @@ class UserProfileView(DynamicSerializerClassMixin, APIView):
 
     def get_object(self):
         return self.request.user
-
-    def get(self, request):
-        debug(request)
-        user = self.get_object()
-        serializer = self.get_serializer_class()
-        data = serializer(user).data
-        return Response(data=data, status=status.HTTP_200_OK)
 
 
 user_profile_view = UserProfileView.as_view()
