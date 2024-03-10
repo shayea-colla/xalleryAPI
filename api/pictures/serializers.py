@@ -7,6 +7,7 @@ from gallery.models import Picture
 from core.mixins import SetOwnerTheCurrentUserMixin
 from core.debug import debug, line
 
+
 class PictureSerializer(SetOwnerTheCurrentUserMixin, FlexFieldsModelSerializer):
 
     class Meta:
@@ -24,5 +25,5 @@ class PictureSerializer(SetOwnerTheCurrentUserMixin, FlexFieldsModelSerializer):
             raise serializers.ValidationError("you can not add pictures to this room")
 
         # room doesn't exist in the data provided, no need to check the room owner,
-        # checking for the picture owner is sufficiant 
-        return super().validate_room(room)
+        # checking for the picture owner is sufficiant
+        return room

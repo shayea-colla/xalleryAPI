@@ -27,6 +27,7 @@ from rest_framework.authtoken import views
 urlpatterns = [
     path(r"", RedirectView.as_view(url="/api/")),
     path(r"api/", include("api.urls")),
+    path('api-auth/', include('rest_framework.urls')),
 ]
 
 
