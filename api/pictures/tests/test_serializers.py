@@ -12,7 +12,6 @@ from core.debug import line, debug
 from ..serializers import PictureSerializer
 
 
-
 class TestPictureSerializerClass(TestCase):
 
     @classmethod
@@ -32,7 +31,11 @@ class TestPictureSerializerClass(TestCase):
         filePath = os.path.join(current_dir, path)
 
         # Create First Room
-        test_room = Room(name="test_room", owner=test_user1, discription="room num 1 owned by test_user1")
+        test_room = Room(
+            name="test_room",
+            owner=test_user1,
+            discription="room num 1 owned by test_user1",
+        )
 
         # Add the background field
         test_room.background = SimpleUploadedFile(
@@ -62,28 +65,34 @@ class TestPictureSerializerClass(TestCase):
 
         self.assertEqual(set(fields), set(expected_fields))
 
-    
     def test_serializer_read_only_fields(self):
         read_only_fields = self.serializer.Meta.read_only_fields
-        expected_fields = (
-            "owner",
-        )
+        expected_fields = ("owner",)
 
         self.assertEqual(set(read_only_fields), set(expected_fields))
 
+    def test_serializer_validate_room_method(self):
+        test_room = Room.objects.get(name="test_room")
+        room_owner = Designer.objects.get(username="test_user1")
+        not_room_owner = Designer.objects.get(username="test_user2")
 
+        mock_self = MagicMock(
+            spec=FlexFieldsModelSerializer,
+            context={"request": Mock(user=room_owner)},
+        )
 
+        # this should not raise an error
+        self.assertTrue(self.serializer.validate_room(mock_self, test_room))
 
-#    def test_serializer_validate_room_method(self):
-#        test_room = Room.objects.get(name="test_room")
-#        room_owner = Designer.objects.get(username="test_user1")
-#        not_room_owner = Designer.objects.get(username="test_user2")
-#
-#        mock_self = MagicMock(spec=FlexFieldsModelSerializer,
-#            context={
-#                "request": Mock(user=room_owner)
-#            }
-#        )
-#
-#        line(self.serializer.validate_room(mock_self, test_room))
+    # def test_serializer_validate_room_method_raises_error(self):
+    #     test_room = Room.objects.get(name="test_room")
+    #     room_owner = Designer.objects.get(username="test_user1")
+    #     not_room_owner = Designer.objects.get(username="test_user2")
 
+    #     mock_self = MagicMock(
+    #         spec=FlexFieldsModelSerializer,
+    #         context={"request": Mock(user=not_room_owner)},
+    #     )
+
+    #     # this should raise an error
+    #     self.assertFormError(self.serializer.validate_room(mock_self, test_room))

@@ -29,7 +29,7 @@ class LikePictureAPIView(APIView):
         serializer = PictureSerializer(picture)
 
         # return successfull response
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+        return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
 
 
 like_picture_view = LikePictureAPIView.as_view()
@@ -52,7 +52,7 @@ class UnLikePictureAPIView(APIView):
         serializer = PictureSerializer(picture)
 
         # return successfull response
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+        return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
 
 
 unlike_picture_view = UnLikePictureAPIView.as_view()

@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from accounts.models import User
-from gallery.utils import debug
+from core.debug import debug
 
 
 class UserSerializer(ModelSerializer):

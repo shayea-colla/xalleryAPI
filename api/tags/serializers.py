@@ -10,5 +10,5 @@ class TagSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = Tag
         fields = ("name", "rooms")
-        read_only_fields = ["rooms"]
+        read_only_fields = ("rooms",)
         expandable_fields = {"rooms": (RoomSerializer, {"many": True})}

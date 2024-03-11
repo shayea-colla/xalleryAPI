@@ -1,5 +1,5 @@
 from rest_framework import permissions
-from gallery.utils import debug
+from core.debug import debug
 
 
 class IsOwner(permissions.BasePermission):
