@@ -1,4 +1,5 @@
 import os
+from rest_framework.exceptions import ValidationError
 from rest_flex_fields import FlexFieldsModelSerializer
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
@@ -84,15 +85,15 @@ class TestPictureSerializerClass(TestCase):
         # this should not raise an error
         self.assertTrue(self.serializer.validate_room(mock_self, test_room))
 
-    # def test_serializer_validate_room_method_raises_error(self):
-    #     test_room = Room.objects.get(name="test_room")
-    #     room_owner = Designer.objects.get(username="test_user1")
-    #     not_room_owner = Designer.objects.get(username="test_user2")
+    def test_serializer_validate_room_method_raises_error(self):
+        test_room = Room.objects.get(name="test_room")
+        room_owner = Designer.objects.get(username="test_user1")
+        not_room_owner = Designer.objects.get(username="test_user2")
 
-    #     mock_self = MagicMock(
-    #         spec=FlexFieldsModelSerializer,
-    #         context={"request": Mock(user=not_room_owner)},
-    #     )
+        mock_self = MagicMock(
+            spec=FlexFieldsModelSerializer,
+            context={"request": Mock(user=not_room_owner)},
+        )
 
-    #     # this should raise an error
-    #     self.assertFormError(self.serializer.validate_room(mock_self, test_room))
+        with self.assertRaises(ValidationError):
+            self.serializer.validate_room(mock_self, test_room)

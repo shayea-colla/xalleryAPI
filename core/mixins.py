@@ -1,4 +1,4 @@
-from .debug import debug
+from .debug import debug, line
 
 
 class SetOwnerTheCurrentUserMixin:
@@ -8,6 +8,7 @@ class SetOwnerTheCurrentUserMixin:
 
     def create(self, validated_data):
         """Assume the object has owner field"""
-        user = self.context["request"].user
+        user = self.context.get("request").user
+        validated_data = validated_data.copy()
         validated_data["owner"] = user
-        return super().create(validated_data)
+        return validated_data

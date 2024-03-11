@@ -1,20 +1,15 @@
 from time import sleep
 
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework import status
 
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic.base import TemplateView
 from django.utils.decorators import method_decorator
-from django.contrib.auth.models import Group
 from django.shortcuts import get_object_or_404
 
-
-from gallery.utils import debug
-from accounts.models import User
 
 from .models import Order
 from .serializers import OrderSerializer

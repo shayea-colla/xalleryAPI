@@ -11,7 +11,7 @@ from core.debug import debug
 from .serializers import RoomSerializer
 
 
-class LikeRoom(APIView):
+class LikeRoomAPIView(APIView):
     """View that enable the current authenticated user to like the requesed room"""
 
     permission_classes = [IsAuthenticated]
@@ -29,13 +29,13 @@ class LikeRoom(APIView):
         serializer = RoomSerializer(room)
 
         # return successfull message indicate updating
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+        return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
 
 
-like_room_view = LikeRoom.as_view()
+like_room_view = LikeRoomAPIView.as_view()
 
 
-class UnLikeRoom(APIView):
+class UnLikeRoomAPIView(APIView):
     """View that enable the current authenticated user to unlike the requesed room"""
 
     permission_classes = [IsAuthenticated]
@@ -54,7 +54,7 @@ class UnLikeRoom(APIView):
         serializer = RoomSerializer(room)
 
         # return successfull message indicate updating
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+        return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
 
 
-unlike_room_view = UnLikeRoom.as_view()
+unlike_room_view = UnLikeRoomAPIView.as_view()
