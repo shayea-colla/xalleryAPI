@@ -60,3 +60,4 @@ class DesignerMore(models.Model):
 
     def __str__(self) -> str:
         return f"designermore: {self.user.username}"
+
